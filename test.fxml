@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UIController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
-      <Label layoutX="14.0" layoutY="39.0" text="Label" />
-      <TextField layoutX="74.0" layoutY="14.0" />
+      <Button fx:id="button" onAction="#getTextField" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
+      <Label fx:id="label" layoutX="14.0" layoutY="39.0" text="Label" />
+      <TextField fx:id="textfield" layoutX="74.0" layoutY="14.0" />
    </children>
 </Pane>
