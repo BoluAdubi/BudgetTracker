@@ -19,17 +19,13 @@ public class Main extends Application {
         this.primaryStage.setTitle("Budgeting");
 
         initRootLayout();
-
     }
     
-    /**
-     * Initializes the root layout.
-     */
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("test.fxml"));
+            loader.setLocation(Main.class.getResource("prototype.fxml"));
             rootLayout = (Pane) loader.load();
             
             // Show the scene containing the root layout.
@@ -40,10 +36,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-	/**
-	 * Returns the main stage.
-	 * @return
-	 */
+
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
