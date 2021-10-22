@@ -36,11 +36,6 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
     public static void main(String[] args) {
         launch(args);
     }
