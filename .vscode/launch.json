@@ -10,7 +10,11 @@
             "request": "launch",
             "vmArgs": "--module-path javafx-sdk-17.0.1/lib --add-modules=javafx.controls,javafx.fxml",
             "mainClass": "Main",
+<<<<<<< HEAD
             "projectName": "BudgetTracker_24465aa5"
+=======
+            "projectName": "BudgetTracker_2584624d"
+>>>>>>> 2c88131a88c492db4d7485688058eefab43f6275
         },
         {
             "type": "java",

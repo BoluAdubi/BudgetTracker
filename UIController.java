@@ -3,6 +3,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.TextField;
@@ -19,7 +20,7 @@ public class UIController {
     @FXML
     private TextField item;
     @FXML
-    private TextField category;
+    private ChoiceBox<String> category;
     @FXML
     private TextField price;
     @FXML 
@@ -42,8 +43,8 @@ public class UIController {
     //Function will be called when everything has loaded
     //Must be void, cannot have params
     @FXML
-    private void initilize(){
-        System.out.println("initilized");
+    private void initialize(){
+        populateCategories();
     }
 
     @FXML
@@ -60,7 +61,7 @@ public class UIController {
     private void saveCharge(char sign){
         String i = item.getText();
         String p = price.getText();
-        String c = category.getText();
+        String c = category.getValue();
         String line = "";
         if(sign == '+'){
             line = "+ " + i + p + c;
@@ -68,5 +69,12 @@ public class UIController {
             line = "- " + i + p + c;
         }
         chargeList.getItems().add(line);
+    }
+
+    @FXML
+    private void populateCategories(){
+        category.getItems().add("Choice 1");
+        category.getItems().add("Choice 2");
+        category.getItems().add("Choice 3");
     }
 }
