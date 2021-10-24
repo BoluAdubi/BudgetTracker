@@ -1,5 +1,7 @@
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 import budgettracker.Transaction;
 import budgettracker.UserAccount;
@@ -11,6 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 
@@ -34,7 +38,7 @@ public class UIController {
     @FXML
     public TableColumn<Transaction, Integer> itemCol;
     @FXML
-    public TableColumn<Transaction, String> priceCol;
+    public TableColumn<Transaction, Double> priceCol;
     @FXML
     public TableColumn<Transaction, String> categoryCol;
     @FXML
@@ -61,6 +65,7 @@ public class UIController {
     @FXML
     private void initialize(){
         populateCategories();
+        generatePriceFilter();
     }
 
     @FXML
@@ -76,11 +81,11 @@ public class UIController {
     @FXML
     private void saveCharge(char sign){
         String i = item.getText();
-        String p = price.getText();
+        Double p = Double.parseDouble(price.getText());
         String c = category.getValue();
 
         //store transaction in account
-        account.newTransaction(i, Double.parseDouble(p), c, sign);
+        account.newTransaction(i, p, c, sign);
 
         //save respective values to table
         itemCol.setCellValueFactory(new PropertyValueFactory<>("Item"));
@@ -95,5 +100,17 @@ public class UIController {
     private void populateCategories(){
         String categories[] = { "choice 1", "choice 2", "choice 3", "choice 4", "choice 5" };
         category.setItems(FXCollections.observableArrayList(categories));
+    }
+
+    private void generatePriceFilter(){
+        UnaryOperator<TextFormatter.Change> filter = c -> {
+            if(Pattern.matches("[\\d]*[\\.]?[\\d]{0,2}", c.getControlNewText())){
+                return c;
+            }else{
+                return null;
+            }
+        };
+        TextFormatter<String> format = new TextFormatter<>(filter);
+        price.setTextFormatter(format);
     }
 }

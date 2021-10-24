@@ -5,6 +5,7 @@ public class Transaction{
     private double price; 
     private String category; 
     private char sign;
+
     public Transaction(String itemR, double priceR, String categoryR, char signR){
         item = itemR;
         price = priceR;
