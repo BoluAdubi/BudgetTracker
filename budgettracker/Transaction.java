@@ -1,3 +1,4 @@
+package budgettracker;
 
 public class Transaction{
     private String item;

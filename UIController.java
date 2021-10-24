@@ -1,12 +1,18 @@
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import budgettracker.Transaction;
+import budgettracker.UserAccount;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.FXCollections;
 
 public class UIController {
     //The order these things are initilized in is: Constructor, @FXML loaded, then initilize() (Constructor can't access @FXML fields)
@@ -24,7 +30,15 @@ public class UIController {
     @FXML
     private TextField price;
     @FXML 
-    private ListView<String> chargeList;
+    private TableView<Transaction> transactionTable;
+    @FXML
+    public TableColumn<Transaction, Integer> itemCol;
+    @FXML
+    public TableColumn<Transaction, String> priceCol;
+    @FXML
+    public TableColumn<Transaction, String> categoryCol;
+    @FXML
+    public TableColumn<Transaction, String> signCol;
 
     //Location is the location of FXML document, so sure we need it but it automacically gets loaded in
     @FXML
@@ -32,6 +46,8 @@ public class UIController {
     //This is a java object that can also be automatically loaded, but I'm not sure what it's for
     @FXML
     private ResourceBundle resources;
+
+    UserAccount account = new UserAccount();
 
     //public constructor, params must be empty
     //Even if it stays empty forever we cannot delete
@@ -62,19 +78,22 @@ public class UIController {
         String i = item.getText();
         String p = price.getText();
         String c = category.getValue();
-        String line = "";
-        if(sign == '+'){
-            line = "+ " + i + p + c;
-        }else if (sign == '-'){
-            line = "- " + i + p + c;
-        }
-        chargeList.getItems().add(line);
+
+        //store transaction in account
+        account.newTransaction(i, Double.parseDouble(p), c, sign);
+
+        //save respective values to table
+        itemCol.setCellValueFactory(new PropertyValueFactory<>("Item"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("Price"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        signCol.setCellValueFactory(new PropertyValueFactory<>("Sign"));
+
+        transactionTable.setItems(account.getTransactions());
     }
 
     @FXML
     private void populateCategories(){
-        category.getItems().add("Choice 1");
-        category.getItems().add("Choice 2");
-        category.getItems().add("Choice 3");
+        String categories[] = { "choice 1", "choice 2", "choice 3", "choice 4", "choice 5" };
+        category.setItems(FXCollections.observableArrayList(categories));
     }
 }
