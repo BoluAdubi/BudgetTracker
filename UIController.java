@@ -30,7 +30,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 
 
-public class UIController implements Initializable {
+public class UIController{
     //The order these things are initilized in is: Constructor, @FXML loaded, then initilize() (Constructor can't access @FXML fields)
     //Controls from FXML, the variables are automatically assigned based on fx:id 
     @FXML
@@ -39,25 +39,6 @@ public class UIController implements Initializable {
     private Button subMoney;
     @FXML
     private PieChart pieGraph;
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList(
-                        new PieChart.Data("Entertainment", 2),
-                        new PieChart.Data("Food", 25),
-                        new PieChart.Data("Transportation", 50),
-                        new PieChart.Data("Home & Utilities", 3),
-                        new PieChart.Data("Personal & Family Care", 3));
-        pieChartData.forEach(data ->
-                data.nameProperty().bind(
-                        Bindings.concat(
-                                data.getName(), " amount: ", data.pieValueProperty()
-                        )
-                )
-        );
-        pieGraph.getData().addAll(pieChartData);
-    }
-
     @FXML
     private TextField item;
     @FXML
@@ -101,6 +82,7 @@ public class UIController implements Initializable {
         populateCategories();
         generatePriceFilter();
         formatTablePrice();
+        initilizePieGraph();
     }
 
     @FXML
@@ -161,5 +143,17 @@ public class UIController implements Initializable {
                 }
             }
         });
+    }
+
+    private void initilizePieGraph(){
+        ObservableList<PieChart.Data> pieChartData =
+            FXCollections.observableArrayList(
+                new PieChart.Data("Entertainment", 2),
+                new PieChart.Data("Food", 25),
+                new PieChart.Data("Transportation", 50),
+                new PieChart.Data("Home & Utilities", 3),
+                new PieChart.Data("Personal & Family Care", 3));
+        pieChartData.forEach(data -> data.nameProperty().bind(Bindings.concat(data.getName(), " amount: ", data.pieValueProperty())));
+        pieGraph.getData().addAll(pieChartData);
     }
 }
