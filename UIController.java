@@ -1,13 +1,22 @@
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
+
+import budgettracker.Transaction;
+import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.TextField;
+
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -15,6 +24,11 @@ import javafx.scene.chart.PieChart;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.FXCollections;
+
 
 public class UIController implements Initializable {
     //The order these things are initilized in is: Constructor, @FXML loaded, then initilize() (Constructor can't access @FXML fields)
@@ -51,7 +65,15 @@ public class UIController implements Initializable {
     @FXML
     private TextField price;
     @FXML 
-    private ListView<String> chargeList;
+    private TableView<Transaction> transactionTable;
+    @FXML
+    public TableColumn<Transaction, Integer> itemCol;
+    @FXML
+    public TableColumn<Transaction, Double> priceCol;
+    @FXML
+    public TableColumn<Transaction, String> categoryCol;
+    @FXML
+    public TableColumn<Transaction, String> signCol;
 
     //Location is the location of FXML document, so sure we need it but it automacically gets loaded in
     @FXML
@@ -60,11 +82,16 @@ public class UIController implements Initializable {
     @FXML
     private ResourceBundle resources;
 
+    private DecimalFormat moneyFormat;
+
+    UserAccount account = new UserAccount();
+
     //public constructor, params must be empty
     //Even if it stays empty forever we cannot delete
     //Or it will fail to instatiate 
     public UIController(){
-        
+        moneyFormat  = new DecimalFormat("$##.00");
+        moneyFormat.setRoundingMode(java.math.RoundingMode.UNNECESSARY);
     }
 
     //Function will be called when everything has loaded
@@ -72,6 +99,8 @@ public class UIController implements Initializable {
     @FXML
     private void initialize(){
         populateCategories();
+        generatePriceFilter();
+        formatTablePrice();
     }
 
     @FXML
@@ -87,21 +116,50 @@ public class UIController implements Initializable {
     @FXML
     private void saveCharge(char sign){
         String i = item.getText();
-        String p = price.getText();
+        Double p = Double.parseDouble(price.getText());
         String c = category.getValue();
-        String line = "";
-        if(sign == '+'){
-            line = "+ " + i + p + c;
-        }else if (sign == '-'){
-            line = "- " + i + p + c;
-        }
-        chargeList.getItems().add(line);
+
+        //store transaction in account
+        account.newTransaction(i, p, c, sign);
+
+        //save respective values to table
+        itemCol.setCellValueFactory(new PropertyValueFactory<>("Item"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("Price"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        signCol.setCellValueFactory(new PropertyValueFactory<>("Sign"));
+
+        transactionTable.setItems(account.getTransactions());
     }
 
     @FXML
     private void populateCategories(){
-        category.getItems().add("Choice 1");
-        category.getItems().add("Choice 2");
-        category.getItems().add("Choice 3");
+        String categories[] = { "choice 1", "choice 2", "choice 3", "choice 4", "choice 5" };
+        category.setItems(FXCollections.observableArrayList(categories));
+    }
+
+    private void generatePriceFilter(){
+        UnaryOperator<TextFormatter.Change> filter = c -> {
+            if(Pattern.matches("[\\d]*[\\.]?[\\d]{0,2}", c.getControlNewText())){
+                return c;
+            }else{
+                return null;
+            }
+        };
+        TextFormatter<String> format = new TextFormatter<>(filter);
+        price.setTextFormatter(format);
+    }
+
+    private void formatTablePrice(){
+        priceCol.setCellFactory(c -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double p, boolean empty){
+                super.updateItem(p, empty);
+                if(p == null){
+                    setText(null);
+                }else{
+                    setText(moneyFormat.format(p.doubleValue()));
+                }
+            }
+        });
     }
 }
