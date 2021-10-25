@@ -1,4 +1,5 @@
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -9,6 +10,7 @@ import budgettracker.UserAccount;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.chart.PieChart;
@@ -51,13 +53,16 @@ public class UIController {
     @FXML
     private ResourceBundle resources;
 
+    private DecimalFormat moneyFormat;
+
     UserAccount account = new UserAccount();
 
     //public constructor, params must be empty
     //Even if it stays empty forever we cannot delete
     //Or it will fail to instatiate 
     public UIController(){
-        
+        moneyFormat  = new DecimalFormat("$##.00");
+        moneyFormat.setRoundingMode(java.math.RoundingMode.UNNECESSARY);
     }
 
     //Function will be called when everything has loaded
@@ -66,6 +71,7 @@ public class UIController {
     private void initialize(){
         populateCategories();
         generatePriceFilter();
+        formatTablePrice();
     }
 
     @FXML
@@ -112,5 +118,19 @@ public class UIController {
         };
         TextFormatter<String> format = new TextFormatter<>(filter);
         price.setTextFormatter(format);
+    }
+
+    private void formatTablePrice(){
+        priceCol.setCellFactory(c -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double p, boolean empty){
+                super.updateItem(p, empty);
+                if(p == null){
+                    setText(null);
+                }else{
+                    setText(moneyFormat.format(p.doubleValue()));
+                }
+            }
+        });
     }
 }
