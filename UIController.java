@@ -1,14 +1,22 @@
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.TextField;
+import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 
-public class UIController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class UIController implements Initializable {
     //The order these things are initilized in is: Constructor, @FXML loaded, then initilize() (Constructor can't access @FXML fields)
     //Controls from FXML, the variables are automatically assigned based on fx:id 
     @FXML
@@ -17,6 +25,25 @@ public class UIController {
     private Button subMoney;
     @FXML
     private PieChart pieGraph;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Entertainment", 2),
+                        new PieChart.Data("Food", 25),
+                        new PieChart.Data("Transportation", 50),
+                        new PieChart.Data("Home & Utilities", 3),
+                        new PieChart.Data("Personal & Family Care", 3));
+        pieChartData.forEach(data ->
+                data.nameProperty().bind(
+                        Bindings.concat(
+                                data.getName(), " amount: ", data.pieValueProperty()
+                        )
+                )
+        );
+        pieGraph.getData().addAll(pieChartData);
+    }
+
     @FXML
     private TextField item;
     @FXML
