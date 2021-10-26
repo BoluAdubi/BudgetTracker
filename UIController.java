@@ -1,6 +1,5 @@
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -19,14 +18,11 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.TextField;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -68,7 +64,7 @@ public class UIController{
 
     private DecimalFormat moneyFormat;
 
-    UserAccount account = new UserAccount();
+    private UserAccount account = new UserAccount();
     
     private ObservableList<PieChart.Data> pieGraphData =
         FXCollections.observableArrayList(
@@ -131,7 +127,7 @@ public class UIController{
 
     @FXML
     private void populateCategories(){
-        category.setItems(FXCollections.observableArrayList(account.getCategories().keySet()));
+        category.setItems(account.getCategories());
     }
 
     private void generatePriceFilter(){
@@ -169,7 +165,7 @@ public class UIController{
                 return;
             }
         }
-        pieGraphData.add(new Data(category, p));
+        pieGraphData.add(new Data(category, p)); //Only if category does not exist
     }
 
     private void initilizePieGraph(){
