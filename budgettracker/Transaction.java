@@ -1,16 +1,21 @@
 package budgettracker;
 
+import java.util.Date;
+
+
 public class Transaction{
+    private Date date;
     private String item;
     private double price; 
     private String category; 
     private char sign;
 
-    public Transaction(String itemR, double priceR, String categoryR, char signR){
+    public Transaction(Date dateR, char signR, String itemR, double priceR, String categoryR){
+        date = dateR;
+        sign = signR;
         item = itemR;
         price = priceR;
         category = categoryR;
-        sign = signR;
     }
     public String getCategory() {
         return category;
@@ -23,6 +28,9 @@ public class Transaction{
     }
     public char getSign() {
         return sign;
+    }
+    public Date getDate() {
+        return date;
     }
     public void setCategory(String category) {
         this.category = category;

@@ -29,6 +29,10 @@ import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
 
 public class UIController{
     //The order these things are initilized in is: Constructor, @FXML loaded, then initilize() (Constructor can't access @FXML fields)
@@ -48,13 +52,15 @@ public class UIController{
     @FXML 
     private TableView<Transaction> transactionTable;
     @FXML
-    public TableColumn<Transaction, Integer> itemCol;
+    public TableColumn<Transaction, Date> dateCol;
+    @FXML
+    public TableColumn<Transaction, Character> signCol;
+    @FXML
+    public TableColumn<Transaction, String> itemCol;
     @FXML
     public TableColumn<Transaction, Double> priceCol;
     @FXML
     public TableColumn<Transaction, String> categoryCol;
-    @FXML
-    public TableColumn<Transaction, String> signCol;
 
     //Location is the location of FXML document, so sure we need it but it automacically gets loaded in
     @FXML
@@ -101,21 +107,24 @@ public class UIController{
         Double p = Double.parseDouble(price.getText());
         String c = category.getValue();
 
+        Date date= new Date();
+
         //store transaction in account
-        account.newTransaction(i, p, c, sign);
+        account.newTransaction(date, sign, i, p, c);
 
         //save respective values to table
-        itemCol.setCellValueFactory(new PropertyValueFactory<>("Item"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("Price"));
-        categoryCol.setCellValueFactory(new PropertyValueFactory<>("Category"));
-        signCol.setCellValueFactory(new PropertyValueFactory<>("Sign"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("Date"));
+        signCol.setCellValueFactory(new PropertyValueFactory<Transaction, Character>("Sign"));
+        itemCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Item"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("Price"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Category"));
 
         transactionTable.setItems(account.getTransactions());
     }
 
     @FXML
     private void populateCategories(){
-        String categories[] = { "choice 1", "choice 2", "choice 3", "choice 4", "choice 5" };
+        String categories[] = { "Food", "Entertainment", "Transportation", "Home & Utilities", "Personal", "Other" };
         category.setItems(FXCollections.observableArrayList(categories));
     }
 

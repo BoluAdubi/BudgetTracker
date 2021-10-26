@@ -10,18 +10,19 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UIController">
    <children>
-      <ChoiceBox fx:id="category" layoutX="302.0" layoutY="14.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="category" layoutX="302.0" layoutY="14.0" prefWidth="150.0" style="-fx-background-radius: 20;" />
       <PieChart fx:id="pieGraph" layoutX="475.0" layoutY="62.0" prefHeight="327.0" prefWidth="311.0" title="Pie Graph" />
-      <TextField fx:id="item" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="133.0" promptText="Item" text="" />
-      <TextField fx:id="price" layoutX="157.0" layoutY="14.0" prefHeight="25.0" prefWidth="133.0" promptText="Price" text="" />
+      <TextField fx:id="item" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="133.0" promptText="Item" style="-fx-background-radius: 20;" text="" />
+      <TextField fx:id="price" layoutX="157.0" layoutY="14.0" prefHeight="25.0" prefWidth="133.0" promptText="Price" style="-fx-background-radius: 20;" text="" />
       <Button fx:id="addMoney" layoutX="469.0" layoutY="8.0" mnemonicParsing="false" onAction="#savePosCharge" prefHeight="0.0" prefWidth="52.0" scaleY="0.5" text="+" />
       <Button fx:id="subMoney" layoutX="469.0" layoutY="20.0" mnemonicParsing="false" onAction="#saveNegCharge" prefHeight="0.0" prefWidth="52.0" scaleY="0.5" text="-" />
-      <TableView fx:id="transactionTable" layoutX="14.0" layoutY="62.0" prefHeight="327.0" prefWidth="437.0">
+      <TableView fx:id="transactionTable" layoutX="14.0" layoutY="62.0" prefHeight="327.0" prefWidth="437.0" style="-fx-background-radius: 20;" stylesheets="@design.css">
         <columns>
+          <TableColumn fx:id="dateCol" prefWidth="75.0" style="-fx-background-radius: 20 0 0 0;" text="Date" />
+            <TableColumn fx:id="signCol" prefWidth="75.0" text="Sign" />
           <TableColumn fx:id="itemCol" prefWidth="75.0" text="Item" />
-          <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
-         <TableColumn fx:id="categoryCol" prefWidth="75.0" text="Category" />
-         <TableColumn fx:id="signCol" prefWidth="75.0" text="Sign" />
+         <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
+         <TableColumn fx:id="categoryCol" prefWidth="75.0" style="-fx-background-radius: 0 20 0 0;" text="Category" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

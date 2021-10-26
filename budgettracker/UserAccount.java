@@ -3,6 +3,8 @@ package budgettracker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Date;
+
 
 public class UserAccount{
 
@@ -12,8 +14,8 @@ public class UserAccount{
 
     }
 
-    public void newTransaction(String itemR, double priceR, String categoryR, char signR){
-        Transaction t = new Transaction(itemR, priceR, categoryR, signR);
+    public void newTransaction(Date dateR, char signR, String itemR, double priceR, String categoryR){
+        Transaction t = new Transaction(dateR, signR, itemR, priceR, categoryR);
         transactions.add(t);
     }
 
