@@ -15,6 +15,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.TextField;
@@ -120,12 +122,25 @@ public class UIController{
 
         //save respective values to table
         dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("Date"));
-        signCol.setCellValueFactory(new PropertyValueFactory<Transaction, Character>("Sign"));
         itemCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Item"));
         priceCol.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("Price"));
         categoryCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Category"));
 
         transactionTable.setItems(account.getTransactions());
+        int counter = 0;
+        for (Node n: transactionTable.lookupAll("TableRow")) {
+          if (n instanceof TableRow) {
+            TableRow row = (TableRow) n;
+            if (transactionTable.getItems().get(counter).getSign() == '+') {
+              row.setStyle("-fx-background-color: #D9FFF5;");
+            } else{
+                row.setStyle("-fx-background-color: #FFAD98;");
+            }
+            counter++;
+            if (counter == transactionTable.getItems().size())
+              break;
+          }
+        }
         addDataPieGraph(c, p, sign);
     }
 
