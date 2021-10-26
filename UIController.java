@@ -1,5 +1,6 @@
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -15,19 +16,15 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.TextField;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
-import javafx.scene.chart.PieChart;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.collections.FXCollections;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,6 +69,15 @@ public class UIController{
     private DecimalFormat moneyFormat;
 
     UserAccount account = new UserAccount();
+    
+    private ObservableList<PieChart.Data> pieGraphData =
+        FXCollections.observableArrayList(
+            new PieChart.Data("Entertainment", account.getCategoryValues().get(0)),
+            new PieChart.Data("Food", account.getCategoryValues().get(1)),
+            new PieChart.Data("Transportation", account.getCategoryValues().get(2)),
+            new PieChart.Data("Home & Utilities", account.getCategoryValues().get(3)),
+            new PieChart.Data("Personal & Family Care", account.getCategoryValues().get(4)),
+            new PieChart.Data("Others", account.getCategoryValues().get(5)));
 
     //public constructor, params must be empty
     //Even if it stays empty forever we cannot delete
@@ -120,12 +126,12 @@ public class UIController{
         categoryCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Category"));
 
         transactionTable.setItems(account.getTransactions());
+        addDataPieGraph(c, p, sign);
     }
 
     @FXML
     private void populateCategories(){
-        String categories[] = { "Food", "Entertainment", "Transportation", "Home & Utilities", "Personal", "Other" };
-        category.setItems(FXCollections.observableArrayList(categories));
+        category.setItems(FXCollections.observableArrayList(account.getCategories().keySet()));
     }
 
     private void generatePriceFilter(){
@@ -154,15 +160,19 @@ public class UIController{
         });
     }
 
+    private void addDataPieGraph(String category, double p, char s){
+        for(Data d : pieGraphData)
+        {
+            if(d.getName().equals(category) && s == '-')
+            {
+                d.setPieValue(d.getPieValue() + p);
+                return;
+            }
+        }
+        pieGraphData.add(new Data(category, p));
+    }
+
     private void initilizePieGraph(){
-        ObservableList<PieChart.Data> pieChartData =
-            FXCollections.observableArrayList(
-                new PieChart.Data("Entertainment", 2),
-                new PieChart.Data("Food", 25),
-                new PieChart.Data("Transportation", 50),
-                new PieChart.Data("Home & Utilities", 3),
-                new PieChart.Data("Personal & Family Care", 3));
-        pieChartData.forEach(data -> data.nameProperty().bind(Bindings.concat(data.getName(), " amount: ", data.pieValueProperty())));
-        pieGraph.getData().addAll(pieChartData);
+        pieGraph.getData().addAll(pieGraphData);
     }
 }
