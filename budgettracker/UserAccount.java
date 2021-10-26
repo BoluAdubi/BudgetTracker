@@ -1,6 +1,5 @@
 package budgettracker;
 
-import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,14 +10,14 @@ public class UserAccount{
 
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
-    private HashMap<String, Double> categories = new HashMap<String, Double>();
+    private ObservableList<String> categories = FXCollections.observableArrayList();
     
-    private ObservableList<Double> cate = FXCollections.observableArrayList();
+    private ObservableList<Double> categoryValues = FXCollections.observableArrayList();
 
     public UserAccount(){
         fillHashMap();
         for(int i=0;i<6;i++){
-            cate.add(0.00);
+            categoryValues.add(0.00);
         }
     }
 
@@ -28,10 +27,10 @@ public class UserAccount{
     }
 
     public ObservableList<Double> getCategoryValues(){
-        return cate;
+        return categoryValues;
     }
 
-    public HashMap<String,Double> getCategories(){
+    public ObservableList<String> getCategories(){
         return categories;
     }
     public ObservableList<Transaction> getTransactions(){
@@ -39,11 +38,11 @@ public class UserAccount{
     }
 
     private void fillHashMap(){
-        categories.put("Entertainment", 1.0);
-        categories.put("Food", 1.0);
-        categories.put("Transportation", 1.0);
-        categories.put("Home & Utilities", 1.0);
-        categories.put("Personal & Family Care", 1.00);
-        categories.put("Others", 1.00);
+        categories.add("Entertainment");
+        categories.add("Food");
+        categories.add("Transportation");
+        categories.add("Home & Utilities");
+        categories.add("Personal & Family Care");
+        categories.add("Others");
     }
 }
