@@ -41,12 +41,12 @@
       <ChoiceBox fx:id="goalCategory" layoutX="14.0" layoutY="485.0" prefWidth="150.0" style="-fx-background-radius: 20;" />
       <TextField fx:id="goalPrice" layoutX="170.0" layoutY="486.0" prefHeight="25.0" prefWidth="133.0" promptText="Goal Price" style="-fx-background-radius: 20;" text="" />
       <Button fx:id="createGoal" layoutX="310.0" layoutY="485.0" mnemonicParsing="false" onAction="#addGoal" prefHeight="25.0" prefWidth="133.0" text="Create Goal" />
-      <ProgressBar fx:id="pBarEntertainment" layoutX="14.0" layoutY="550.0" prefHeight="20.0" prefWidth="230.0" progress="0.5" />
-      <ProgressBar fx:id="pBarFood" layoutX="14.0" layoutY="580.0" prefHeight="20.0" prefWidth="230.0" progress="0.51" />
-      <ProgressBar fx:id="pBarTransportation" layoutX="14.0" layoutY="610.0" prefHeight="20.0" prefWidth="230.0" progress="0.51" />
-      <ProgressBar fx:id="pBarHome" layoutX="250.0" layoutY="550.0" prefHeight="20.0" prefWidth="230.0" progress="0.51" />
-      <ProgressBar fx:id="pBarPersonal" layoutX="250.0" layoutY="580.0" prefHeight="20.0" prefWidth="230.0" progress="0.51" />
-      <ProgressBar fx:id="pBarOthers" layoutX="250.0" layoutY="610.0" prefHeight="20.0" prefWidth="230.0" progress="0.51" />
+      <ProgressBar fx:id="pBarEntertainment" layoutX="14.0" layoutY="550.0" prefHeight="20.0" prefWidth="230.0"/>
+      <ProgressBar fx:id="pBarFood" layoutX="14.0" layoutY="580.0" prefHeight="20.0" prefWidth="230.0"/>
+      <ProgressBar fx:id="pBarTransportation" layoutX="14.0" layoutY="610.0" prefHeight="20.0" prefWidth="230.0"/>
+      <ProgressBar fx:id="pBarHome" layoutX="250.0" layoutY="550.0" prefHeight="20.0" prefWidth="230.0"/>
+      <ProgressBar fx:id="pBarPersonal" layoutX="250.0" layoutY="580.0" prefHeight="20.0" prefWidth="230.0"/>
+      <ProgressBar fx:id="pBarOthers" layoutX="250.0" layoutY="610.0" prefHeight="20.0" prefWidth="230.0"/>
       <Label layoutX="86.0" layoutY="552.0" text="Entertainment">
          <font>
             <Font name="Candara" size="14.0" />
