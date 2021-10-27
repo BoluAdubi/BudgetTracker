@@ -31,7 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-
 public class UIController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
@@ -91,7 +90,9 @@ public class UIController{
     //Account Object for the user
     private UserAccount account = new UserAccount();
 
-    //Loading categories and values into the piechart -- might want to look at again
+    /**
+     * loading categories and values into the piechart 
+     * */
     private ObservableList<PieChart.Data> pieGraphData =
         FXCollections.observableArrayList(
             new PieChart.Data("Entertainment", account.getCategoryExpenseValues().get(0)),
@@ -228,7 +229,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * initailises the table that stores the input data  
      */
     private void initilizeTableColumns(){
         //Enables writing to the tables
@@ -239,7 +240,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * creates a filter that ensures you can only type prices in the pirce function
      */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
@@ -256,7 +257,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * creates and generated the table for the price 
      */
     private void formatTablePrice(){
         priceCol.setCellFactory(c -> new TableCell<>() {
@@ -274,6 +275,7 @@ public class UIController{
 
     
     /** 
+     * add the data to the pie graph and generate the graph
      * @param category
      * @param p
      * @param s
@@ -291,7 +293,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * assigns the piegraph data to the pie grapgh and updates as and when needed 
      */
     private void initilizePieGraph(){
         pieGraph.getData().addAll(pieGraphData);
