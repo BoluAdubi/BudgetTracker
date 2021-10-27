@@ -17,6 +17,11 @@ public class UserAccount{
 
     private ObservableList<Goal> goals = FXCollections.observableArrayList();
 
+    /**
+     * This function calls fillCategories and then assigns each category the money amount input by the user.
+     * @param none
+     * @return none
+     */
     public UserAccount(){
         fillCategories();
         for(int i=0;i<categories.size();i++){
@@ -24,6 +29,17 @@ public class UserAccount{
         }
     }
 
+    /**
+     * This function creates a new transaction object t and passes all the parameters to the Transactions class.
+     * It then adds t to the transactions list and passes it to updateCategoryValues if its sign data member 
+     * is negative.
+     * @param dateR
+     * @param signR
+     * @param itemR
+     * @param priceR
+     * @param categoryR
+     * @return none 
+     */
     public void newTransaction(Date dateR, char signR, String itemR, double priceR, String categoryR){
         Transaction t = new Transaction(dateR, signR, itemR, priceR, categoryR);
         transactions.add(t);
@@ -31,21 +47,45 @@ public class UserAccount{
             updateCategoryValues(t);
     }
 
+    /**
+     * When called, this function obtains and returns categoryExpenseValues
+     * @param none
+     * @return categoryExpenseValues
+     */
     public ObservableList<Double> getCategoryExpenseValues(){
         return categoryExpenseValues;
     }
 
+    /**
+     *  When called, this function obtains and returns categories
+     * @param none
+     * @return categories
+     */
     public ObservableList<String> getCategories(){
         return categories;
     }
+
+    /**
+     *  When called, this function obtains and returns transactions
+     * @param none
+     * @return transactions
+     */
     public ObservableList<Transaction> getTransactions(){
         return transactions;
     }
 
+    //
     public ObservableList<Goal> getGoals() {
         return goals;
     }
 
+    /**
+     * This function uses a loop to go through all the goals of each category and reset them if said category 
+     * already has a set goal. If a category does not have a goal, this function declares a goal, goalPrice for it.
+     * @param goalCategory
+     * @param goalPrice
+     * @return none
+     */
     public void createGoal(String goalCategory, double goalPrice){
         for(Goal g : goals){
             if(g.getGoalCategory() == goalCategory){
@@ -56,6 +96,7 @@ public class UserAccount{
         goals.add(new Goal(goalCategory, goalPrice));
     }
 
+    //
     public ArrayList<String> checkGoals(){
         ArrayList<String> brokenGoals = new ArrayList<String>();
         for(int i = 0; i < goals.size(); i++){
@@ -68,6 +109,13 @@ public class UserAccount{
         return brokenGoals;
     }
 
+    /**
+     * This function compares the category of the t parameter to all the categories being used. If it equals to
+     * one of these categories, this function sends the name of the category and the value of its expense values 
+     * plus the price of t, to categoryExpenseValues.set to increase the amount spent of said category.
+     * @param t
+     * @return none
+     */
     private void updateCategoryValues(Transaction t){
         for(int i = 0; i < categories.size(); i++){
             if(categories.get(i) == t.getCategory()){
@@ -76,6 +124,11 @@ public class UserAccount{
         }
     }
 
+    /**
+     * This function declares all the categories that will be used by the user
+     * @param none
+     * @return none
+     */
     private void fillCategories(){
         categories.add("Entertainment");
         categories.add("Food");
