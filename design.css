@@ -6,7 +6,7 @@
     -fx-background-color: transparent;
 }
 
-.default-color0.chart-pie { -fx-pie-color: #5B1113; }
+.default-color0.chart-pie { -fx-pie-color: #953A39; }
 .default-color1.chart-pie { -fx-pie-color: #E0AC9D; }
 .default-color2.chart-pie { -fx-pie-color: #E88873; }
 .default-color3.chart-pie { -fx-pie-color: #A37774; }
@@ -25,4 +25,28 @@
 .chart-legend {
    -fx-background-color: transparent;
    -fx-stroke: #daa520;
+}
+
+#pBarEntertainment {
+    -fx-accent: #953A39;
+}
+
+#pBarFood {
+    -fx-accent: #E0AC9D;
+}
+
+#pBarTransportation {
+    -fx-accent: #E88873;
+}
+
+#pBarHome {
+    -fx-accent: #A37774;
+}
+
+#pBarPersonal {
+    -fx-accent: #5C6D70;
+}
+
+#pBarOthers {
+    -fx-accent: #484A47;
 }
