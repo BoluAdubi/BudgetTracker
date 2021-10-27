@@ -17,14 +17,22 @@
     -fx-stroke: #8b4513;
     -fx-fill: #8b4513;
 }
+
+.chart-title {
+    -fx-fill: #8b4513;
+    -fx-font-weight: bold;
+    -fx-font-family: Candara;
+} 
  
 .chart-pie-label {
     -fx-fill: #8b4513;
     -fx-font-size: 1em;
+    -fx-font-family: Candara;
 } 
 .chart-legend {
    -fx-background-color: transparent;
    -fx-stroke: #daa520;
+   -fx-font-family: Candara;
 }
 
 #pBarEntertainment {
