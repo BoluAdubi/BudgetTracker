@@ -37,5 +37,8 @@
             <Font name="Candara" size="22.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="goalCategory" layoutX="14.0" layoutY="485.0" prefWidth="150.0" style="-fx-background-radius: 20;" />
+      <TextField fx:id="goalPrice" layoutX="170.0" layoutY="486.0" prefHeight="25.0" prefWidth="133.0" promptText="Goal Price" style="-fx-background-radius: 20;" text="" />
+      <Button fx:id="createGoal" layoutX="310.0" layoutY="485.0" mnemonicParsing="false" onAction="#addGoal" prefHeight="25.0" prefWidth="133.0" text="Create Goal" />
    </children>
 </Pane>

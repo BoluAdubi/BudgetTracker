@@ -13,6 +13,11 @@ public class Main extends Application {
     private Stage primaryStage;
     private Pane rootLayout;
 
+    
+    /** 
+     * Initilizes the window of the application.
+     * @param primaryStage : Stage Window for UI
+     */
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -21,6 +26,10 @@ public class Main extends Application {
         initRootLayout();
     }
     
+    /**
+     * Inilizes the "root" node, or the scene which contains all of the other JAVAFX objects.
+     * It also grabs the FXML file and loads it into the application.
+     */
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -36,6 +45,11 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+    
+    /** 
+     * Starts the application.
+     * @param args : String[]
+     */
     public static void main(String[] args) {
         launch(args);
     }

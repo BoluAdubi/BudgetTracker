@@ -25,108 +25,163 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
 
 public class UIController{
-    //The order these things are initilized in is: Constructor, @FXML loaded, then initilize() (Constructor can't access @FXML fields)
+    //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
+
     //Controls from FXML, the variables are automatically assigned based on fx:id 
     @FXML
     private Button addMoney;
     @FXML
     private Button subMoney;
     @FXML
-    private PieChart pieGraph;
+    private Button createGoal;
     @FXML
     private TextField item;
     @FXML
+    private TextField price;
+    @FXML
+    private TextField goalPrice;
+    @FXML
     private ChoiceBox<String> category;
     @FXML
-    private TextField price;
+    private ChoiceBox<String> goalCategory;
+    @FXML
+    private PieChart pieGraph;
     @FXML 
     private TableView<Transaction> transactionTable;
     @FXML
-    public TableColumn<Transaction, Date> dateCol;
+    private TableColumn<Transaction, Date> dateCol;
     @FXML
-    public TableColumn<Transaction, Character> signCol;
+    private TableColumn<Transaction, Character> signCol;
     @FXML
-    public TableColumn<Transaction, String> itemCol;
+    private TableColumn<Transaction, String> itemCol;
     @FXML
-    public TableColumn<Transaction, Double> priceCol;
+    private TableColumn<Transaction, Double> priceCol;
     @FXML
-    public TableColumn<Transaction, String> categoryCol;
+    private TableColumn<Transaction, String> categoryCol;
 
-    //Location is the location of FXML document, so sure we need it but it automacically gets loaded in
+    //Location is the location of FXML document
     @FXML
     private URL location;
-    //This is a java object that can also be automatically loaded, but I'm not sure what it's for
+    //This is a java object that can also be automatically loaded
     @FXML
     private ResourceBundle resources;
 
     private DecimalFormat moneyFormat;
-
-    private UserAccount account = new UserAccount();
     
+    //Account Object for the user
+    private UserAccount account = new UserAccount();
+
+    //Loading categories and values into the piechart -- might want to look at again
     private ObservableList<PieChart.Data> pieGraphData =
         FXCollections.observableArrayList(
-            new PieChart.Data("Entertainment", account.getCategoryValues().get(0)),
-            new PieChart.Data("Food", account.getCategoryValues().get(1)),
-            new PieChart.Data("Transportation", account.getCategoryValues().get(2)),
-            new PieChart.Data("Home & Utilities", account.getCategoryValues().get(3)),
-            new PieChart.Data("Personal & Family Care", account.getCategoryValues().get(4)),
-            new PieChart.Data("Others", account.getCategoryValues().get(5)));
+            new PieChart.Data("Entertainment", account.getCategoryExpenseValues().get(0)),
+            new PieChart.Data("Food", account.getCategoryExpenseValues().get(1)),
+            new PieChart.Data("Transportation", account.getCategoryExpenseValues().get(2)),
+            new PieChart.Data("Home & Utilities", account.getCategoryExpenseValues().get(3)),
+            new PieChart.Data("Personal & Family Care", account.getCategoryExpenseValues().get(4)),
+            new PieChart.Data("Others", account.getCategoryExpenseValues().get(5)));
 
-    //public constructor, params must be empty
-    //Even if it stays empty forever we cannot delete
-    //Or it will fail to instatiate 
-    public UIController(){
+
+    /**
+     * Constructor, params must be empty, defines monesy format for the table
+    */
+     public UIController(){
         moneyFormat  = new DecimalFormat("$##.00");
         moneyFormat.setRoundingMode(java.math.RoundingMode.UNNECESSARY);
     }
 
-    //Function will be called when everything has loaded
-    //Must be void, cannot have params
+    /**
+     * Function will be called when everything has loaded
+     * Must be void, cannot have params, calls setup functions
+    */
     @FXML
     private void initialize(){
         populateCategories();
         generatePriceFilter();
         formatTablePrice();
+        initilizeTableColumns();
         initilizePieGraph();
     }
 
+    /**
+     * Calls createGoal() in the account object after the addGoal button is clicked
+     * Will overwrite old goals of the same category
+     */
+    @FXML
+    private void addGoal(){
+        account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()));
+    }
+
+    /**
+     * Calls saveChange with '-' (Because you cannot send params with FXML)
+     */
     @FXML
     private void savePosCharge(){
         saveCharge('+');
     }
-
+    /**
+     * Calls saveCharge with '+' (Because you cannot send params with FXML)
+     */
     @FXML
     private void saveNegCharge(){
         saveCharge('-');
     }
     
-    @FXML
+    
+    /** 
+     * Sign is provided by user depending on which button they press, '+' or '-'
+     * @param sign : char, '+' or '-', depending if it was an expense or income
+     */
     private void saveCharge(char sign){
         String i = item.getText();
         Double p = Double.parseDouble(price.getText());
         String c = category.getValue();
-
-        Date date= new Date();
+        Date date = new Date();
 
         //store transaction in account
         account.newTransaction(date, sign, i, p, c);
-
-        //save respective values to table
-        dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("Date"));
-        itemCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Item"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("Price"));
-        categoryCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Category"));
-
+        //add respective values to table
         transactionTable.setItems(account.getTransactions());
+        updateTableColors();
+        checkGoals();
+        addDataPieGraph(c, p, sign);
+    }
+
+    /**
+     * Calls checkGoals() in the account, and receives back a list of 
+     * goalCategories that have been broken.
+     */
+    private void checkGoals(){
+        ArrayList<String> category = account.checkGoals();
+        for(String c : category){
+            System.out.println(c);
+        }
+    }
+
+    /**
+     * Populates the drop down menus with categories
+     */
+    private void populateCategories(){
+        //Add categories to Dropdown menus
+        category.setItems(account.getCategories());
+        goalCategory.setItems(account.getCategories());
+    }
+
+    /**
+     * Loops through the rows of the table, coloring the rows whos sign 
+     * is a '+' with green and rows whos sign is a '-' with red
+     */
+    private void updateTableColors(){
         int counter = 0;
         for (Node n: transactionTable.lookupAll("TableRow")) {
           if (n instanceof TableRow) {
-            TableRow row = (TableRow) n;
+            TableRow<?> row = (TableRow<?>) n;
             if (transactionTable.getItems().get(counter).getSign() == '+') {
               row.setStyle("-fx-background-color: #D9FFF5;");
             } else{
@@ -137,14 +192,22 @@ public class UIController{
               break;
           }
         }
-        addDataPieGraph(c, p, sign);
     }
 
-    @FXML
-    private void populateCategories(){
-        category.setItems(account.getCategories());
+    /**
+     * 
+     */
+    private void initilizeTableColumns(){
+        //Enables writing to the tables
+        dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("Date"));
+        itemCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Item"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("Price"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<Transaction, String>("Category"));
     }
 
+    /**
+     * 
+     */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
             if(Pattern.matches("[\\d]*[\\.]?[\\d]{0,2}", c.getControlNewText())){
@@ -153,10 +216,15 @@ public class UIController{
                 return null;
             }
         };
-        TextFormatter<String> format = new TextFormatter<>(filter);
-        price.setTextFormatter(format);
+        TextFormatter<String> format1 = new TextFormatter<>(filter);
+        TextFormatter<String> format2 = new TextFormatter<>(filter);
+        price.setTextFormatter(format1);
+        goalPrice.setTextFormatter(format2);
     }
 
+    /**
+     * 
+     */
     private void formatTablePrice(){
         priceCol.setCellFactory(c -> new TableCell<>() {
             @Override
@@ -171,6 +239,12 @@ public class UIController{
         });
     }
 
+    
+    /** 
+     * @param category
+     * @param p
+     * @param s
+     */
     private void addDataPieGraph(String category, double p, char s){
         for(Data d : pieGraphData)
         {
@@ -183,6 +257,9 @@ public class UIController{
         pieGraphData.add(new Data(category, p)); //Only if category does not exist
     }
 
+    /**
+     * 
+     */
     private void initilizePieGraph(){
         pieGraph.getData().addAll(pieGraphData);
     }
