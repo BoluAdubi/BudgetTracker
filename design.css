@@ -6,7 +6,7 @@
     -fx-background-color: transparent;
 }
 
-.default-color0.chart-pie { -fx-pie-color: #5B1113; }
+.default-color0.chart-pie { -fx-pie-color: #953A39; }
 .default-color1.chart-pie { -fx-pie-color: #E0AC9D; }
 .default-color2.chart-pie { -fx-pie-color: #E88873; }
 .default-color3.chart-pie { -fx-pie-color: #A37774; }
@@ -17,12 +17,44 @@
     -fx-stroke: #8b4513;
     -fx-fill: #8b4513;
 }
+
+.chart-title {
+    -fx-fill: #8b4513;
+    -fx-font-weight: bold;
+    -fx-font-family: Candara;
+} 
  
 .chart-pie-label {
     -fx-fill: #8b4513;
     -fx-font-size: 1em;
+    -fx-font-family: Candara;
 } 
 .chart-legend {
    -fx-background-color: transparent;
    -fx-stroke: #daa520;
+   -fx-font-family: Candara;
+}
+
+#pBarEntertainment {
+    -fx-accent: #953A39;
+}
+
+#pBarFood {
+    -fx-accent: #E0AC9D;
+}
+
+#pBarTransportation {
+    -fx-accent: #E88873;
+}
+
+#pBarHome {
+    -fx-accent: #A37774;
+}
+
+#pBarPersonal {
+    -fx-accent: #5C6D70;
+}
+
+#pBarOthers {
+    -fx-accent: #484A47;
 }

@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
@@ -27,7 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.HashMap;
 
 
 public class UIController{
@@ -50,6 +51,18 @@ public class UIController{
     private ChoiceBox<String> category;
     @FXML
     private ChoiceBox<String> goalCategory;
+    @FXML 
+    private ProgressBar pBarEntertainment;
+    @FXML 
+    private ProgressBar pBarFood;
+    @FXML 
+    private ProgressBar pBarTransportation;
+    @FXML 
+    private ProgressBar pBarHome;
+    @FXML 
+    private ProgressBar pBarPersonal;
+    @FXML 
+    private ProgressBar pBarOthers;
     @FXML
     private PieChart pieGraph;
     @FXML 
@@ -77,7 +90,9 @@ public class UIController{
     //Account Object for the user
     private UserAccount account = new UserAccount();
 
-    //Loading categories and values into the piechart -- might want to look at again
+    /**
+     * loading categories and values into the piechart 
+     * */
     private ObservableList<PieChart.Data> pieGraphData =
         FXCollections.observableArrayList(
             new PieChart.Data("Entertainment", account.getCategoryExpenseValues().get(0)),
@@ -116,6 +131,7 @@ public class UIController{
     @FXML
     private void addGoal(){
         account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()));
+        updateGoals();
     }
 
     /**
@@ -149,18 +165,36 @@ public class UIController{
         //add respective values to table
         transactionTable.setItems(account.getTransactions());
         updateTableColors();
-        checkGoals();
+        updateGoals();
         addDataPieGraph(c, p, sign);
     }
 
     /**
-     * Calls checkGoals() in the account, and receives back a list of 
-     * goalCategories that have been broken.
+     * Calls checkGoals() in the account, and receives back a HashMap of 
+     * goals and prices to reflect on the FXML ProgressBars
      */
-    private void checkGoals(){
-        ArrayList<String> category = account.checkGoals();
-        for(String c : category){
-            System.out.println(c);
+    private void updateGoals(){
+        HashMap<String, Double[]> goals = account.getGoals();
+        for(String c : account.getCategories()){
+            if(goals.containsKey(c) && c == "Entertainment"){
+                pBarEntertainment.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            }
+            else if(goals.containsKey(c) && c == "Food"){
+                pBarFood.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+
+            }
+            else if(goals.containsKey(c) && c == "Transportation"){
+                pBarTransportation.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            }
+            else if(goals.containsKey(c) && c == "Home & Utilities"){
+                pBarHome.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            }
+            else if(goals.containsKey(c) && c == "Personal & Family Care"){
+                pBarPersonal.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            }
+            else if(goals.containsKey(c) && c == "Others"){
+                pBarOthers.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            }
         }
     }
 
@@ -195,7 +229,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * initailises the table that stores the input data  
      */
     private void initilizeTableColumns(){
         //Enables writing to the tables
@@ -206,7 +240,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * creates a filter that ensures you can only type prices in the pirce function
      */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
@@ -223,7 +257,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * creates and generated the table for the price 
      */
     private void formatTablePrice(){
         priceCol.setCellFactory(c -> new TableCell<>() {
@@ -241,6 +275,7 @@ public class UIController{
 
     
     /** 
+     * add the data to the pie graph and generate the graph
      * @param category
      * @param p
      * @param s
@@ -258,7 +293,7 @@ public class UIController{
     }
 
     /**
-     * 
+     * assigns the piegraph data to the pie grapgh and updates as and when needed 
      */
     private void initilizePieGraph(){
         pieGraph.getData().addAll(pieGraphData);
