@@ -16,7 +16,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
-import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.TextField;
@@ -26,7 +25,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -81,18 +79,20 @@ public class UIController{
     //Location is the location of FXML document
     @FXML
     private URL location;
+
     //This is a java object that can also be automatically loaded
     @FXML
     private ResourceBundle resources;
 
+    //Format for prices in TableView
     private DecimalFormat moneyFormat;
     
     //Account Object for the user
     private UserAccount account = new UserAccount();
 
     /**
-     * loading categories and values into the piechart 
-     * */
+     * Data to be loaded into the pieChart
+    */
     private ObservableList<PieChart.Data> pieGraphData =
         FXCollections.observableArrayList(
             new PieChart.Data("Entertainment", account.getCategoryExpenseValues().get(0)),
@@ -104,7 +104,7 @@ public class UIController{
 
 
     /**
-     * Constructor, params must be empty, defines monesy format for the table
+     * Constructor, params must be empty, defines money format for the table
     */
      public UIController(){
         moneyFormat  = new DecimalFormat("$##.00");
@@ -122,36 +122,52 @@ public class UIController{
         formatTablePrice();
         initilizeTableColumns();
         initilizePieGraph();
+        initilizeTableColors();
     }
 
     /**
-     * Calls createGoal() in the account object after the addGoal button is clicked
-     * Will overwrite old goals of the same category
+     * Calls createGoal() in the account object after the addGoal button is clicked,
+     * if all neccessary fields are filled out
+     * (Will overwrite old goals of the same category)
      */
     @FXML
     private void addGoal(){
-        account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()));
-        updateGoals();
+        if(checkForDataGoal()){
+            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()));
+            updateGoals();
+            clearDataGoal();
+        }
     }
 
     /**
-     * Calls saveChange with '-' (Because you cannot send params with FXML)
+     * If all the data needed for the transaction has been filled out, this function
+     * calls saveChange with '-' (Because you cannot send params with FXML)
      */
     @FXML
     private void savePosCharge(){
-        saveCharge('+');
+        if(checkForDataTransaction('+')){
+            saveCharge('+');
+            clearDataTransaction();
+        }
     }
     /**
-     * Calls saveCharge with '+' (Because you cannot send params with FXML)
+     * If all the data needed for the transaction has been filled out, this function
+     * calls saveCharge with '+' (Because you cannot send params with FXML)
      */
     @FXML
     private void saveNegCharge(){
-        saveCharge('-');
+        if(checkForDataTransaction('-')){
+            saveCharge('-');
+            clearDataTransaction();
+        }
     }
     
     
     /** 
      * Sign is provided by user depending on which button they press, '+' or '-'
+     * This function grabs the transaction data from the input controls and 
+     * adds the transaction to the account, then updates the table, pie graph, and goal 
+     * progress bars.
      * @param sign : char, '+' or '-', depending if it was an expense or income
      */
     private void saveCharge(char sign){
@@ -164,7 +180,6 @@ public class UIController{
         account.newTransaction(date, sign, i, p, c);
         //add respective values to table
         transactionTable.setItems(account.getTransactions());
-        updateTableColors();
         updateGoals();
         addDataPieGraph(c, p, sign);
     }
@@ -172,6 +187,7 @@ public class UIController{
     /**
      * Calls checkGoals() in the account, and receives back a HashMap of 
      * goals and prices to reflect on the FXML ProgressBars
+     * The format of the HashMap: <{category, [currentExpenditure, goalPrice]} , ... >
      */
     private void updateGoals(){
         HashMap<String, Double[]> goals = account.getGoals();
@@ -208,28 +224,28 @@ public class UIController{
     }
 
     /**
-     * Loops through the rows of the table, coloring the rows whos sign 
+     * Applies a rowFactory to each row of the table, coloring the rows whos sign 
      * is a '+' with green and rows whos sign is a '-' with red
      */
-    private void updateTableColors(){
-        int counter = 0;
-        for (Node n: transactionTable.lookupAll("TableRow")) {
-          if (n instanceof TableRow) {
-            TableRow<?> row = (TableRow<?>) n;
-            if (transactionTable.getItems().get(counter).getSign() == '+') {
-              row.setStyle("-fx-background-color: #D9FFF5;");
-            } else{
-                row.setStyle("-fx-background-color: #FFAD98;");
+    private void initilizeTableColors(){
+        transactionTable.setRowFactory(tv -> new TableRow<Transaction>() {
+            @Override
+            protected void updateItem(Transaction item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null)
+                    setStyle("");
+                else if (item.getSign() == '+')
+                    setStyle("-fx-background-color: #D9FFF5;");
+                else if (item.getSign() == '-')
+                    setStyle("-fx-background-color: #FFAD98;");
+                else
+                    setStyle("");
             }
-            counter++;
-            if (counter == transactionTable.getItems().size())
-              break;
-          }
-        }
+        });
     }
 
     /**
-     * initailises the table that stores the input data  
+     * Initailises the tablecolumns that stores the inputted transaction data  
      */
     private void initilizeTableColumns(){
         //Enables writing to the tables
@@ -240,7 +256,8 @@ public class UIController{
     }
 
     /**
-     * creates a filter that ensures you can only type prices in the pirce function
+     * Creates and applies a regular expression filter that ensures you 
+     * can only type correctly formatted prices in the price textfields
      */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
@@ -257,7 +274,8 @@ public class UIController{
     }
 
     /**
-     * creates and generated the table for the price 
+     * Creates and applies a format for the priceColumn of the table
+     * $\d*.\d\d
      */
     private void formatTablePrice(){
         priceCol.setCellFactory(c -> new TableCell<>() {
@@ -275,7 +293,11 @@ public class UIController{
 
     
     /** 
-     * add the data to the pie graph and generate the graph
+     * Add the new data to the pie graph and update the graph
+     * 
+     * Note: If we add functionality of deleting transactions this will break,
+     *       it needs to actually use the observable list instead of just
+     *       being passed the values each time a new transaction is made.
      * @param category
      * @param p
      * @param s
@@ -293,9 +315,66 @@ public class UIController{
     }
 
     /**
-     * assigns the piegraph data to the pie grapgh and updates as and when needed 
+     * Assigns the piegraph data to the pie graph
      */
     private void initilizePieGraph(){
         pieGraph.getData().addAll(pieGraphData);
+    }
+
+    
+    /** 
+     * Function takes the sign of the button clicked, then returns true if all the necessary fields
+     * for that sign have been entered.
+     * @param sign : Char '+'/'-'
+     * @return boolean : whether or not the fields have been filled
+     */
+    private boolean checkForDataTransaction(char sign){
+        if(sign == '-'){
+            if(!category.getSelectionModel().isEmpty() && price.getText() != "" && item.getText() != ""){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        else if(sign == '+'){
+            if(price.getText() != ""){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    
+    /** 
+     * Returns true if all the necessary fields to add a new goal have been filled.
+     * @return boolean
+     */
+    private boolean checkForDataGoal(){
+        if(!goalCategory.getSelectionModel().isEmpty() && goalPrice.getText() != ""){
+            return true;
+        }else{
+            return false;
+        }
+    
+    }
+
+    /**
+     * Clears transaction fields after adding a transaction
+     */
+    private void clearDataTransaction(){
+        category.getSelectionModel().clearSelection();
+        price.clear();
+        item.clear();
+    }
+
+    /**
+     * Clears goal fields after adding a goal
+     */
+    private void clearDataGoal(){
+        goalCategory.getSelectionModel().clearSelection();
+        goalPrice.clear();
     }
 }

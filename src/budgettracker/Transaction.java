@@ -11,7 +11,7 @@ public class Transaction{
     private char sign;
 
     /**
-     * Takes in the data, sign, item, price and category and creates getters and setters so the data can be accessed 
+     * Takes in the date, sign, item, price and category for the new Transaction
      * @param dateR
      * @param signR
      * @param itemR
@@ -27,7 +27,7 @@ public class Transaction{
     }
     
     /** 
-     * getter for getting a ctegory
+     * getter for the category
      * @return String
      */
     public String getCategory() {
@@ -35,7 +35,7 @@ public class Transaction{
     }
     
     /** 
-     * getter for item 
+     * getter for the item name
      * @return String
      */
     public String getItem() {
@@ -43,7 +43,7 @@ public class Transaction{
     }
     
     /** 
-     * getter for price 
+     * getter for the price 
      * @return double
      */
     public double getPrice() {
@@ -51,7 +51,7 @@ public class Transaction{
     }
     
     /** 
-     * getter for sign
+     * getter for the sign
      * @return char
      */
     public char getSign() {
@@ -59,7 +59,7 @@ public class Transaction{
     }
     
     /** 
-     * getter for date
+     * getter for the date
      * @return Date
      */
     public Date getDate() {
@@ -67,7 +67,7 @@ public class Transaction{
     }
     
     /** 
-     * setter for Category
+     * setter for the Category
      * @param category
      */
     public void setCategory(String category) {
@@ -75,7 +75,7 @@ public class Transaction{
     }
     
     /**
-     * setter for Item  
+     * setter for the Item  
      * @param item
      */
     public void setItem(String item) {
@@ -83,7 +83,7 @@ public class Transaction{
     }
     
     /** 
-     * setter for price
+     * setter for the price
      * @param price
      */
     public void setPrice(double price) {
@@ -91,7 +91,7 @@ public class Transaction{
     }
     
     /** 
-     * setter for sign 
+     * setter for the sign 
      * @param sign
      */
     public void setSign(char sign) {

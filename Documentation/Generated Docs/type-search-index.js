@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"budgettracker","l":"Goal"},{"p":"<Unnamed>","l":"Main"},{"p":"budgettracker","l":"Transaction"},{"p":"<Unnamed>","l":"UIController"},{"p":"budgettracker","l":"UserAccount"}];updateSearchResults();

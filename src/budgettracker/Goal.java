@@ -37,7 +37,7 @@ public class Goal {
     
     /** 
      * Sets a new price for this goal
-     * @param goalPrice : double the new price
+     * @param goalPrice : double, the new price
      */
     public void setGoalPrice(double goalPrice) {
         this.goalPrice = goalPrice;
