@@ -34,7 +34,7 @@ public class Main extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("prototype.fxml"));
+            loader.setLocation(Main.class.getResource("home.fxml"));
             rootLayout = (Pane) loader.load();
             
             // Show the scene containing the root layout.

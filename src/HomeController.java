@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-public class UIController{
+public class HomeController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
     //Controls from FXML, the variables are automatically assigned based on fx:id 
@@ -106,7 +106,7 @@ public class UIController{
     /**
      * Constructor, params must be empty, defines money format for the table
     */
-     public UIController(){
+     public HomeController(){
         moneyFormat  = new DecimalFormat("$##.00");
         moneyFormat.setRoundingMode(java.math.RoundingMode.UNNECESSARY);
     }
