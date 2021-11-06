@@ -36,10 +36,12 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("home.fxml"));
             rootLayout = (Pane) loader.load();
-            
+
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            HomeController controller = loader.getController();
+            controller.setStage(primaryStage);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

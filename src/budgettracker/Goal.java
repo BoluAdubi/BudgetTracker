@@ -1,5 +1,6 @@
 package budgettracker;
 
+
 public class Goal {
 
     private String goalCategory;
@@ -16,7 +17,6 @@ public class Goal {
         goalCategory = category;
         goalPrice = price;
     }
-    
     /** 
      * Returns the category of this goal
      * @return String

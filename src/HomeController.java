@@ -1,14 +1,20 @@
+import javafx.event.EventHandler;
+import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 import budgettracker.Transaction;
 import budgettracker.UserAccount;
+import budgettracker.FileOperations;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressBar;
@@ -21,9 +27,12 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.TextField;
 
 import javafx.collections.ObservableList;
-
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -33,6 +42,8 @@ public class HomeController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
     //Controls from FXML, the variables are automatically assigned based on fx:id 
+    @FXML 
+    private Pane mainPane;
     @FXML
     private Button addMoney;
     @FXML
@@ -86,6 +97,8 @@ public class HomeController{
 
     //Format for prices in TableView
     private DecimalFormat moneyFormat;
+
+    private Stage stage;
     
     //Account Object for the user
     private UserAccount account = new UserAccount();
@@ -102,13 +115,33 @@ public class HomeController{
             new PieChart.Data("Personal & Family Care", account.getCategoryExpenseValues().get(4)),
             new PieChart.Data("Others", account.getCategoryExpenseValues().get(5)));
 
-
+    
     /**
      * Constructor, params must be empty, defines money format for the table
     */
      public HomeController(){
         moneyFormat  = new DecimalFormat("$##.00");
         moneyFormat.setRoundingMode(java.math.RoundingMode.UNNECESSARY);
+    }
+
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                FileOperations f = new FileOperations();
+                f.saveTransactions(account);
+            }
+        });  
+        this.stage.setOnShowing(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                FileOperations f = new FileOperations();
+                f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), account); 
+                updateDataPieGraph();
+                updateGoals();
+                transactionTable.setItems(account.getTransactions());
+            }
+        }); 
     }
 
     /**
@@ -123,6 +156,23 @@ public class HomeController{
         initilizeTableColumns();
         initilizePieGraph();
         initilizeTableColors();
+    }
+
+    @FXML
+    private void loadCsv(){
+        FileChooser f = new FileChooser();
+        File csv = f.showOpenDialog((Stage) mainPane.getScene().getWindow());
+        FileOperations fileOps = new FileOperations();
+        if(fileOps.addTransactionCSV(csv, account)){
+            System.out.println("Successfully Loaded.");
+            transactionTable.setItems(account.getTransactions());
+            updateDataPieGraph();
+            updateGoals();
+        }else{
+            System.out.println("CSV Loading failed.");
+        }
+
+
     }
 
     /**
@@ -174,14 +224,14 @@ public class HomeController{
         String i = item.getText();
         Double p = Double.parseDouble(price.getText());
         String c = category.getValue();
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
         //store transaction in account
         account.newTransaction(date, sign, i, p, c);
         //add respective values to table
         transactionTable.setItems(account.getTransactions());
         updateGoals();
-        addDataPieGraph(c, p, sign);
+        updateDataPieGraph();
     }
 
     /**
@@ -302,16 +352,17 @@ public class HomeController{
      * @param p
      * @param s
      */
-    private void addDataPieGraph(String category, double p, char s){
+    private void updateDataPieGraph(){
         for(Data d : pieGraphData)
         {
-            if(d.getName().equals(category) && s == '-')
+            Double currentVal = account.getCategoryExpenseValues().get(account.getCategoryExpenseIndex(d.getName()));
+            System.out.println(currentVal);
+            System.out.println(d.getPieValue());
+            if(d.getPieValue() != currentVal);
             {
-                d.setPieValue(d.getPieValue() + p);
-                return;
+                d.setPieValue(currentVal);
             }
         }
-        pieGraphData.add(new Data(category, p)); //Only if category does not exist
     }
 
     /**

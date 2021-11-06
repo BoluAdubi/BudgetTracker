@@ -3,7 +3,7 @@ package budgettracker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 
@@ -40,11 +40,18 @@ public class UserAccount{
      * @param categoryR
      * @return none 
      */
-    public void newTransaction(Date dateR, char signR, String itemR, double priceR, String categoryR){
+    public void newTransaction(LocalDateTime dateR, char signR, String itemR, double priceR, String categoryR){
         Transaction t = new Transaction(dateR, signR, itemR, priceR, categoryR);
         transactions.add(t);
         if(t.getSign() == '-')
             updateCategoryValues(t);
+    }
+
+    public void addTransaction(Transaction newTransaction){
+        transactions.add(newTransaction);
+        if(newTransaction.getSign() == '-'){
+            updateCategoryValues(newTransaction);
+        }
     }
 
     /**
@@ -135,7 +142,7 @@ public class UserAccount{
      * @param category
      * @return none
      */
-    private int getCategoryExpenseIndex(String category){
+    public int getCategoryExpenseIndex(String category){
         for(int i = 0; i < categories.size(); i++){
             if(categories.get(i) == category){
                 return i;
@@ -153,7 +160,9 @@ public class UserAccount{
      */
     private void updateCategoryValues(Transaction t){
         for(int i = 0; i < categories.size(); i++){
-            if(categories.get(i) == t.getCategory()){
+            System.out.println(t.getCategory() + ": " + categories.get(i));
+            if(categories.get(i).equals(t.getCategory())){
+                System.out.println("categories were equal, updating expense");
                 categoryExpenseValues.set(i, categoryExpenseValues.get(i) + t.getPrice());
             }
         }
