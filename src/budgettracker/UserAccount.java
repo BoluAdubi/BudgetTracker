@@ -3,7 +3,7 @@ package budgettracker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 
@@ -40,11 +40,18 @@ public class UserAccount{
      * @param categoryR
      * @return none 
      */
-    public void newTransaction(Date dateR, char signR, String itemR, double priceR, String categoryR){
+    public void newTransaction(LocalDateTime dateR, char signR, String itemR, double priceR, String categoryR){
         Transaction t = new Transaction(dateR, signR, itemR, priceR, categoryR);
         transactions.add(t);
         if(t.getSign() == '-')
             updateCategoryValues(t);
+    }
+
+    public void addTransaction(Transaction newTransaction){
+        transactions.add(newTransaction);
+        if(newTransaction.getSign() == '-'){
+            updateCategoryValues(newTransaction);
+        }
     }
 
     /**
@@ -95,14 +102,16 @@ public class UserAccount{
      * @param goalPrice
      * @return none
      */
-    public void createGoal(String goalCategory, double goalPrice){
+    public void createGoal(String goalCategory, double goalPrice, int goalTime, boolean repeatGoal){
         for(Goal g : goals){
             if(g.getGoalCategory() == goalCategory){
                 g.setGoalPrice(goalPrice);
+                g.setGoalTime(goalTime);
+                g.setRepeatGoal(repeatGoal);
                 return;
             }
         }
-        goals.add(new Goal(goalCategory, goalPrice));
+        goals.add(new Goal(goalCategory, goalPrice, goalTime, repeatGoal));
     }
 
     
@@ -116,9 +125,11 @@ public class UserAccount{
         HashMap<String, Double> brokenGoals = new HashMap<String, Double>();
         for(int i = 0; i < goals.size(); i++){
             if(categories.contains(goals.get(i).getGoalCategory())){
+                //if(goals.get(i).getGoalTime() > transactions.get(i).)
                 if(categoryExpenseValues.get(i) > goals.get(i).getGoalPrice()){
                     brokenGoals.put(goals.get(i).getGoalCategory(), goals.get(i).getGoalPrice());
-                }
+                } 
+
             }
         }
         return brokenGoals;
@@ -135,7 +146,7 @@ public class UserAccount{
      * @param category
      * @return none
      */
-    private int getCategoryExpenseIndex(String category){
+    public int getCategoryExpenseIndex(String category){
         for(int i = 0; i < categories.size(); i++){
             if(categories.get(i) == category){
                 return i;
@@ -153,7 +164,9 @@ public class UserAccount{
      */
     private void updateCategoryValues(Transaction t){
         for(int i = 0; i < categories.size(); i++){
-            if(categories.get(i) == t.getCategory()){
+            System.out.println(t.getCategory() + ": " + categories.get(i));
+            if(categories.get(i).equals(t.getCategory())){
+                System.out.println("categories were equal, updating expense");
                 categoryExpenseValues.set(i, categoryExpenseValues.get(i) + t.getPrice());
             }
         }
@@ -173,4 +186,6 @@ public class UserAccount{
         categories.add("Personal & Family Care");
         categories.add("Others");
     }
+
+   
 }
