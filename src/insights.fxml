@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1400.0" prefWidth="600.0">
          <children>
@@ -23,7 +23,7 @@
                   <Font name="Candara" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="14.0" layoutY="17.0" mnemonicParsing="false" text="Back">
+            <Button layoutX="14.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-radius: 20;" text="Back">
                <font>
                   <Font size="14.0" />
                </font>
@@ -34,19 +34,19 @@
             <ProgressBar layoutX="34.0" layoutY="272.0" prefHeight="20.0" prefWidth="150.0" />
             <ProgressBar layoutX="225.0" layoutY="272.0" prefHeight="20.0" prefWidth="150.0" />
             <ProgressBar layoutX="418.0" layoutY="272.0" prefHeight="20.0" prefWidth="150.0" />
-            <ChoiceBox layoutX="34.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" />
-            <TextField layoutX="156.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" promptText="Price">
+            <ChoiceBox layoutX="34.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
+            <TextField layoutX="156.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" promptText="Price" style="-fx-background-radius: 20;">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <ChoiceBox layoutX="278.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" />
-            <CheckBox layoutX="388.0" layoutY="80.0" mnemonicParsing="false" prefHeight="20.0" text="Repeat">
+            <ChoiceBox layoutX="278.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
+            <CheckBox layoutX="388.0" layoutY="80.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Repeat">
                <font>
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <Button layoutX="474.0" layoutY="75.0" mnemonicParsing="false" prefHeight="20.0" text="Add Goal">
+            <Button layoutX="474.0" layoutY="75.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Add Goal">
                <font>
                   <Font size="14.0" />
                </font>
@@ -176,9 +176,9 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ChoiceBox layoutX="222.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" />
-            <ChoiceBox layoutX="357.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" />
-            <BarChart layoutX="50.0" layoutY="486.0">
+            <ChoiceBox layoutX="222.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
+            <ChoiceBox layoutX="357.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
+            <BarChart layoutX="50.0" layoutY="486.0" style="-fx-background-radius: 20;">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -186,7 +186,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <LineChart layoutX="50.0" layoutY="935.0">
+            <LineChart layoutX="50.0" layoutY="935.0" style="-fx-background-radius: 20;">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
