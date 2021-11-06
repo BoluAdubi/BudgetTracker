@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsightsController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1400.0" prefWidth="600.0">
          <children>
@@ -23,24 +23,24 @@
                   <Font name="Candara" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="14.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-radius: 20;" text="Back">
+            <Button fx:id="returnHome" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-radius: 20;" text="Back">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <ProgressBar layoutX="34.0" layoutY="136.0" prefHeight="20.0" prefWidth="150.0" />
-            <ProgressBar layoutX="225.0" layoutY="136.0" prefHeight="20.0" prefWidth="150.0" />
-            <ProgressBar layoutX="418.0" layoutY="136.0" prefHeight="20.0" prefWidth="150.0" />
-            <ProgressBar layoutX="34.0" layoutY="272.0" prefHeight="20.0" prefWidth="150.0" />
-            <ProgressBar layoutX="225.0" layoutY="272.0" prefHeight="20.0" prefWidth="150.0" />
-            <ProgressBar layoutX="418.0" layoutY="272.0" prefHeight="20.0" prefWidth="150.0" />
-            <ChoiceBox layoutX="34.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
-            <TextField layoutX="156.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" promptText="Price" style="-fx-background-radius: 20;">
+            <ProgressBar fx:id="pBarEntertainment" layoutX="34.0" layoutY="136.0" prefHeight="20.0" prefWidth="150.0" />
+            <ProgressBar fx:id="pBarFood" layoutX="225.0" layoutY="136.0" prefHeight="20.0" prefWidth="150.0" />
+            <ProgressBar fx:id="pBarTransportation" layoutX="418.0" layoutY="136.0" prefHeight="20.0" prefWidth="150.0" />
+            <ProgressBar fx:id="pBarHome" layoutX="35.0" layoutY="252.0" prefHeight="20.0" prefWidth="150.0" />
+            <ProgressBar fx:id="pBarPersonal" layoutX="226.0" layoutY="252.0" prefHeight="20.0" prefWidth="150.0" />
+            <ProgressBar fx:id="pBarOthers" layoutX="419.0" layoutY="252.0" prefHeight="20.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="goalCategory" layoutX="34.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
+            <TextField fx:id="goalPrice" layoutX="156.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" promptText="Price" style="-fx-background-radius: 20;">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <ChoiceBox layoutX="278.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
+            <ChoiceBox fx:id="GoalTime" layoutX="278.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 20;" />
             <CheckBox layoutX="388.0" layoutY="80.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Repeat">
                <font>
                   <Font size="14.0" />
@@ -51,12 +51,12 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label layoutX="34.0" layoutY="167.0" prefWidth="150.0" text="Category" textAlignment="CENTER">
+            <Label layoutX="34.0" layoutY="167.0" prefWidth="150.0" text="Food" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="34.0" layoutY="191.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
+            <Label layoutX="38.0" layoutY="134.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
@@ -66,112 +66,112 @@
                   <Font name="Candara" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="34.0" layoutY="215.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
+            <Label layoutX="35.0" layoutY="195.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="34.0" layoutY="241.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+            <Label layoutX="35.0" layoutY="221.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="168.0" prefWidth="150.0" text="Category" textAlignment="CENTER">
+            <Label layoutX="225.0" layoutY="168.0" prefWidth="150.0" text="Entertainment" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="192.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
+            <Label layoutX="229.0" layoutY="135.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="216.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
+            <Label layoutX="226.0" layoutY="196.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="242.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+            <Label layoutX="226.0" layoutY="222.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="169.0" prefWidth="150.0" text="Category" textAlignment="CENTER">
+            <Label layoutX="418.0" layoutY="169.0" prefWidth="150.0" text="Transportation" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="193.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
+            <Label layoutX="422.0" layoutY="136.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="217.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
+            <Label layoutX="419.0" layoutY="197.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="243.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+            <Label layoutX="419.0" layoutY="223.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="34.0" layoutY="303.0" prefWidth="150.0" text="Category" textAlignment="CENTER">
+            <Label layoutX="35.0" layoutY="283.0" prefWidth="150.0" text="Home &amp; Utilities" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="34.0" layoutY="327.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
+            <Label layoutX="39.0" layoutY="250.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="34.0" layoutY="351.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
+            <Label layoutX="34.0" layoutY="309.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="34.0" layoutY="377.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+            <Label layoutX="34.0" layoutY="335.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="304.0" prefWidth="150.0" text="Category" textAlignment="CENTER">
+            <Label layoutX="226.0" layoutY="284.0" prefWidth="150.0" text="Personal &amp; Family Care" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="328.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
+            <Label layoutX="230.0" layoutY="251.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="352.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
+            <Label layoutX="225.0" layoutY="310.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="378.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+            <Label layoutX="225.0" layoutY="336.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="305.0" prefWidth="150.0" text="Category" textAlignment="CENTER">
+            <Label layoutX="419.0" layoutY="285.0" prefWidth="150.0" text="Others" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="329.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
+            <Label layoutX="423.0" layoutY="252.0" prefHeight="20.0" prefWidth="150.0" text="\$15/500" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="353.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
+            <Label layoutX="418.0" layoutY="311.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="418.0" layoutY="379.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+            <Label layoutX="418.0" layoutY="337.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
