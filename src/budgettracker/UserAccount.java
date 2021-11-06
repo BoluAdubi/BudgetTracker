@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import java.util.Date;
 import java.util.HashMap;
 
+import java.time.LocalDate;
+
 
 public class UserAccount{
 
@@ -95,16 +97,18 @@ public class UserAccount{
      * @param goalPrice
      * @return none
      */
-    public void createGoal(String goalCategory, double goalPrice, int goalTime, boolean repeatGoal){
+    public void createGoal(String goalCategory, double goalPrice, int goalTime, boolean repeatGoal, LocalDate goalStartDate){
         for(Goal g : goals){
             if(g.getGoalCategory() == goalCategory){
                 g.setGoalPrice(goalPrice);
                 g.setGoalTime(goalTime);
                 g.setRepeatGoal(repeatGoal);
+                g.setGoalStartDate(goalStartDate);
+                g.setGoalEndDate( endDateTracker(goalTime, goalStartDate) );
                 return;
             }
         }
-        goals.add(new Goal(goalCategory, goalPrice, goalTime, repeatGoal));
+        goals.add(new Goal(goalCategory, goalPrice, goalTime, repeatGoal, goalStartDate, endDateTracker(goalTime, goalStartDate) ));
     }
 
     
@@ -118,7 +122,7 @@ public class UserAccount{
         HashMap<String, Double> brokenGoals = new HashMap<String, Double>();
         for(int i = 0; i < goals.size(); i++){
             if(categories.contains(goals.get(i).getGoalCategory())){
-                //if(goals.get(i).getGoalTime() > transactions.get(i).)
+                
                 if(categoryExpenseValues.get(i) > goals.get(i).getGoalPrice()){
                     brokenGoals.put(goals.get(i).getGoalCategory(), goals.get(i).getGoalPrice());
                 } 
@@ -176,6 +180,11 @@ public class UserAccount{
         categories.add("Home & Utilities");
         categories.add("Personal & Family Care");
         categories.add("Others");
+    }
+
+    private LocalDate endDateTracker(int goalTime, LocalDate startDate) {
+        LocalDate endDate = startDate.plusDays(goalTime);
+        return endDate;
     }
 
    
