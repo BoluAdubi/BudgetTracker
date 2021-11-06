@@ -174,7 +174,7 @@ public class HomeController{
 
 
     }
-
+    
     /**
      * Calls createGoal() in the account object after the addGoal button is clicked,
      * if all neccessary fields are filled out
@@ -183,7 +183,7 @@ public class HomeController{
     @FXML
     private void addGoal(){
         if(checkForDataGoal()){
-            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()));
+            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.getValue()); // need to create chice box for time and repeat
             updateGoals();
             clearDataGoal();
         }
