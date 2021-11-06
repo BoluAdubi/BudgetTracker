@@ -1,7 +1,6 @@
 package budgettracker;
 
-//import java.time.LocalDateTime;
-//import java.util.Date;
+import java.time.LocalDate;
 
 public class Goal {
 
@@ -14,17 +13,23 @@ public class Goal {
 
     private boolean repeatGoal;
 
+    private LocalDate goalStartDate;
+
+    private LocalDate goalEndDate;
+
     /**
      * Constructor
      * @param category : String 
      * @param price : double
      * @param time : int
      */
-    public Goal(String category, double price, int time, boolean repeat){
+    public Goal(String category, double price, int time, boolean repeat, LocalDate startDate, LocalDate endDate){
         goalCategory = category;
         goalPrice = price;
         goalTime = time;
         repeatGoal = repeat;
+        goalStartDate = startDate;
+        goalEndDate = endDate;
     }
     /** 
      * Returns the category of this goal
@@ -59,6 +64,21 @@ public class Goal {
         return repeatGoal;
     }
 
+    /** 
+     * Returns the date of the start of the goal
+     * @return LocalDate
+     */
+    public LocalDate getGoalStartDate() {
+        return goalStartDate;
+    }
+
+    /** 
+     * Returns the date of the end of the goal
+     * @return LocalDate
+     */
+    public LocalDate getGoalEndDate() {
+        return goalEndDate;
+    }
     
     /** 
      * Sets a new price for this goal
@@ -84,5 +104,23 @@ public class Goal {
         this.repeatGoal = repeatGoal;
     }
 
+    /** 
+     * Sets a new start date for the goal
+     * @param goalTime : int, the new start date
+     */
+    public void setGoalStartDate(LocalDate goalStartDate) {
+        this.goalStartDate = goalStartDate;
+    }
 
+    /** 
+     * Sets a new end date for the goal
+     * @param goalTime : int, the new end date
+     */
+    public void setGoalEndDate(LocalDate goalEndDate) {
+        this.goalEndDate = goalEndDate;
+    }
+
+    
+
+    
 }
