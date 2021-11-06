@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="990.0" style="-fx-background-color: #BCC5B4;" stylesheets="@design.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="990.0" style="-fx-background-color: #BCC5B4;" stylesheets="@design.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
    <children>
       <Pane layoutX="-132.0" layoutY="355.0" opacity="0.79" prefHeight="505.0" prefWidth="689.0" rotate="-32.5" style="-fx-background-radius: 50; -fx-background-color: #114538;" />
       <Pane layoutX="-84.0" layoutY="79.0" prefHeight="439.0" prefWidth="549.0" rotate="-9.8" style="-fx-background-radius: 50; -fx-background-color: #0F434E;" />
@@ -77,5 +77,6 @@
             <Font name="Candara" size="14.0" />
          </font>
       </Label>
+      <Button fx:id="loadSheet" onAction="#loadCsv" layoutX="469.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Load CSV" />
    </children>
 </Pane>

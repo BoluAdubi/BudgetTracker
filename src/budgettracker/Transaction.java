@@ -1,10 +1,13 @@
 package budgettracker;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
+
 
 
 public class Transaction{
-    private Date date;
+    
+    private LocalDateTime date;
     private String item;
     private double price; 
     private String category; 
@@ -18,7 +21,7 @@ public class Transaction{
      * @param priceR
      * @param categoryR
      */
-    public Transaction(Date dateR, char signR, String itemR, double priceR, String categoryR){
+    public Transaction(LocalDateTime dateR, char signR, String itemR, double priceR, String categoryR){
         date = dateR;
         sign = signR;
         item = itemR;
@@ -62,7 +65,7 @@ public class Transaction{
      * getter for the date
      * @return Date
      */
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
     

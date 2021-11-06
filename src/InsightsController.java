@@ -65,8 +65,7 @@ public class InsightsController{
      * Constructor, params must be empty, defines money format for the table
     */
     public InsightsController(){
-        moneyFormat  = new DecimalFormat("$##.00");
-        moneyFormat.setRoundingMode(java.math.RoundingMode.UNNECESSARY);
+
     }
 
     /**
@@ -77,21 +76,18 @@ public class InsightsController{
     private void initialize(){
         populateCategories();
         generatePriceFilter();
-        formatTablePrice();
-        initilizeTableColumns();
-        initilizePieGraph();
-        initilizeTableColors();
+        initilizeGraphs();
     }
 
     /**
      * Calls createGoal() in the account object after the addGoal button is clicked,
      * if all neccessary fields are filled out
      * (Will overwrite old goals of the same category)
-    */
+     */
     @FXML
     private void addGoal(){
         if(checkForDataGoal()){
-            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()));
+            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.getValue()); // need to create chice box for time and repeat
             updateGoals();
             clearDataGoal();
         }

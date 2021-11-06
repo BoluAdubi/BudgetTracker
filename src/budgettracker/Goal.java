@@ -31,7 +31,6 @@ public class Goal {
         goalStartDate = startDate;
         goalEndDate = endDate;
     }
-    
     /** 
      * Returns the category of this goal
      * @return String
