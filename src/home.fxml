@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="990.0" style="-fx-background-color: #BCC5B4;" stylesheets="@design.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="990.0" style="-fx-background-color: #BCC5B4;" stylesheets="@design.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
    <children>
       <Pane layoutX="-132.0" layoutY="355.0" opacity="0.79" prefHeight="505.0" prefWidth="689.0" rotate="-32.5" style="-fx-background-radius: 50; -fx-background-color: #114538;" />
       <Pane layoutX="-84.0" layoutY="79.0" prefHeight="439.0" prefWidth="549.0" rotate="-9.8" style="-fx-background-radius: 50; -fx-background-color: #0F434E;" />
@@ -38,6 +38,6 @@
          </font>
       </Label>
       <Button fx:id="loadSheet" layoutX="207.0" layoutY="621.0" mnemonicParsing="false" onAction="#loadCsv" prefHeight="25.0" prefWidth="135.0" text="Load CSV" />
-      <Button fx:id="toInsightsBtn" layoutX="880.0" layoutY="583.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="83.0" text="Insights &amp; Graphs" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="toInsightsBtn" layoutX="880.0" layoutY="583.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="83.0" text="Insights &amp; Graphs" textAlignment="CENTER" wrapText="true" onAction="#toInsights"/>
    </children>
 </Pane>

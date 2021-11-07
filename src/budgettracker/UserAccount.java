@@ -19,16 +19,22 @@ public class UserAccount{
 
     private ObservableList<Goal> goals = FXCollections.observableArrayList();
 
+    private static UserAccount INSTANCE = new UserAccount();
+
     /**
      * The constructor calls fillCategories and then instantiates each value in categoryExpenseValues to zero.
      * @param none
      * @return none
      */
-    public UserAccount(){
+    private UserAccount(){
         fillCategories();
         for(int i=0;i<categories.size();i++){
             categoryExpenseValues.add(0.00);
         }
+    }
+
+    public static UserAccount getInstance(){
+        return INSTANCE;
     }
 
     /**
@@ -168,9 +174,7 @@ public class UserAccount{
      */
     private void updateCategoryValues(Transaction t){
         for(int i = 0; i < categories.size(); i++){
-            System.out.println(t.getCategory() + ": " + categories.get(i));
             if(categories.get(i).equals(t.getCategory())){
-                System.out.println("categories were equal, updating expense");
                 categoryExpenseValues.set(i, categoryExpenseValues.get(i) + t.getPrice());
             }
         }

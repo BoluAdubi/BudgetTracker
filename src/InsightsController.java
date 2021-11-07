@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
@@ -8,14 +9,21 @@ import budgettracker.Transaction;
 import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.util.Date;
 
@@ -60,6 +68,7 @@ public class InsightsController{
     @FXML
     private ResourceBundle resources;
 
+    private UserAccount account = UserAccount.getInstance();
     
     /**
      * Constructor, params must be empty, defines money format for the table
@@ -74,9 +83,9 @@ public class InsightsController{
     */
     @FXML
     private void initialize(){
-        populateCategories();
+      /*  populateCategories();
         generatePriceFilter();
-        initilizeGraphs();
+        initilizeGraphs(); */
     }
 
     /**
@@ -86,18 +95,18 @@ public class InsightsController{
      */
     @FXML
     private void addGoal(){
-        if(checkForDataGoal()){
+        /*if(checkForDataGoal()){
             account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.getValue()); // need to create chice box for time and repeat
             updateGoals();
             clearDataGoal();
-        }
+        }*/
     }
 
     /**
      * Calls checkGoals() in the account, and receives back a HashMap of 
      * goals and prices to reflect on the FXML ProgressBars
      * The format of the HashMap: <{category, [currentExpenditure, goalPrice]} , ... >
-     */
+
     private void updateGoals(){
         HashMap<String, Double[]> goals = account.getGoals();
         for(String c : account.getCategories()){
@@ -122,13 +131,32 @@ public class InsightsController{
             }
         }
     }
+     */
 
     /**
      * Populates the drop down menus with categories
-     */
     private void populateCategories(){
         //Add categories to Dropdown menus
         goalCategory.setItems(account.getCategories());
+    }     */
+    @FXML
+    private void toHome(ActionEvent e) throws IOException{
+        Stage s = (Stage)((Node)e.getSource()).getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("home.fxml"));
+        Parent root = (Pane) loader.load();
+
+        HomeController controller = loader.getController();
+        controller.setStage(s);
+
+        Scene newScene = new Scene(root);
+        s.setScene(newScene);
+        s.show();
+    }
+
+    public void setAccount(UserAccount a){
+        account = a;
     }
 
      /**

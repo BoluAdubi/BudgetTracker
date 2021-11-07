@@ -1,5 +1,7 @@
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -17,61 +19,43 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.TextField;
+import javafx.scene.Node;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.util.Date;
-import java.util.HashMap;
 
 
 public class HomeController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
     //Controls from FXML, the variables are automatically assigned based on fx:id 
-    @FXML 
-    private Pane mainPane;
     @FXML
     private Button addMoney;
     @FXML
     private Button subMoney;
     @FXML
-    private Button createGoal;
+    private Button toInsightsBtn;
     @FXML
     private TextField item;
     @FXML
     private TextField price;
     @FXML
-    private TextField goalPrice;
-    @FXML
     private ChoiceBox<String> category;
-    @FXML
-    private ChoiceBox<String> goalCategory;
-    @FXML 
-    private ProgressBar pBarEntertainment;
-    @FXML 
-    private ProgressBar pBarFood;
-    @FXML 
-    private ProgressBar pBarTransportation;
-    @FXML 
-    private ProgressBar pBarHome;
-    @FXML 
-    private ProgressBar pBarPersonal;
-    @FXML 
-    private ProgressBar pBarOthers;
     @FXML
     private PieChart pieGraph;
     @FXML 
@@ -101,7 +85,7 @@ public class HomeController{
     private Stage stage;
     
     //Account Object for the user
-    private UserAccount account = new UserAccount();
+    private UserAccount account = UserAccount.getInstance();
 
     /**
      * Data to be loaded into the pieChart
@@ -138,10 +122,26 @@ public class HomeController{
                 FileOperations f = new FileOperations();
                 f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), account); 
                 updateDataPieGraph();
-                updateGoals();
-                transactionTable.setItems(account.getTransactions());
+                updateTable();
             }
         }); 
+    }
+
+    public void setAccount(UserAccount a){
+        account = a;
+    }
+
+    @FXML
+    private void toInsights(ActionEvent e) throws IOException{
+        Stage s = (Stage)((Node)e.getSource()).getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("insights.fxml"));
+        Parent root = loader.load();
+
+        Scene newScene = new Scene(root);
+        s.setScene(newScene);
+        s.show();
     }
 
     /**
@@ -150,43 +150,28 @@ public class HomeController{
     */
     @FXML
     private void initialize(){
-        populateCategories();
         generatePriceFilter();
         formatTablePrice();
         initilizeTableColumns();
         initilizePieGraph();
         initilizeTableColors();
+        populateCategories();
+        updateTable();
     }
 
     @FXML
     private void loadCsv(){
         FileChooser f = new FileChooser();
-        File csv = f.showOpenDialog((Stage) mainPane.getScene().getWindow());
+        File csv = f.showOpenDialog(stage.getScene().getWindow());
         FileOperations fileOps = new FileOperations();
         if(fileOps.addTransactionCSV(csv, account)){
             System.out.println("Successfully Loaded.");
-            transactionTable.setItems(account.getTransactions());
             updateDataPieGraph();
-            updateGoals();
         }else{
             System.out.println("CSV Loading failed.");
         }
 
 
-    }
-    
-    /**
-     * Calls createGoal() in the account object after the addGoal button is clicked,
-     * if all neccessary fields are filled out
-     * (Will overwrite old goals of the same category)
-     */
-    @FXML
-    private void addGoal(){
-        if(checkForDataGoal()){
-            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.getValue()); // need to create chice box for time and repeat
-            updateGoals();
-            clearDataGoal();
-        }
     }
 
     /**
@@ -216,7 +201,7 @@ public class HomeController{
     /** 
      * Sign is provided by user depending on which button they press, '+' or '-'
      * This function grabs the transaction data from the input controls and 
-     * adds the transaction to the account, then updates the table, pie graph, and goal 
+     * adds the transaction to the account, then updates the table, pie graph
      * progress bars.
      * @param sign : char, '+' or '-', depending if it was an expense or income
      */
@@ -229,40 +214,10 @@ public class HomeController{
         //store transaction in account
         account.newTransaction(date, sign, i, p, c);
         //add respective values to table
-        transactionTable.setItems(account.getTransactions());
-        updateGoals();
+        updateTable();
         updateDataPieGraph();
     }
 
-    /**
-     * Calls checkGoals() in the account, and receives back a HashMap of 
-     * goals and prices to reflect on the FXML ProgressBars
-     * The format of the HashMap: <{category, [currentExpenditure, goalPrice]} , ... >
-     */
-    private void updateGoals(){
-        HashMap<String, Double[]> goals = account.getGoals();
-        for(String c : account.getCategories()){
-            if(goals.containsKey(c) && c == "Entertainment"){
-                pBarEntertainment.setProgress(goals.get(c)[0]/goals.get(c)[1]);
-            }
-            else if(goals.containsKey(c) && c == "Food"){
-                pBarFood.setProgress(goals.get(c)[0]/goals.get(c)[1]);
-
-            }
-            else if(goals.containsKey(c) && c == "Transportation"){
-                pBarTransportation.setProgress(goals.get(c)[0]/goals.get(c)[1]);
-            }
-            else if(goals.containsKey(c) && c == "Home & Utilities"){
-                pBarHome.setProgress(goals.get(c)[0]/goals.get(c)[1]);
-            }
-            else if(goals.containsKey(c) && c == "Personal & Family Care"){
-                pBarPersonal.setProgress(goals.get(c)[0]/goals.get(c)[1]);
-            }
-            else if(goals.containsKey(c) && c == "Others"){
-                pBarOthers.setProgress(goals.get(c)[0]/goals.get(c)[1]);
-            }
-        }
-    }
 
     /**
      * Populates the drop down menus with categories
@@ -270,7 +225,6 @@ public class HomeController{
     private void populateCategories(){
         //Add categories to Dropdown menus
         category.setItems(account.getCategories());
-        goalCategory.setItems(account.getCategories());
     }
 
     /**
@@ -318,9 +272,7 @@ public class HomeController{
             }
         };
         TextFormatter<String> format1 = new TextFormatter<>(filter);
-        TextFormatter<String> format2 = new TextFormatter<>(filter);
         price.setTextFormatter(format1);
-        goalPrice.setTextFormatter(format2);
     }
 
     /**
@@ -341,6 +293,10 @@ public class HomeController{
         });
     }
 
+    private void updateTable(){
+        transactionTable.setItems(account.getTransactions());
+    }
+
     
     /** 
      * Add the new data to the pie graph and update the graph
@@ -356,8 +312,6 @@ public class HomeController{
         for(Data d : pieGraphData)
         {
             Double currentVal = account.getCategoryExpenseValues().get(account.getCategoryExpenseIndex(d.getName()));
-            System.out.println(currentVal);
-            System.out.println(d.getPieValue());
             if(d.getPieValue() != currentVal);
             {
                 d.setPieValue(currentVal);
@@ -398,20 +352,6 @@ public class HomeController{
         }
     }
 
-    
-    /** 
-     * Returns true if all the necessary fields to add a new goal have been filled.
-     * @return boolean
-     */
-    private boolean checkForDataGoal(){
-        if(!goalCategory.getSelectionModel().isEmpty() && goalPrice.getText() != ""){
-            return true;
-        }else{
-            return false;
-        }
-    
-    }
-
     /**
      * Clears transaction fields after adding a transaction
      */
@@ -419,13 +359,5 @@ public class HomeController{
         category.getSelectionModel().clearSelection();
         price.clear();
         item.clear();
-    }
-
-    /**
-     * Clears goal fields after adding a goal
-     */
-    private void clearDataGoal(){
-        goalCategory.getSelectionModel().clearSelection();
-        goalPrice.clear();
     }
 }

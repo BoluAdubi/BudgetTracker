@@ -40,22 +40,19 @@ public class FileOperations {
                     }
                 }
                 line.append("\n");
-                System.out.println(line);
                 fileWriter.write(line.toString());
 
             }
             fileWriter.close();
             return true;
         }catch(Exception e){
-            System.out.println("Save Failed");
+            System.out.println(e);
             return false;
         }
     }
 
     public boolean addTransactionCSV(File csv, UserAccount account){
         try{
-            System.out.println(csv.toString());
-
             BufferedReader readCsv = new BufferedReader(new FileReader(csv));
             
             String[] topLine = readCsv.readLine().split(",");
@@ -99,7 +96,6 @@ public class FileOperations {
                             }
                             break;
                         case 4:
-                            System.out.println(row[i]);
                             if(!(row[i].equals("-")) && !(row[i].equals("+"))){
                                 System.out.println("Sign failed");
                                 return false;

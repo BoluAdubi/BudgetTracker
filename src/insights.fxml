@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsightsController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsightsController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1400.0" prefWidth="600.0">
          <children>
@@ -23,7 +23,7 @@
                   <Font name="Candara" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="returnHome" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-radius: 20;" text="Back">
+            <Button fx:id="returnHome" layoutX="14.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-radius: 20;" text="Back" onAction="#toHome">
                <font>
                   <Font size="14.0" />
                </font>

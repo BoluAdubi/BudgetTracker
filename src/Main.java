@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Stage primaryStage;
-    private Pane rootLayout;
+    private Parent rootLayout;
 
     
     /** 
@@ -47,7 +48,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-    
+
     /** 
      * Starts the application.
      * @param args : String[]
