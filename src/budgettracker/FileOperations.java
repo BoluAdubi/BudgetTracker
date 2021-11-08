@@ -67,41 +67,41 @@ public class FileOperations {
                 }else{
                     row = rowString.split(",");
                 }
-                for(int i = 0; i < row.length; i++){
-                    switch(i){
-                        case 0:
-                            try{
-                                LocalDateTime.parse(row[i]);
-                                break;
-                            }catch(Exception e){
-                                System.out.println("Date failed");
-                                return false;
-                            }
-                        case 1:
-                            if(row[i].equals("")){
-                                System.out.println("Item failed");
-                                return false;
-                            }
-                            break;
-                        case 2:
-                            if(!(row[i].matches("[\\d]*[\\.]?[\\d]{0,2}") || row[i].equals(""))){
-                                System.out.println("Price failed");
-                                return false;
-                            }
-                            break;
-                        case 3:
-                            if(!account.getCategories().contains(row[i])){
-                                System.out.println("Category failed");
-                                return false;
-                            }
-                            break;
-                        case 4:
-                            if(!(row[i].equals("-")) && !(row[i].equals("+"))){
-                                System.out.println("Sign failed");
-                                return false;
-                            }
-                            break;
+
+                if(row[4].equals("-")){
+                    System.out.println(row.toString());
+                    try{
+                        LocalDateTime.parse(row[0]);
+                    }catch(Exception e){
+                        System.out.println("Date failed");
+                        return false;
                     }
+                    if(row[1].equals("")){
+                        System.out.println("Item failed");
+                        return false;
+                    }
+                    if(!(row[2].matches("[\\d]*[\\.]?[\\d]{0,2}") || row[2].equals(""))){
+                        System.out.println("Price failed");
+                        return false;
+                    }
+                    if(!account.getCategories().contains(row[3]) || row[4] == ""){
+                        System.out.println("Category failed");
+                        return false;
+                    }
+                } else if (row[4].equals("+")) {
+                    try{
+                        LocalDateTime.parse(row[0]);
+                    }catch(Exception e){
+                        System.out.println("Date failed");
+                        return false;
+                    }
+                    if(!(row[2].matches("[\\d]*[\\.]?[\\d]{0,2}") || row[2].equals(""))){
+                        System.out.println("Price failed");
+                        return false;
+                    }
+                } else {
+                    System.out.println("Sign failed");
+                    return false;
                 }
                 transactions.add(new Transaction(LocalDateTime.parse(row[0]), row[4].toCharArray()[0], row[1], Double.parseDouble(row[2]), row[3]));
             }
