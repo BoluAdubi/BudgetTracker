@@ -66,8 +66,6 @@ public class InsightsController{
     @FXML
     private LineChart<LocalDate, Double> lineGraph;
 
-
-
     //Location is the location of FXML document
     @FXML
     private URL location;
@@ -95,7 +93,7 @@ public class InsightsController{
         generatePriceFilter();
         populateTime();
         updateGoals();
-       // initilizeGraphs();
+        initilizeLineGraph();
     }
 
     /**
@@ -110,6 +108,15 @@ public class InsightsController{
             updateGoals();
             clearDataGoal();
         }
+    }
+
+    private void initilizeLineGraph(){
+        LocalDate today = LocalDate.now();
+        String timePeriod = graphTimePeriod.getValue();
+        LocalDate start = today.minusDays(Integer.parseInt(graphTimePeriod.getValue()));
+
+        
+
     }
 
     /**
@@ -151,12 +158,22 @@ public class InsightsController{
     }
     
     private void populateTime(){
-        ObservableList<Integer> timeFrames = FXCollections.observableArrayList();
-        timeFrames.add(7);
-        timeFrames.add(14);
-        timeFrames.add(30);
-        timeFrames.add(365);
-        goalTime.setItems(timeFrames);
+        ObservableList<Integer> goalTimeFrames = FXCollections.observableArrayList();
+        goalTimeFrames.add(7);
+        goalTimeFrames.add(14);
+        goalTimeFrames.add(30);
+        goalTimeFrames.add(365);
+        goalTime.setItems(goalTimeFrames);
+
+        ObservableList<String> graphTimeFrames = FXCollections.observableArrayList();
+        graphTimeFrames.add("All");
+        graphTimeFrames.add("7");
+        graphTimeFrames.add("14");
+        graphTimeFrames.add("30");
+        graphTimeFrames.add("90");
+        graphTimeFrames.add("180");
+        graphTimeFrames.add("365");
+        graphTimePeriod.setItems(graphTimeFrames);
     }
     
     @FXML
