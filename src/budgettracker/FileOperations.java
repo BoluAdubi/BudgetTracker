@@ -105,6 +105,7 @@ public class FileOperations {
                 }
                 transactions.add(new Transaction(LocalDateTime.parse(row[0]), row[4].toCharArray()[0], row[1], Double.parseDouble(row[2]), row[3]));
             }
+
             readCsv.close();
             for(Transaction t : transactions){
                 account.addTransaction(t);

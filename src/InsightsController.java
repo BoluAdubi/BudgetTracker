@@ -1,20 +1,23 @@
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
-import budgettracker.Transaction;
 import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -22,10 +25,9 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.util.Date;
+import java.util.HashMap;
 
 
 
@@ -42,7 +44,9 @@ public class InsightsController{
     @FXML
     private ChoiceBox<String> goalCategory;
     @FXML
-    private ChoiceBox<String> goalTime;
+    private ChoiceBox<Integer> goalTime;
+    @FXML
+    private CheckBox repeatGoal;
     @FXML 
     private ProgressBar pBarEntertainment;
     @FXML 
@@ -56,9 +60,13 @@ public class InsightsController{
     @FXML 
     private ProgressBar pBarOthers;
     @FXML
-    private ChoiceBox<String> graphType;
+    private ChoiceBox<String> graphTimePeriod;
+    @FXML 
+    private BarChart<LocalDate, Double> barGraph;
     @FXML
-    private ChoiceBox<String> graphTime;
+    private LineChart<LocalDate, Double> lineGraph;
+
+
 
     //Location is the location of FXML document
     @FXML
@@ -83,9 +91,11 @@ public class InsightsController{
     */
     @FXML
     private void initialize(){
-      /*  populateCategories();
+        populateCategories();
         generatePriceFilter();
-        initilizeGraphs(); */
+        populateTime();
+        updateGoals();
+       // initilizeGraphs();
     }
 
     /**
@@ -95,17 +105,18 @@ public class InsightsController{
      */
     @FXML
     private void addGoal(){
-        /*if(checkForDataGoal()){
-            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.getValue()); // need to create chice box for time and repeat
+        if(checkForDataGoal()){
+            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.isSelected()); // need to create chice box for time and repeat
             updateGoals();
             clearDataGoal();
-        }*/
+        }
     }
 
     /**
      * Calls checkGoals() in the account, and receives back a HashMap of 
      * goals and prices to reflect on the FXML ProgressBars
      * The format of the HashMap: <{category, [currentExpenditure, goalPrice]} , ... >
+     */
 
     private void updateGoals(){
         HashMap<String, Double[]> goals = account.getGoals();
@@ -115,7 +126,6 @@ public class InsightsController{
             }
             else if(goals.containsKey(c) && c == "Food"){
                 pBarFood.setProgress(goals.get(c)[0]/goals.get(c)[1]);
-
             }
             else if(goals.containsKey(c) && c == "Transportation"){
                 pBarTransportation.setProgress(goals.get(c)[0]/goals.get(c)[1]);
@@ -131,14 +141,24 @@ public class InsightsController{
             }
         }
     }
-     */
 
     /**
      * Populates the drop down menus with categories
+    */
     private void populateCategories(){
         //Add categories to Dropdown menus
         goalCategory.setItems(account.getCategories());
-    }     */
+    }
+    
+    private void populateTime(){
+        ObservableList<Integer> timeFrames = FXCollections.observableArrayList();
+        timeFrames.add(7);
+        timeFrames.add(14);
+        timeFrames.add(30);
+        timeFrames.add(365);
+        goalTime.setItems(timeFrames);
+    }
+    
     @FXML
     private void toHome(ActionEvent e) throws IOException{
         Stage s = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -153,10 +173,6 @@ public class InsightsController{
         Scene newScene = new Scene(root);
         s.setScene(newScene);
         s.show();
-    }
-
-    public void setAccount(UserAccount a){
-        account = a;
     }
 
      /**
@@ -180,7 +196,7 @@ public class InsightsController{
      * @return boolean
      */
     private boolean checkForDataGoal(){
-        if(!goalCategory.getSelectionModel().isEmpty() && goalPrice.getText() != ""){
+        if(!goalCategory.getSelectionModel().isEmpty() && goalPrice.getText() != "" && !goalTime.getSelectionModel().isEmpty()){
             return true;
         }else{
             return false;

@@ -23,6 +23,21 @@ public class Goal {
      * @param price : double
      * @param time : int
      */
+    public Goal(String category, double price, int time, boolean repeat){
+        goalCategory = category;
+        goalPrice = price;
+        goalTime = time;
+        repeatGoal = repeat;
+        goalStartDate = LocalDate.now();
+        goalEndDate = goalStartDate.plusDays(time);
+    }
+
+    /**
+     * Constructor
+     * @param category : String 
+     * @param price : double
+     * @param time : int
+     */
     public Goal(String category, double price, int time, boolean repeat, LocalDate startDate, LocalDate endDate){
         goalCategory = category;
         goalPrice = price;
@@ -31,6 +46,7 @@ public class Goal {
         goalStartDate = startDate;
         goalEndDate = endDate;
     }
+
     /** 
      * Returns the category of this goal
      * @return String

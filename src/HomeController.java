@@ -127,10 +127,6 @@ public class HomeController{
         }); 
     }
 
-    public void setAccount(UserAccount a){
-        account = a;
-    }
-
     @FXML
     private void toInsights(ActionEvent e) throws IOException{
         Stage s = (Stage)((Node)e.getSource()).getScene().getWindow();

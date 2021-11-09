@@ -40,13 +40,13 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <ChoiceBox fx:id="GoalTime" layoutX="493.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
-            <CheckBox layoutX="716.0" layoutY="80.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Repeat">
+            <ChoiceBox fx:id="goalTime" layoutX="493.0" layoutY="80.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
+            <CheckBox fx:id="repeatGoal" layoutX="716.0" layoutY="80.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Repeat">
                <font>
                   <Font size="14.0" />
                </font>
             </CheckBox>
-            <Button layoutX="833.0" layoutY="74.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Add Goal">
+            <Button fx:id="createGoal" onAction="#addGoal" layoutX="833.0" layoutY="74.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Add Goal">
                <font>
                   <Font size="14.0" />
                </font>
@@ -161,9 +161,9 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ChoiceBox layoutX="200.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
+            <ChoiceBox fx:id="graphTimePeriod" layoutX="200.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
             <ChoiceBox layoutX="450.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
-            <BarChart layoutX="150.0" layoutY="500.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-radius: 20;">
+            <BarChart fx:id="barGraph" layoutX="150.0" layoutY="500.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-radius: 20;">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -171,7 +171,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <LineChart layoutX="150.0" layoutY="1050.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-radius: 20;">
+            <LineChart fx:id="lineGraph" layoutX="150.0" layoutY="1050.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-radius: 20;">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>

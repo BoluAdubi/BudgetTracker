@@ -110,18 +110,18 @@ public class UserAccount{
      * @param goalPrice
      * @return none
      */
-    public void createGoal(String goalCategory, double goalPrice, int goalTime, boolean repeatGoal, LocalDate goalStartDate){
+    public void createGoal(String goalCategory, double goalPrice, int goalTime, boolean repeatGoal){
         for(Goal g : goals){
             if(g.getGoalCategory() == goalCategory){
                 g.setGoalPrice(goalPrice);
                 g.setGoalTime(goalTime);
                 g.setRepeatGoal(repeatGoal);
-                g.setGoalStartDate(goalStartDate);
-                g.setGoalEndDate( endDateTracker(goalTime, goalStartDate) );
+                g.setGoalStartDate(LocalDate.now());
+                g.setGoalEndDate(LocalDate.now().plusDays(goalTime));
                 return;
             }
         }
-        goals.add(new Goal(goalCategory, goalPrice, goalTime, repeatGoal, goalStartDate, endDateTracker(goalTime, goalStartDate) ));
+        goals.add(new Goal(goalCategory, goalPrice, goalTime, repeatGoal));
     }
 
     
@@ -193,12 +193,5 @@ public class UserAccount{
         categories.add("Home & Utilities");
         categories.add("Personal & Family Care");
         categories.add("Others");
-    }
-
-    private LocalDate endDateTracker(int goalTime, LocalDate startDate) {
-        LocalDate endDate = startDate.plusDays(goalTime);
-        return endDate;
-    }
-
-   
+    } 
 }
