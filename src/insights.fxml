@@ -51,7 +51,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label layoutX="34.0" layoutY="167.0" prefWidth="150.0" text="Food" textAlignment="CENTER">
+            <Label layoutX="34.0" layoutY="167.0" prefWidth="150.0" text="Entertainment" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
@@ -71,7 +71,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="364.0" layoutY="168.0" prefWidth="150.0" text="Entertainment" textAlignment="CENTER">
+            <Label layoutX="364.0" layoutY="168.0" prefWidth="150.0" text="Food" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>

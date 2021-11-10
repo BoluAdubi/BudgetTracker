@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 
+import budgettracker.UserAccount;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +14,7 @@ public class Main extends Application {
 
     private Stage primaryStage;
     private Parent rootLayout;
+    private UserAccount account = UserAccount.getInstance();
 
     
     /** 

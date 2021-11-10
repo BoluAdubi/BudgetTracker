@@ -76,7 +76,7 @@ public class Goal {
      * Returns true if user wants to repeat a goal, false otherwise
      * @return bool
      */
-    public boolean getRepeatGoal() {
+    public boolean getGoalRepeat() {
         return repeatGoal;
     }
 
@@ -116,7 +116,7 @@ public class Goal {
      * Sets whether user wants to repeat goal after its completion
      * @param repeatGoal : boolean, true for goal to be repeated, false otherwise
      */
-    public void setRepeatGoal(boolean repeatGoal) {
+    public void setGoalRepeat(boolean repeatGoal) {
         this.repeatGoal = repeatGoal;
     }
 

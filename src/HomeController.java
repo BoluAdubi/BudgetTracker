@@ -115,12 +115,11 @@ public class HomeController{
             public void handle(WindowEvent we) {
                 FileOperations f = new FileOperations();
                 f.saveTransactions(account);
+                f.saveGoals(account);
             }
         });  
         this.stage.setOnShowing(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                FileOperations f = new FileOperations();
-                f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), account); 
                 updateDataPieGraph();
                 updateTable();
             }

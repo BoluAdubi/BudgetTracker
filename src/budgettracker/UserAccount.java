@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-
+import java.io.File;
 import java.time.LocalDate;
 
 
@@ -31,6 +31,9 @@ public class UserAccount{
         for(int i=0;i<categories.size();i++){
             categoryExpenseValues.add(0.00);
         }
+        FileOperations f = new FileOperations();
+        f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), this); 
+        f.addGoalCSV(new File("src/data/saves/goalHistory.csv"), this); 
     }
 
     public static UserAccount getInstance(){
@@ -93,7 +96,7 @@ public class UserAccount{
      * Returns a hashmap for the UIController to use to update the goal progressbars.
      * @return HashMap<String, Double[]> : <{category, [currentExpenditure, goalPrice]} , ... >
      */
-    public HashMap<String, Double[]> getGoals() {
+    public HashMap<String, Double[]> getGoalData() {
         HashMap<String, Double[]> goalsAndPrices = new HashMap<String, Double[]>();
         for(Goal g : goals){
             String c = g.getGoalCategory();
@@ -101,6 +104,10 @@ public class UserAccount{
             goalsAndPrices.put(c, arr);
         }
         return goalsAndPrices;
+    }
+
+    public Goal[] getGoals(){
+        return goals.toArray(new Goal[goals.size()]);
     }
 
     /**
@@ -112,10 +119,10 @@ public class UserAccount{
      */
     public void createGoal(String goalCategory, double goalPrice, int goalTime, boolean repeatGoal){
         for(Goal g : goals){
-            if(g.getGoalCategory() == goalCategory){
+            if(g.getGoalCategory().equals(goalCategory)){
                 g.setGoalPrice(goalPrice);
                 g.setGoalTime(goalTime);
-                g.setRepeatGoal(repeatGoal);
+                g.setGoalRepeat(repeatGoal);
                 g.setGoalStartDate(LocalDate.now());
                 g.setGoalEndDate(LocalDate.now().plusDays(goalTime));
                 return;
@@ -124,7 +131,10 @@ public class UserAccount{
         goals.add(new Goal(goalCategory, goalPrice, goalTime, repeatGoal));
     }
 
-    
+    public void addGoals(Goal[] goalArr){
+        goals.addAll(goalArr);
+    }
+
     /** 
      * Returns a hashmap of the goals that have been broken. This method is not
      * used and needs to be updated to have the same return format of getGoals()
@@ -158,7 +168,7 @@ public class UserAccount{
      */
     public int getCategoryExpenseIndex(String category){
         for(int i = 0; i < categories.size(); i++){
-            if(categories.get(i) == category){
+            if(categories.get(i).equals(category)){
                 return i;
             }
         }

@@ -5,11 +5,13 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
+import budgettracker.FileOperations;
 import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,6 +28,7 @@ import javafx.scene.layout.Pane;
 
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.HashMap;
 
@@ -76,6 +79,8 @@ public class InsightsController{
 
     private UserAccount account = UserAccount.getInstance();
     
+    private Stage stage;
+
     /**
      * Constructor, params must be empty, defines money format for the table
     */
@@ -113,10 +118,9 @@ public class InsightsController{
     private void initilizeLineGraph(){
         LocalDate today = LocalDate.now();
         String timePeriod = graphTimePeriod.getValue();
-        LocalDate start = today.minusDays(Integer.parseInt(graphTimePeriod.getValue()));
-
+        //LocalDate start = today.minusDays(Integer.parseInt(graphTimePeriod.getValue()));
         
-
+        
     }
 
     /**
@@ -126,7 +130,7 @@ public class InsightsController{
      */
 
     private void updateGoals(){
-        HashMap<String, Double[]> goals = account.getGoals();
+        HashMap<String, Double[]> goals = account.getGoalData();
         for(String c : account.getCategories()){
             if(goals.containsKey(c) && c == "Entertainment"){
                 pBarEntertainment.setProgress(goals.get(c)[0]/goals.get(c)[1]);
@@ -192,6 +196,23 @@ public class InsightsController{
         s.show();
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                FileOperations f = new FileOperations();
+                f.saveTransactions(account);
+                f.saveGoals(account);
+            }
+        });  
+        this.stage.setOnShowing(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                populateCategories();
+                populateTime();
+                updateGoals();
+            }
+        }); 
+    }
      /**
      * Creates and applies a regular expression filter that ensures you 
      * can only type correctly formatted prices in the price textfields
