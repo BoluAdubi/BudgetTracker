@@ -8,11 +8,8 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 import budgettracker.FileOperations;
-<<<<<<< HEAD
 import budgettracker.Transaction;
-=======
 import budgettracker.Goal;
->>>>>>> ce4102a2e7e46951f36073cef64cd016b2ea2a70
 import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
@@ -171,6 +168,7 @@ public class InsightsController{
     @FXML
     private void updateGraphs(){
         initilizeLineGraph();
+        //initilizeBarGraph();
     }
 
     private void initilizeLineGraph(){

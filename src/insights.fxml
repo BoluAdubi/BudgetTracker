@@ -157,7 +157,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="graphTimePeriod" layoutX="200.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-radius: 20;" value="All" />
+            <ChoiceBox fx:id="graphTimePeriod" onAction="#updateGraphs" layoutX="200.0" layoutY="435.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-radius: 20;" value="All" />
             <BarChart fx:id="barGraph" layoutX="150.0" layoutY="500.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-radius: 20;">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
