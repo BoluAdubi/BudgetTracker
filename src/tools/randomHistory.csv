@@ -1,16 +1,101 @@
 date,item,price,category,sign
-2021-10-13T07:16:22,payment,572.81,,+
-2021-09-29T04:15:35,payment,813.44,,+
-2021-03-21T18:36:09,payment,637.92,,+
-2021-10-21T10:25:22,payment,829.62,,+
-2021-08-16T02:32:02,payment,712.84,,+
-2020-12-09T11:29:19,movie tickets,93.4,Entertainment,-
-2021-06-21T15:14:09,water bill,61.29,Home & Utilities,-
-2021-05-01T08:53:11,oil change,55.83,Transportation,-
-2021-04-22T06:03:59,toilet paper,3.43,Home & Utilities,-
-2021-01-29T01:56:10,elephant,23.25,Others,-
-2021-06-05T10:45:24,diapers,30.92,Personal & Family Care,-
-2021-08-28T13:51:28,oranges,46.77,Food,-
-2021-10-23T13:47:10,space ship,4.09,Others,-
-2021-05-12T14:24:28,jetski rental,12.23,Entertainment,-
-2021-08-12T07:58:07,movie tickets,76.8,Entertainment,-
+2021-07-26T09:06:30,payment,949.6,,+
+2021-10-16T03:54:48,payment,976.7,,+
+2021-09-27T13:00:08,payment,381.36,,+
+2021-06-24T01:51:11,payment,800.64,,+
+2021-02-24T13:39:34,payment,381.65,,+
+2021-10-12T04:25:22,payment,135.54,,+
+2020-11-15T01:42:16,payment,121.09,,+
+2021-06-07T08:08:53,payment,568.19,,+
+2021-09-19T09:17:03,payment,380.27,,+
+2021-05-29T21:17:01,payment,58.71,,+
+2021-03-04T14:00:58,payment,481.4,,+
+2021-08-27T12:57:40,payment,403.35,,+
+2021-03-26T00:46:42,payment,121.17,,+
+2021-02-09T00:01:10,payment,70.24,,+
+2021-08-04T23:25:29,payment,498.96,,+
+2021-04-27T14:30:26,payment,374.58,,+
+2021-05-11T23:26:07,payment,770.38,,+
+2021-01-24T15:34:30,payment,270.42,,+
+2021-05-06T10:36:40,payment,580.47,,+
+2021-05-27T06:44:27,payment,612.22,,+
+2021-01-25T07:09:22,six flags pass,39.38,Entertainment,-
+2020-11-17T04:03:12,new gaming pc,43.21,Entertainment,-
+2021-11-08T02:17:57,coffee,58.59,Food,-
+2021-04-14T14:58:44,shampoo,53.96,Personal & Family Care,-
+2021-02-25T15:21:24,an army of acrobats,32.86,Others,-
+2021-02-10T10:29:39,six flags pass,95.87,Entertainment,-
+2021-05-13T16:26:22,water bill,25.5,Home & Utilities,-
+2021-01-23T22:04:16,new gaming pc,80.61,Entertainment,-
+2020-12-10T06:26:30,bulldozer,71.75,Others,-
+2020-12-02T09:09:33,apples,78.26,Food,-
+2021-03-13T01:39:21,pie,21.11,Food,-
+2020-11-23T23:57:56,new car,99.43,Transportation,-
+2020-11-14T09:32:40,jetski rental,38.86,Entertainment,-
+2021-10-07T02:42:54,paper towels,57.15,Home & Utilities,-
+2021-09-08T15:07:26,sponges,6.05,Home & Utilities,-
+2021-06-09T16:43:32,elephant,76.2,Others,-
+2021-08-07T15:39:55,make up,20.84,Personal & Family Care,-
+2021-02-21T02:27:03,bus fare,57.39,Transportation,-
+2021-09-12T23:39:13,sky diving,14.9,Entertainment,-
+2021-07-25T09:39:01,flying monkey,86.72,Others,-
+2021-11-01T15:33:18,concert tickets,4.37,Entertainment,-
+2021-02-09T12:39:09,wiper fluid,57.78,Transportation,-
+2021-02-12T17:36:34,conditioner,6.87,Personal & Family Care,-
+2021-01-05T03:24:33,diapers,79.99,Personal & Family Care,-
+2021-02-06T01:37:27,hair brush,38.11,Personal & Family Care,-
+2021-05-24T16:24:36,paper towels,39.13,Home & Utilities,-
+2021-08-30T02:42:45,dinner,98.08,Food,-
+2021-06-08T21:23:46,breakfast,42.88,Food,-
+2021-11-01T02:12:44,pie,16.83,Food,-
+2020-12-24T11:00:26,oranges,65.74,Food,-
+2021-08-19T20:19:42,apples,95.63,Food,-
+2021-01-17T14:36:23,oranges,38.86,Food,-
+2021-06-09T18:27:20,oranges,88.36,Food,-
+2021-03-14T17:41:04,movie tickets,67.78,Entertainment,-
+2021-05-25T03:13:02,sky diving,95.68,Entertainment,-
+2021-10-16T00:31:38,car,36.67,Transportation,-
+2021-01-16T01:39:47,concert tickets,11.39,Entertainment,-
+2021-01-21T12:29:10,dinner,78.27,Food,-
+2020-12-30T17:21:39,new car,90.25,Transportation,-
+2021-05-20T20:59:49,circus tickets,63.53,Entertainment,-
+2021-03-29T03:53:20,diapers,82.3,Personal & Family Care,-
+2021-10-15T16:45:10,bike repairs,51.72,Transportation,-
+2021-08-26T08:26:07,elephant,95.72,Others,-
+2021-10-18T03:27:28,bus fare,22.25,Transportation,-
+2021-08-30T02:58:56,paper towels,87.36,Home & Utilities,-
+2021-07-19T00:45:52,water bill,97.52,Home & Utilities,-
+2021-07-12T17:22:06,oil change,94.4,Transportation,-
+2021-10-10T11:35:56,bus fare,82.12,Transportation,-
+2021-08-03T20:20:21,ninja stars,85.41,Others,-
+2021-02-10T21:43:48,bulldozer,11.44,Others,-
+2021-04-05T15:23:45,concert tickets,17.64,Entertainment,-
+2020-12-30T05:11:20,hair brush,66.78,Personal & Family Care,-
+2021-10-31T07:59:10,sky diving,57.67,Entertainment,-
+2021-01-14T09:45:27,oil change,64.54,Transportation,-
+2021-06-26T16:18:17,groceries,1.33,Food,-
+2020-12-01T22:22:37,the fast food chain wendys,48.3,Others,-
+2021-02-19T18:35:55,gas bill,90.2,Home & Utilities,-
+2021-03-30T02:35:41,concert tickets,22.08,Entertainment,-
+2021-04-23T04:36:12,wiper fluid,77.43,Transportation,-
+2021-09-27T20:25:55,oil change,9.33,Transportation,-
+2020-12-05T22:41:42,diapers,9.65,Personal & Family Care,-
+2021-01-16T16:24:29,new car,49.2,Transportation,-
+2021-01-21T11:32:47,concert tickets,41.27,Entertainment,-
+2021-09-13T19:02:06,jetski rental,64.69,Entertainment,-
+2020-11-26T17:20:27,dinner,54.3,Food,-
+2020-11-22T18:40:14,paper towels,64.26,Home & Utilities,-
+2021-05-19T05:53:20,dinner,61.53,Food,-
+2020-12-20T05:26:21,six flags pass,88.61,Entertainment,-
+2021-02-16T22:36:15,oil change,11.01,Transportation,-
+2021-06-14T22:38:48,new gaming pc,27.1,Entertainment,-
+2020-11-22T20:47:43,blanket,95.79,Home & Utilities,-
+2021-03-08T03:31:09,oil change,84.37,Transportation,-
+2021-01-17T17:41:42,breakfast,71.71,Food,-
+2021-02-11T16:37:21,circus tickets,32.29,Entertainment,-
+2021-08-22T08:57:10,apples,34.82,Food,-
+2021-05-22T20:32:00,gas bill,77.45,Home & Utilities,-
+2021-06-24T22:30:29,paper towels,14.14,Home & Utilities,-
+2021-06-09T10:33:08,jetski rental,73.48,Entertainment,-
+2021-06-23T13:04:31,soap,61.17,Home & Utilities,-
+2021-08-13T16:09:29,bulldozer,65.32,Others,-

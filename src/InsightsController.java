@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -6,6 +7,7 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 import budgettracker.FileOperations;
+import budgettracker.Transaction;
 import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
@@ -16,8 +18,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -25,11 +30,12 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 
@@ -67,7 +73,7 @@ public class InsightsController{
     @FXML 
     private BarChart<LocalDate, Double> barGraph;
     @FXML
-    private LineChart<LocalDate, Double> lineGraph;
+    private LineChart<String, BigDecimal> lineGraph;
 
     //Location is the location of FXML document
     @FXML
@@ -115,12 +121,61 @@ public class InsightsController{
         }
     }
 
+    @FXML
+    private void updateGraphs(){
+        initilizeLineGraph();
+    }
+
     private void initilizeLineGraph(){
         LocalDate today = LocalDate.now();
         String timePeriod = graphTimePeriod.getValue();
-        //LocalDate start = today.minusDays(Integer.parseInt(graphTimePeriod.getValue()));
+        LocalDate start = LocalDate.now();
+        ObservableList<Transaction> transactions = account.getTransactions();
+
+        if(timePeriod.equals("All")){
+            for(Transaction t : transactions){
+                if(t.getDate().toLocalDate().isBefore(start)){
+                    start = t.getDate().toLocalDate();
+                }
+            }
+        }else{
+            start = today.minusDays(Integer.parseInt(graphTimePeriod.getValue()));
+        }
         
+        ObservableList<Transaction> filteredTransactions = getTransactionsAfter(start);
+        XYChart.Series<String,BigDecimal> series = new XYChart.Series<String,BigDecimal>();
         
+        BigDecimal sum = new BigDecimal(0);
+        for(Transaction t : filteredTransactions){
+            if(t.getSign() == '-'){
+                sum = sum.add(BigDecimal.valueOf(t.getPrice()*-1));
+                series.getData().add(new XYChart.Data<String, BigDecimal>(t.getDate().toLocalDate().toString(), sum));        
+            }else{
+                sum = sum.add(BigDecimal.valueOf(t.getPrice()));
+                series.getData().add(new XYChart.Data<String, BigDecimal>(t.getDate().toLocalDate().toString(), sum));        
+            }
+        }
+
+        lineGraph.setCreateSymbols(false);
+
+        lineGraph.getData().clear();
+        lineGraph.layout();
+
+		lineGraph.setAnimated(true);
+        lineGraph.getData().add(series);
+        lineGraph.setAnimated(false);
+
+    }
+
+    private ObservableList<Transaction> getTransactionsAfter(LocalDate start){
+        ObservableList<Transaction> filteredTransactions = FXCollections.observableArrayList();
+        for(Transaction t : account.getTransactions()){
+            if(t.getDate().toLocalDate().isAfter(start)){
+                filteredTransactions.add(t);
+            }
+        }
+        filteredTransactions.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
+        return filteredTransactions;
     }
 
     /**
