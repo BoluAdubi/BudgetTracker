@@ -1,11 +1,13 @@
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 import budgettracker.FileOperations;
+import budgettracker.Goal;
 import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
@@ -21,6 +23,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.Node;
@@ -68,6 +71,46 @@ public class InsightsController{
     private BarChart<LocalDate, Double> barGraph;
     @FXML
     private LineChart<LocalDate, Double> lineGraph;
+    @FXML
+    private Label foodProgress;
+    @FXML
+    private Label entertainmentProgress;
+    @FXML
+    private Label transportationProgress;
+    @FXML
+    private Label homeProgress;
+    @FXML
+    private Label personalProgress;
+    @FXML
+    private Label othersProgress;
+    @FXML
+    private Label foodTimeframe;
+    @FXML
+    private Label entertainmentTimeframe;
+    @FXML
+    private Label transportationTimeframe;
+    @FXML
+    private Label homeTimeframe;
+    @FXML
+    private Label personalTimeframe;
+    @FXML
+    private Label othersTimeframe;
+    @FXML
+    private Label foodRepeat;
+    @FXML
+    private Label entertainmentRepeat;
+    @FXML
+    private Label transportationRepeat;
+    @FXML
+    private Label homeRepeat;
+    @FXML
+    private Label personalRepeat;
+    @FXML
+    private Label othersRepeat;
+    
+
+    //Format for prices
+    private DecimalFormat moneyFormat;
 
     //Location is the location of FXML document
     @FXML
@@ -85,7 +128,8 @@ public class InsightsController{
      * Constructor, params must be empty, defines money format for the table
     */
     public InsightsController(){
-
+        moneyFormat  = new DecimalFormat("$##.00");
+        moneyFormat.setRoundingMode(java.math.RoundingMode.HALF_EVEN);
     }
 
     /**
@@ -130,26 +174,70 @@ public class InsightsController{
      */
 
     private void updateGoals(){
-        HashMap<String, Double[]> goals = account.getGoalData();
-        for(String c : account.getCategories()){
-            if(goals.containsKey(c) && c == "Entertainment"){
-                pBarEntertainment.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+        HashMap<String, Double[]> goalData = account.getGoalData();
+        Goal[] goals = account.getGoals();
+        for(Goal g : goals){
+            if(g.getGoalCategory().equals("Entertainment")){
+                pBarEntertainment.setProgress(goalData.get("Entertainment")[0]/goalData.get("Entertainment")[1]);
+                entertainmentProgress.setText(moneyFormat.format(goalData.get("Entertainment")[0]) + "/" + moneyFormat.format(goalData.get("Entertainment")[1]));
+                entertainmentTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
+                if(g.getGoalRepeat() == true){
+                    entertainmentRepeat.setText("Repeat: Yes");
+                }else{
+                    entertainmentRepeat.setText("Repeat: No");
+                }
             }
-            else if(goals.containsKey(c) && c == "Food"){
-                pBarFood.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            else if(g.getGoalCategory().equals("Food")){
+                pBarFood.setProgress(goalData.get("Food")[0]/goalData.get("Food")[1]);
+                foodProgress.setText(moneyFormat.format(goalData.get("Food")[0]) + "/" + moneyFormat.format(goalData.get("Food")[1]));
+                foodTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
+                if(g.getGoalRepeat() == true){
+                    foodRepeat.setText("Repeat: Yes");
+                }else{
+                    foodRepeat.setText("Repeat: No");
+                }
             }
-            else if(goals.containsKey(c) && c == "Transportation"){
-                pBarTransportation.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            else if(g.getGoalCategory().equals("Transportation")){
+                pBarTransportation.setProgress(goalData.get("Food")[0]/goalData.get("Food")[1]);
+                transportationProgress.setText(moneyFormat.format(goalData.get("Food")[0]) + "/" + moneyFormat.format(goalData.get("Food")[1]));
+                transportationTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
+                if(g.getGoalRepeat() == true){
+                    transportationRepeat.setText("Repeat: Yes");
+                }else{
+                    transportationRepeat.setText("Repeat: No");
+                }
             }
-            else if(goals.containsKey(c) && c == "Home & Utilities"){
-                pBarHome.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            else if(g.getGoalCategory().equals("Home & Utilities")){
+                pBarHome.setProgress(goalData.get("Home & Utilities")[0]/goalData.get("Home & Utilities")[1]);
+                homeProgress.setText(moneyFormat.format(goalData.get("Home & Utilities")[0]) + "/" + moneyFormat.format(goalData.get("Home & Utilities")[1]));
+                homeTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
+                if(g.getGoalRepeat() == true){
+                    homeRepeat.setText("Repeat: Yes");
+                }else{
+                    homeRepeat.setText("Repeat: No");
+                }
             }
-            else if(goals.containsKey(c) && c == "Personal & Family Care"){
-                pBarPersonal.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            else if(g.getGoalCategory().equals("Personal & Family Care")){
+                pBarPersonal.setProgress(goalData.get("Personal & Family Care")[0]/goalData.get("Personal & Family Care")[1]);
+                personalProgress.setText(moneyFormat.format(goalData.get("Personal & Family Care")[0]) + "/" + moneyFormat.format(goalData.get("Personal & Family Care")[1]));
+                personalTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
+                if(g.getGoalRepeat() == true){
+                    personalRepeat.setText("Repeat: Yes");
+                }else{
+                    personalRepeat.setText("Repeat: No");
+                }
             }
-            else if(goals.containsKey(c) && c == "Others"){
-                pBarOthers.setProgress(goals.get(c)[0]/goals.get(c)[1]);
+            else if(g.getGoalCategory().equals("Others")){
+                pBarOthers.setProgress(goalData.get("Others")[0]/goalData.get("Others")[1]);
+                othersProgress.setText(moneyFormat.format(goalData.get("Others")[0]) + "/" + moneyFormat.format(goalData.get("Others")[1]));
+                othersTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
+                if(g.getGoalRepeat() == true){
+                    othersRepeat.setText("Repeat: Yes");
+                }else{
+                    othersRepeat.setText("Repeat: No");
+                }
             }
+
         }
     }
 
