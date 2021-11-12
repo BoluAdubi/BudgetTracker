@@ -2,7 +2,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -37,9 +39,11 @@ import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
 
@@ -74,7 +78,7 @@ public class InsightsController{
     @FXML
     private ChoiceBox<String> graphTimePeriod;
     @FXML 
-    private BarChart<LocalDate, Double> barGraph;
+    private BarChart<String, BigDecimal> barGraph;
     @FXML
     private LineChart<String, BigDecimal> lineGraph;
     @FXML
@@ -148,7 +152,7 @@ public class InsightsController{
         generatePriceFilter();
         populateTime();
         updateGoals();
-        initilizeLineGraph();
+        updateGraphs();
     }
 
     /**
@@ -168,7 +172,7 @@ public class InsightsController{
     @FXML
     private void updateGraphs(){
         initilizeLineGraph();
-        //initilizeBarGraph();
+        initilizeBarGraph();
     }
 
     private void initilizeLineGraph(){
@@ -210,6 +214,131 @@ public class InsightsController{
         lineGraph.getData().add(series);
         lineGraph.setAnimated(false);
 
+    }
+
+    private void initilizeBarGraph(){
+        LocalDateTime today = LocalDateTime.now();
+        String timePeriod = graphTimePeriod.getValue();
+        LocalDateTime start = LocalDateTime.now();
+        ObservableList<Transaction> transactions = account.getTransactions();
+
+        if(timePeriod.equals("All")){
+            for(Transaction t : transactions){
+                if(t.getDate().isBefore(start)){
+                    start = t.getDate();
+                }
+            }
+        }else{
+            start = today.minusDays(Integer.parseInt(timePeriod));
+        }
+        
+        Duration diff = Duration.between(start, today);
+        Duration step = Duration.ofSeconds(0);
+
+        if(timePeriod.equals("All") || Integer.parseInt(timePeriod) == 365){
+            step = diff.dividedBy(5);
+        }else if(Integer.parseInt(timePeriod) == 30){
+            step = diff.dividedBy(5);
+        }else if(Integer.parseInt(timePeriod) == 14){
+            step = diff.dividedBy(7);
+        }else if(Integer.parseInt(timePeriod) == 90){
+            step = diff.dividedBy(5);
+        }else if(Integer.parseInt(timePeriod) == 180){
+            step = diff.dividedBy(5);
+        }else if(Integer.parseInt(timePeriod) == 7){
+            step = diff.dividedBy(7);
+        }
+
+
+
+
+        ObservableList<Transaction> filteredTransactions = getTransactionsAfter(start.toLocalDate());
+        XYChart.Series<String,BigDecimal> foodSeries = new XYChart.Series<String,BigDecimal>();
+        foodSeries.setName("Food");
+        XYChart.Series<String,BigDecimal> entertainmentSeries = new XYChart.Series<String,BigDecimal>();
+        entertainmentSeries.setName("Entertainment");
+        XYChart.Series<String,BigDecimal> personalSeries = new XYChart.Series<String,BigDecimal>();
+        personalSeries.setName("Personal & Family Care");
+        XYChart.Series<String,BigDecimal> homeSeries = new XYChart.Series<String,BigDecimal>();
+        homeSeries.setName("Home & Utilities");
+        XYChart.Series<String,BigDecimal> transportationSeries = new XYChart.Series<String,BigDecimal>();
+        transportationSeries.setName("Transportation");
+        XYChart.Series<String,BigDecimal> othersSeries = new XYChart.Series<String,BigDecimal>();
+        othersSeries.setName("Others");
+
+        LocalDateTime currentEnd = start.plus(step);
+
+        BigDecimal fSum = new BigDecimal(0);
+        BigDecimal eSum = new BigDecimal(0);
+        BigDecimal pSum = new BigDecimal(0);
+        BigDecimal hSum = new BigDecimal(0);
+        BigDecimal tSum = new BigDecimal(0);
+        BigDecimal oSum = new BigDecimal(0);
+
+
+        Iterator<Transaction> iterator = filteredTransactions.iterator();
+
+        while(iterator.hasNext()){
+            Transaction t = iterator.next();
+
+            if(t.getDate().isAfter(currentEnd)){
+                System.out.println(fSum+" "+eSum+" "+pSum+" "+hSum+" "+tSum+" "+oSum);
+                foodSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), fSum));
+                entertainmentSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), eSum));
+                personalSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), pSum));
+                homeSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), hSum));
+                transportationSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), tSum));
+                othersSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), oSum));
+
+                start = currentEnd;
+                currentEnd = currentEnd.plus(step); 
+                fSum = new BigDecimal(0);
+                eSum = new BigDecimal(0);
+                pSum = new BigDecimal(0);
+                hSum = new BigDecimal(0);
+                tSum = new BigDecimal(0);
+                oSum = new BigDecimal(0);
+            }
+            if(t.getSign() == '-'){                
+                switch(t.getCategory()){
+                    case "Food":
+                        fSum = fSum.add(BigDecimal.valueOf(t.getPrice()));
+                        break;
+                    case "Entertainment":
+                        eSum = eSum.add(BigDecimal.valueOf(t.getPrice()));
+                        break;
+                    case "Personal & Family Care":
+                        pSum = pSum.add(BigDecimal.valueOf(t.getPrice()));
+                        break;
+                    case "Home & Utilities":
+                        hSum = hSum.add(BigDecimal.valueOf(t.getPrice()));
+                        break;
+                    case "Transportation":
+                        tSum = tSum.add(BigDecimal.valueOf(t.getPrice()));
+                        break;
+                    case "Others":
+                        oSum = oSum.add(BigDecimal.valueOf(t.getPrice()));
+                        break;
+                    default:
+                        System.out.println("Data had bad category");
+                        break;
+                }
+            }
+            if(!iterator.hasNext()){
+                foodSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), fSum));
+                entertainmentSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), eSum));
+                personalSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), pSum));
+                homeSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), hSum));
+                transportationSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), tSum));
+                othersSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), oSum)); 
+            }
+        }
+
+        barGraph.getData().clear();
+        barGraph.layout();
+        barGraph.setAnimated(true);
+        barGraph.getData().addAll(Arrays.asList(foodSeries, entertainmentSeries, personalSeries, homeSeries, transportationSeries, othersSeries));
+        barGraph.setAnimated(false);
     }
 
     private ObservableList<Transaction> getTransactionsAfter(LocalDate start){
