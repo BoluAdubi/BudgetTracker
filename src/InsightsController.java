@@ -383,8 +383,8 @@ public class InsightsController{
                 }
             }
             else if(g.getGoalCategory().equals("Transportation")){
-                pBarTransportation.setProgress(goalData.get("Food")[0]/goalData.get("Food")[1]);
-                transportationProgress.setText(moneyFormat.format(goalData.get("Food")[0]) + "/" + moneyFormat.format(goalData.get("Food")[1]));
+                pBarTransportation.setProgress(goalData.get("Transportation")[0]/goalData.get("Transportation")[1]);
+                transportationProgress.setText(moneyFormat.format(goalData.get("Transportation")[0]) + "/" + moneyFormat.format(goalData.get("Transportation")[1]));
                 transportationTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
                 if(g.getGoalRepeat() == true){
                     transportationRepeat.setText("Repeat: Yes");
