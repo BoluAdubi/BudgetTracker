@@ -12,8 +12,8 @@ others_items = ["elephant","space ship","a crane","bulldozer","flying monkey","n
 
 transactions = ["date,item,price,category,sign"]
 
-numTransactions = 15
-numPosCharges = 5
+numTransactions = 100
+numPosCharges = 20
 timeFrame = 365
 
 start_date = datetime.date.today() - datetime.timedelta(days=timeFrame)
