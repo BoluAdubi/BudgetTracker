@@ -17,6 +17,8 @@ public class UserAccount{
     
     private ObservableList<Double> categoryExpenseValues = FXCollections.observableArrayList();
 
+    private ObservableList<Double> pieValues = FXCollections.observableArrayList();
+
     private ObservableList<Goal> goals = FXCollections.observableArrayList();
 
     private static UserAccount INSTANCE = new UserAccount();
@@ -31,9 +33,12 @@ public class UserAccount{
         for(int i=0;i<categories.size();i++){
             categoryExpenseValues.add(0.00);
         }
+        for(int i=0;i<categories.size();i++){
+            pieValues.add(0.00);
+        }
         FileOperations f = new FileOperations();
-        f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), this); 
         f.addGoalCSV(new File("src/data/saves/goalHistory.csv"), this); 
+        f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), this); 
     }
 
     public static UserAccount getInstance(){
@@ -54,14 +59,27 @@ public class UserAccount{
     public void newTransaction(LocalDateTime dateR, char signR, String itemR, double priceR, String categoryR){
         Transaction t = new Transaction(dateR, signR, itemR, priceR, categoryR);
         transactions.add(t);
-        if(t.getSign() == '-')
-            updateCategoryValues(t);
+        if(t.getSign() == '-'){
+            updatePieValues(t);
+            for(Goal g : goals){
+                if(g.getGoalCategory().equals(categoryR) && ((dateR.toLocalDate().isAfter(g.getGoalStartDate()) && dateR.toLocalDate().isBefore(g.getGoalEndDate())
+                                                         || dateR.toLocalDate().equals(g.getGoalStartDate()) || dateR.toLocalDate().equals(g.getGoalEndDate())))){
+                    updateCategoryValues(t);
+                }
+            }
+        }
     }
 
     public void addTransaction(Transaction newTransaction){
         transactions.add(newTransaction);
         if(newTransaction.getSign() == '-'){
-            updateCategoryValues(newTransaction);
+            updatePieValues(newTransaction);
+            for(Goal g : goals){
+                if(g.getGoalCategory().equals(newTransaction.getCategory()) && ((newTransaction.getDate().toLocalDate().isAfter(g.getGoalStartDate()) && newTransaction.getDate().toLocalDate().isBefore(g.getGoalEndDate())) 
+                                                                            || newTransaction.getDate().toLocalDate().equals(g.getGoalStartDate()) || newTransaction.getDate().toLocalDate().equals(g.getGoalEndDate()))){
+                    updateCategoryValues(newTransaction);
+                }
+            }
         }
     }
 
@@ -72,6 +90,10 @@ public class UserAccount{
      */
     public ObservableList<Double> getCategoryExpenseValues(){
         return categoryExpenseValues;
+    }
+
+    public ObservableList<Double> getPieValues(){
+        return pieValues;
     }
 
     /**
@@ -110,6 +132,10 @@ public class UserAccount{
         return goals.toArray(new Goal[goals.size()]);
     }
 
+    public void emptyExpenseValue(String category){
+        categoryExpenseValues.set(getCategoryExpenseIndex(category), 0.0);
+    }
+
     /**
      * This function uses a loop to go through all the goals that have been created and reset them if said category 
      * already has a set goal. If a category does not have a goal, this function creates a goal and goalPrice for it.
@@ -125,10 +151,13 @@ public class UserAccount{
                 g.setGoalRepeat(repeatGoal);
                 g.setGoalStartDate(LocalDate.now());
                 g.setGoalEndDate(LocalDate.now().plusDays(goalTime));
+                emptyExpenseValue(g.getGoalCategory());
+
                 return;
             }
         }
         goals.add(new Goal(goalCategory, goalPrice, goalTime, repeatGoal));
+        emptyExpenseValue(goalCategory);
     }
 
     public void addGoals(Goal[] goalArr){
@@ -186,6 +215,14 @@ public class UserAccount{
         for(int i = 0; i < categories.size(); i++){
             if(categories.get(i).equals(t.getCategory())){
                 categoryExpenseValues.set(i, categoryExpenseValues.get(i) + t.getPrice());
+            }
+        }
+    }
+
+    private void updatePieValues(Transaction t){
+        for(int i = 0; i < categories.size(); i++){
+            if(categories.get(i).equals(t.getCategory())){
+                pieValues.set(i, pieValues.get(i) + t.getPrice());
             }
         }
     }

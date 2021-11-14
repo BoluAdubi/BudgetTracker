@@ -117,7 +117,18 @@ public class InsightsController{
     private Label personalRepeat;
     @FXML
     private Label othersRepeat;
-    
+    @FXML
+    private Label foodGoalLabel;
+    @FXML
+    private Label entertainmentGoalLabel;   
+    @FXML
+    private Label transportationGoalLabel;    
+    @FXML
+    private Label homeGoalLabel;    
+    @FXML
+    private Label personalGoalLabel;
+    @FXML
+    private Label othersGoalLabel;
 
     //Format for prices
     private DecimalFormat moneyFormat;
@@ -249,9 +260,6 @@ public class InsightsController{
             step = diff.dividedBy(7);
         }
 
-
-
-
         ObservableList<Transaction> filteredTransactions = getTransactionsAfter(start.toLocalDate());
         XYChart.Series<String,BigDecimal> foodSeries = new XYChart.Series<String,BigDecimal>();
         foodSeries.setName("Food");
@@ -275,14 +283,12 @@ public class InsightsController{
         BigDecimal tSum = new BigDecimal(0);
         BigDecimal oSum = new BigDecimal(0);
 
-
         Iterator<Transaction> iterator = filteredTransactions.iterator();
 
         while(iterator.hasNext()){
             Transaction t = iterator.next();
 
             if(t.getDate().isAfter(currentEnd)){
-                System.out.println(fSum+" "+eSum+" "+pSum+" "+hSum+" "+tSum+" "+oSum);
                 foodSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), fSum));
                 entertainmentSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), eSum));
                 personalSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), pSum));
@@ -363,6 +369,7 @@ public class InsightsController{
         Goal[] goals = account.getGoals();
         for(Goal g : goals){
             if(g.getGoalCategory().equals("Entertainment")){
+                entertainmentGoalLabel.setText("Entertainment");
                 pBarEntertainment.setProgress(goalData.get("Entertainment")[0]/goalData.get("Entertainment")[1]);
                 entertainmentProgress.setText(moneyFormat.format(goalData.get("Entertainment")[0]) + "/" + moneyFormat.format(goalData.get("Entertainment")[1]));
                 entertainmentTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
@@ -371,8 +378,10 @@ public class InsightsController{
                 }else{
                     entertainmentRepeat.setText("Repeat: No");
                 }
+                checkGoalExpiration(g);
             }
             else if(g.getGoalCategory().equals("Food")){
+                foodGoalLabel.setText("Food");
                 pBarFood.setProgress(goalData.get("Food")[0]/goalData.get("Food")[1]);
                 foodProgress.setText(moneyFormat.format(goalData.get("Food")[0]) + "/" + moneyFormat.format(goalData.get("Food")[1]));
                 foodTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
@@ -381,8 +390,10 @@ public class InsightsController{
                 }else{
                     foodRepeat.setText("Repeat: No");
                 }
+                checkGoalExpiration(g);
             }
             else if(g.getGoalCategory().equals("Transportation")){
+                transportationGoalLabel.setText("Transportation");
                 pBarTransportation.setProgress(goalData.get("Transportation")[0]/goalData.get("Transportation")[1]);
                 transportationProgress.setText(moneyFormat.format(goalData.get("Transportation")[0]) + "/" + moneyFormat.format(goalData.get("Transportation")[1]));
                 transportationTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
@@ -391,8 +402,10 @@ public class InsightsController{
                 }else{
                     transportationRepeat.setText("Repeat: No");
                 }
+                checkGoalExpiration(g);
             }
             else if(g.getGoalCategory().equals("Home & Utilities")){
+                homeGoalLabel.setText("Home & Utilities");
                 pBarHome.setProgress(goalData.get("Home & Utilities")[0]/goalData.get("Home & Utilities")[1]);
                 homeProgress.setText(moneyFormat.format(goalData.get("Home & Utilities")[0]) + "/" + moneyFormat.format(goalData.get("Home & Utilities")[1]));
                 homeTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
@@ -401,8 +414,10 @@ public class InsightsController{
                 }else{
                     homeRepeat.setText("Repeat: No");
                 }
+                checkGoalExpiration(g);
             }
             else if(g.getGoalCategory().equals("Personal & Family Care")){
+                personalGoalLabel.setText("Personal & Family Care");
                 pBarPersonal.setProgress(goalData.get("Personal & Family Care")[0]/goalData.get("Personal & Family Care")[1]);
                 personalProgress.setText(moneyFormat.format(goalData.get("Personal & Family Care")[0]) + "/" + moneyFormat.format(goalData.get("Personal & Family Care")[1]));
                 personalTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
@@ -411,8 +426,10 @@ public class InsightsController{
                 }else{
                     personalRepeat.setText("Repeat: No");
                 }
+                checkGoalExpiration(g);
             }
             else if(g.getGoalCategory().equals("Others")){
+                othersGoalLabel.setText("Others");
                 pBarOthers.setProgress(goalData.get("Others")[0]/goalData.get("Others")[1]);
                 othersProgress.setText(moneyFormat.format(goalData.get("Others")[0]) + "/" + moneyFormat.format(goalData.get("Others")[1]));
                 othersTimeframe.setText("Timeframe: " + g.getGoalTime() + " days");
@@ -421,8 +438,145 @@ public class InsightsController{
                 }else{
                     othersRepeat.setText("Repeat: No");
                 }
+                checkGoalExpiration(g);
             }
+        }
+    }
 
+    private void checkGoalExpiration(Goal g){
+        if(g.isExpired() && g.getGoalEndDate().plusDays(1).isBefore(LocalDate.now())){
+            System.out.println("running switch");
+            switch(g.getGoalCategory()){
+                case "Food":
+                    if(g.isBroken(account) && !g.getGoalRepeat()){
+                        foodGoalLabel.setText(foodGoalLabel.getText() + " - Expired - You did not stay under you goal >:(");
+                        pBarFood.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(!g.isBroken(account) && !g.getGoalRepeat()){
+                        foodGoalLabel.setText(foodGoalLabel.getText() + " - Expired - You stayed under your goal!");
+                        pBarFood.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(g.isBroken(account) && g.getGoalRepeat()){
+                        foodGoalLabel.setText(foodGoalLabel.getText() + " - You did not stay under your goal >:(");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarFood.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }else if(!g.isBroken(account) && g.getGoalRepeat()){
+                        foodGoalLabel.setText(foodGoalLabel.getText() + " - You stayed under your goal!");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarFood.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }
+                    break;
+                case "Entertainment":
+                    if(g.isBroken(account) && !g.getGoalRepeat()){
+                        entertainmentGoalLabel.setText(entertainmentGoalLabel.getText() + " - Expired - You did not stay under you goal >:(");
+                        pBarEntertainment.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(!g.isBroken(account) && !g.getGoalRepeat()){
+                        entertainmentGoalLabel.setText(entertainmentGoalLabel.getText() + " - Expired - You stayed under your goal!");
+                        pBarEntertainment.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(g.isBroken(account) && g.getGoalRepeat()){
+                        entertainmentGoalLabel.setText(entertainmentGoalLabel.getText() + " - You did not stay under your goal >:(");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarEntertainment.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }else if(!g.isBroken(account) && g.getGoalRepeat()){
+                        entertainmentGoalLabel.setText(entertainmentGoalLabel.getText() + " - You stayed under your goal!");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarEntertainment.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }
+                    break;
+                case "Personal & Family Care":
+                    if(g.isBroken(account) && !g.getGoalRepeat()){
+                        personalGoalLabel.setText(personalGoalLabel.getText() + " - Expired - You did not stay under you goal >:(");
+                        pBarPersonal.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(!g.isBroken(account) && !g.getGoalRepeat()){
+                        personalGoalLabel.setText(personalGoalLabel.getText() + " - Expired - You stayed under your goal!");
+                        pBarPersonal.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(g.isBroken(account) && g.getGoalRepeat()){
+                        personalGoalLabel.setText(personalGoalLabel.getText() + " - You did not stay under your goal >:(");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarPersonal.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }else if(!g.isBroken(account) && g.getGoalRepeat()){
+                        personalGoalLabel.setText(personalGoalLabel.getText() + " - You stayed under your goal!");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarPersonal.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }
+                    break;
+                case "Home & Utilities":
+                    if(g.isBroken(account) && !g.getGoalRepeat()){
+                        homeGoalLabel.setText(homeGoalLabel.getText() + " - Expired - You did not stay under you goal >:(");
+                        pBarHome.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(!g.isBroken(account) && !g.getGoalRepeat()){
+                        homeGoalLabel.setText(homeGoalLabel.getText() + " - Expired - You stayed under your goal!");
+                        pBarHome.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(g.isBroken(account) && g.getGoalRepeat()){
+                        homeGoalLabel.setText(homeGoalLabel.getText() + " - You did not stay under your goal >:(");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarHome.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }else if(!g.isBroken(account) && g.getGoalRepeat()){
+                        homeGoalLabel.setText(homeGoalLabel.getText() + " - You stayed under your goal!");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarHome.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }
+                    break;
+                case "Transportation":
+                    if(g.isBroken(account) && !g.getGoalRepeat()){
+                        transportationGoalLabel.setText(transportationGoalLabel.getText() + " - Expired - You did not stay under you goal >:(");
+                        pBarTransportation.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(!g.isBroken(account) && !g.getGoalRepeat()){
+                        transportationGoalLabel.setText(transportationGoalLabel.getText() + " - Expired - You stayed under your goal!");
+                        pBarTransportation.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(g.isBroken(account) && g.getGoalRepeat()){
+                        transportationGoalLabel.setText(transportationGoalLabel.getText() + " - You did not stay under your goal >:(");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarTransportation.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }else if(!g.isBroken(account) && g.getGoalRepeat()){
+                        transportationGoalLabel.setText(transportationGoalLabel.getText() + " - You stayed under your goal!");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarTransportation.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }
+                    break;
+                case "Others":
+                    if(g.isBroken(account) && !g.getGoalRepeat()){
+                        othersGoalLabel.setText(othersGoalLabel.getText() + " - Expired - You did not stay under you goal >:(");
+                        pBarOthers.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(!g.isBroken(account) && !g.getGoalRepeat()){
+                        othersGoalLabel.setText(othersGoalLabel.getText() + " - Expired - You stayed under your goal!");
+                        pBarOthers.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+                    }else if(g.isBroken(account) && g.getGoalRepeat()){
+                        othersGoalLabel.setText(othersGoalLabel.getText() + " - You did not stay under your goal >:(");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarOthers.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }else if(!g.isBroken(account) && g.getGoalRepeat()){
+                        othersGoalLabel.setText(othersGoalLabel.getText() + " - You stayed under your goal!");
+                        account.emptyExpenseValue(g.getGoalCategory());
+                        pBarOthers.setProgress(0);
+                        g.setGoalStartDate(g.getGoalEndDate());
+                        g.setGoalEndDate(g.getGoalStartDate().plusDays(g.getGoalTime()));
+                    }
+                    break;
+                default:
+                    System.out.println("Goal had bad category");
+                    break;
+            }
         }
     }
 
