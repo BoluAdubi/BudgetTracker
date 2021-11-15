@@ -162,7 +162,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="foodProgress" layoutX="40.0" layoutY="158.0" prefHeight="34.0" prefWidth="388.0" text="15/200" textAlignment="CENTER">
+            <Label fx:id="foodProgress" layoutX="40.0" layoutY="158.0" prefHeight="34.0" prefWidth="388.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>
@@ -181,7 +181,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="entertainmentProgress" layoutX="579.0" layoutY="161.0" prefHeight="27.0" prefWidth="384.0" text="15/200" textAlignment="CENTER">
+            <Label fx:id="entertainmentProgress" layoutX="579.0" layoutY="161.0" prefHeight="27.0" prefWidth="384.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>
@@ -195,19 +195,19 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="transportationProgress" layoutX="1081.0" layoutY="161.0" prefHeight="27.0" prefWidth="388.0" text="15/200" textAlignment="CENTER">
+            <Label fx:id="transportationProgress" layoutX="1081.0" layoutY="161.0" prefHeight="27.0" prefWidth="388.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="homeProgress" layoutX="41.0" layoutY="348.0" prefHeight="27.0" prefWidth="390.0" text="15/200" textAlignment="CENTER">
+            <Label fx:id="homeProgress" layoutX="41.0" layoutY="348.0" prefHeight="27.0" prefWidth="390.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="personalProgress" layoutX="586.0" layoutY="350.0" prefHeight="17.0" prefWidth="138.0" text="15/200" textAlignment="CENTER">
+            <Label fx:id="personalProgress" layoutX="586.0" layoutY="350.0" prefHeight="17.0" prefWidth="138.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="othersProgress" layoutX="1087.0" layoutY="350.0" prefHeight="27.0" prefWidth="386.0" text="15/200" textAlignment="CENTER">
+            <Label fx:id="othersProgress" layoutX="1087.0" layoutY="350.0" prefHeight="27.0" prefWidth="386.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>
