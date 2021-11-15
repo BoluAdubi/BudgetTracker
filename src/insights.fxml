@@ -19,7 +19,7 @@
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1180.0" prefWidth="1540.0" style="-fx-background-color: #BCC5B4;">
          <children>
-            <Pane layoutX="11.0" layoutY="602.0" prefHeight="507.0" prefWidth="1504.0" style="-fx-background-color: #81A19A;">
+            <Pane layoutX="11.0" layoutY="602.0" prefHeight="507.0" prefWidth="1504.0" style="-fx-background-color: #81A19A; -fx-background-radius: 0 0 20 20;">
                <children>
                   <BarChart fx:id="barGraph" layoutX="35.0" layoutY="20.0" prefHeight="450.0" prefWidth="700.0" style="-fx-background-radius: 20;">
                     <xAxis>
@@ -47,7 +47,7 @@
                         <Font name="Candara" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="-26.0" layoutY="213.0" rotate="270.0" text="Ammount ($)">
+                  <Label layoutX="-26.0" layoutY="213.0" rotate="270.0" text="Amount ($)">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -212,7 +212,7 @@
                   <Font size="18.0" />
                </font></Label>
             <ChoiceBox fx:id="graphTimePeriod" layoutX="866.0" layoutY="556.0" minHeight="20.0" onAction="#updateGraphs" prefHeight="35.0" prefWidth="200.0" style="-fx-background-radius: 20;" value="All" />
-            <Button fx:id="testsBtn" layoutX="707.0" layoutY="1124.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Run Tests">
+            <Button fx:id="testsBtn" layoutX="707.0" layoutY="1124.0" mnemonicParsing="false" onAction="#runTests" prefHeight="35.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Run Tests">
                <font>
                   <Font size="18.0" />
                </font>
