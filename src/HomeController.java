@@ -234,7 +234,7 @@ public class HomeController{
                 if (empty || item == null)
                     setStyle("");
                 else if (item.getSign() == '+')
-                    setStyle("-fx-background-color: #D9FFF5;");
+                    setStyle("-fx-background-color: #81A19A;");
                 else if (item.getSign() == '-')
                     setStyle("-fx-background-color: #FFAD98;");
                 else

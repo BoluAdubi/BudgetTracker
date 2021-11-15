@@ -15,164 +15,209 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="990.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsightsController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1540.0" stylesheets="@design.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsightsController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1600.0" prefWidth="990.0" style="-fx-background-color: #BCC5B4;">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1180.0" prefWidth="1540.0" style="-fx-background-color: #BCC5B4;">
          <children>
-            <Pane layoutX="12.0" layoutY="1034.0" prefHeight="535.0" prefWidth="960.0" style="-fx-background-color: #356052; -fx-background-radius: 0 0 20 20;" />
-            <Pane layoutX="12.0" layoutY="500.0" prefHeight="535.0" prefWidth="960.0" style="-fx-background-color: #81A19A;" />
-            <Pane layoutX="12.0" layoutY="444.0" prefHeight="56.0" prefWidth="960.0" style="-fx-background-color: #0F434E; -fx-background-radius: 20 20 0 0;">
+            <Pane layoutX="11.0" layoutY="602.0" prefHeight="507.0" prefWidth="1504.0" style="-fx-background-color: #81A19A;">
                <children>
-                  <ChoiceBox fx:id="graphTimePeriod" layoutX="540.0" layoutY="15.0" minHeight="20.0" onAction="#updateGraphs" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 20;" value="All" />
+                  <BarChart fx:id="barGraph" layoutX="35.0" layoutY="20.0" prefHeight="450.0" prefWidth="700.0" style="-fx-background-radius: 20;">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+                  <LineChart fx:id="lineGraph" layoutX="742.0" layoutY="20.0" prefHeight="450.0" prefWidth="700.0" style="-fx-background-radius: 20;">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+                  <Label layoutX="359.0" layoutY="470.0" text="Category">
+                     <font>
+                        <Font name="Candara" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="1059.0" layoutY="470.0" text="Category">
+                     <font>
+                        <Font name="Candara" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="-26.0" layoutY="213.0" rotate="270.0" text="Ammount ($)">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children></Pane>
-            <Pane layoutX="11.0" layoutY="8.0" prefHeight="56.0" prefWidth="960.0" style="-fx-background-color: #0F434E; -fx-background-radius: 20 20 0 0;" />
-            <Pane layoutX="11.0" layoutY="62.0" prefHeight="365.0" prefWidth="960.0" style="-fx-background-color: #81A19A; -fx-background-radius: 0 0 20 20;" />
-            <Label layoutX="462.0" layoutY="18.0" style="-fx-font-weight: bold;" text="Goals" textFill="WHITE">
+            <Pane layoutX="11.0" layoutY="546.0" prefHeight="56.0" prefWidth="1504.0" style="-fx-background-color: #0F434E; -fx-background-radius: 20 20 0 0;" />
+            <Pane layoutX="17.0" layoutY="8.0" prefHeight="77.0" prefWidth="1504.0" style="-fx-background-color: #0F434E; -fx-background-radius: 20 20 0 0;">
+               <children>
+                  <Label layoutX="713.0" layoutY="2.0" style="-fx-font-weight: bold;" text="Goals" textFill="WHITE">
+                     <font>
+                        <Font name="Candara" size="36.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <Pane layoutX="17.0" layoutY="70.0" prefHeight="461.0" prefWidth="1504.0" style="-fx-background-color: #81A19A; -fx-background-radius: 0 0 20 20;">
+               <children>
+                  <ProgressBar fx:id="pBarEntertainment" layoutX="553.0" layoutY="87.0" prefHeight="35.0" prefWidth="400.0" />
+                  <Button fx:id="createGoal" layoutX="1054.0" layoutY="9.0" mnemonicParsing="false" onAction="#addGoal" prefHeight="35.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Add Goal">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="1068.0" layoutY="332.0" prefWidth="150.0" text="Others" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="othersTimeframe" layoutX="1068.0" layoutY="372.0" prefHeight="20.0" prefWidth="250.0" text="Timeframe: " textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="othersRepeat" layoutX="1068.0" layoutY="412.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <Button fx:id="returnHome" layoutX="37.0" layoutY="15.0" mnemonicParsing="false" onAction="#toHome" prefHeight="35.0" prefWidth="100.0" style="-fx-background-radius: 20;" text="Back">
                <font>
-                  <Font name="Candara" size="24.0" />
-               </font>
-            </Label>
-            <Button fx:id="returnHome" layoutX="33.0" layoutY="20.0" mnemonicParsing="false" onAction="#toHome" style="-fx-background-radius: 20;" text="Back">
-               <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
             </Button>
-            <ProgressBar fx:id="pBarFood" layoutX="34.0" layoutY="136.0" prefHeight="20.0" prefWidth="250.0" />
-            <ProgressBar fx:id="pBarEntertainment" layoutX="360.0" layoutY="136.0" prefHeight="20.0" prefWidth="250.0" />
-            <ProgressBar fx:id="pBarTransportation" layoutX="690.0" layoutY="136.0" prefHeight="20.0" prefWidth="250.0" />
-            <ProgressBar fx:id="pBarHome" layoutX="35.0" layoutY="252.0" prefHeight="20.0" prefWidth="250.0" />
-            <ProgressBar fx:id="pBarPersonal" layoutX="360.0" layoutY="254.0" prefHeight="20.0" prefWidth="250.0" />
-            <ProgressBar fx:id="pBarOthers" layoutX="690.0" layoutY="254.0" prefHeight="20.0" prefWidth="250.0" />
-            <ChoiceBox fx:id="goalCategory" layoutX="34.0" layoutY="80.0" minHeight="20.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
-            <TextField fx:id="goalPrice" layoutX="254.0" layoutY="80.0" minHeight="20.0" prefHeight="25.0" prefWidth="200.0" promptText="Price" style="-fx-background-radius: 20;" />
-            <ChoiceBox fx:id="goalTime" layoutX="493.0" layoutY="80.0" minHeight="20.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
-            <CheckBox fx:id="repeatGoal" layoutX="717.0" layoutY="83.0" mnemonicParsing="false" prefHeight="20.0" style="-fx-background-radius: 20;" text="Repeat">
+            <ProgressBar fx:id="pBarFood" layoutX="34.0" layoutY="158.0" prefHeight="35.0" prefWidth="400.0" />
+            <ProgressBar fx:id="pBarTransportation" layoutX="1074.0" layoutY="156.0" prefHeight="35.0" prefWidth="400.0" />
+            <ProgressBar fx:id="pBarHome" layoutX="40.0" layoutY="344.0" prefHeight="35.0" prefWidth="400.0" />
+            <ProgressBar fx:id="pBarPersonal" layoutX="579.0" layoutY="346.0" prefHeight="35.0" prefWidth="400.0" />
+            <ProgressBar fx:id="pBarOthers" layoutX="1081.0" layoutY="346.0" prefHeight="35.0" prefWidth="400.0" />
+            <ChoiceBox fx:id="goalCategory" layoutX="208.0" layoutY="82.0" prefHeight="35.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
+            <TextField fx:id="goalPrice" layoutX="434.0" layoutY="79.0" prefHeight="35.0" prefWidth="200.0" promptText="Price" style="-fx-background-radius: 20;">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
+               </font></TextField>
+            <ChoiceBox fx:id="goalTime" layoutX="672.0" layoutY="80.0" prefHeight="35.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
+            <CheckBox fx:id="repeatGoal" layoutX="903.0" layoutY="82.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Repeat">
+               <font>
+                  <Font size="18.0" />
                </font>
             </CheckBox>
-            <Button fx:id="createGoal" layoutX="833.0" layoutY="74.0" mnemonicParsing="false" onAction="#addGoal" prefHeight="20.0" style="-fx-background-radius: 20;" text="Add Goal">
+            <Label layoutX="34.0" layoutY="208.0" prefWidth="150.0" text="Food" textAlignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="723.0" layoutY="550.0" style="-fx-font-weight: bold;" text="Graphs" textFill="WHITE">
+               <font>
+                  <Font name="Candara" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="foodTimeframe" layoutX="34.0" layoutY="248.0" prefHeight="27.0" prefWidth="250.0" text="Timeframe: " textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="foodRepeat" layoutX="34.0" layoutY="288.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="575.0" layoutY="208.0" prefWidth="150.0" text="Entertainment" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="entertainmentTimeframe" layoutX="576.0" layoutY="248.0" prefHeight="20.0" prefWidth="250.0" text="Timeframe: " textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="entertainmentRepeat" layoutX="576.0" layoutY="288.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="1077.0" layoutY="208.0" prefWidth="150.0" text="Transportation" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="transportationTimeframe" layoutX="1078.0" layoutY="248.0" prefHeight="20.0" prefWidth="250.0" text="Timeframe: " textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="transportationRepeat" layoutX="1078.0" layoutY="288.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="40.0" layoutY="400.0" prefWidth="150.0" text="Home &amp; Utilities" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="foodProgress" layoutX="40.0" layoutY="158.0" prefHeight="34.0" prefWidth="388.0" text="15/200" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label fx:id="homeTimeframe" layoutX="40.0" layoutY="440.0" prefHeight="20.0" prefWidth="250.0" text="Timeframe: " textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="homeRepeat" layoutX="40.0" layoutY="480.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="580.0" layoutY="400.0" prefHeight="27.0" prefWidth="209.0" text="Personal &amp; Family Care" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="entertainmentProgress" layoutX="579.0" layoutY="161.0" prefHeight="27.0" prefWidth="384.0" text="15/200" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label fx:id="personalTimeframe" layoutX="580.0" layoutY="440.0" prefHeight="20.0" prefWidth="250.0" text="Timeframe: " textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="personalRepeat" layoutX="580.0" layoutY="480.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="transportationProgress" layoutX="1081.0" layoutY="161.0" prefHeight="27.0" prefWidth="388.0" text="15/200" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label fx:id="homeProgress" layoutX="41.0" layoutY="348.0" prefHeight="27.0" prefWidth="390.0" text="15/200" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label fx:id="personalProgress" layoutX="586.0" layoutY="350.0" prefHeight="17.0" prefWidth="138.0" text="15/200" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label fx:id="othersProgress" layoutX="1087.0" layoutY="350.0" prefHeight="27.0" prefWidth="386.0" text="15/200" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <ChoiceBox fx:id="graphTimePeriod" layoutX="866.0" layoutY="556.0" minHeight="20.0" onAction="#updateGraphs" prefHeight="35.0" prefWidth="200.0" style="-fx-background-radius: 20;" value="All" />
+            <Button fx:id="testsBtn" layoutX="707.0" layoutY="1124.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Run Tests">
+               <font>
+                  <Font size="18.0" />
                </font>
             </Button>
-            <Label layoutX="34.0" layoutY="167.0" prefWidth="150.0" text="Food" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="462.0" layoutY="456.0" style="-fx-font-weight: bold;" text="Graphs" textFill="WHITE">
-               <font>
-                  <Font name="Candara" size="24.0" />
-               </font>
-            </Label>
-            <Label fx:id="foodTimeframe" layoutX="35.0" layoutY="195.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="foodRepeat" layoutX="35.0" layoutY="221.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="364.0" layoutY="168.0" prefWidth="150.0" text="Entertainment" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="entertainmentTimeframe" layoutX="365.0" layoutY="196.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="entertainmentRepeat" layoutX="365.0" layoutY="222.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="693.0" layoutY="168.0" prefWidth="150.0" text="Transportation" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="transportationTimeframe" layoutX="694.0" layoutY="196.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="transportationRepeat" layoutX="694.0" layoutY="222.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="35.0" layoutY="283.0" prefWidth="150.0" text="Home &amp; Utilities" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="foodProgress" layoutX="40.0" layoutY="136.0" prefHeight="18.0" prefWidth="140.0" textAlignment="CENTER" />
-            <Label fx:id="homeTimeframe" layoutX="34.0" layoutY="309.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="homeRepeat" layoutX="34.0" layoutY="335.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="364.0" layoutY="283.0" prefWidth="150.0" text="Personal &amp; Family Care" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="entertainmentProgress" layoutX="369.0" layoutY="136.0" prefHeight="18.0" prefWidth="142.0" textAlignment="CENTER" />
-            <Label fx:id="personalTimeframe" layoutX="363.0" layoutY="309.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="personalRepeat" layoutX="363.0" layoutY="335.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="696.0" layoutY="286.0" prefWidth="150.0" text="Others" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="transportationProgress" layoutX="696.0" layoutY="137.0" prefHeight="18.0" prefWidth="141.0" textAlignment="CENTER" />
-            <Label fx:id="othersTimeframe" layoutX="695.0" layoutY="312.0" prefHeight="20.0" prefWidth="150.0" text="Timeframe: " textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="othersRepeat" layoutX="695.0" layoutY="338.0" prefHeight="20.0" prefWidth="150.0" text="Repeat:" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <BarChart fx:id="barGraph" layoutX="150.0" layoutY="500.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-radius: 20;">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </BarChart>
-            <LineChart fx:id="lineGraph" layoutX="150.0" layoutY="1056.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-radius: 20;">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </LineChart>
-            <Label fx:id="homeProgress" layoutX="40.0" layoutY="253.0" prefHeight="18.0" prefWidth="147.0" textAlignment="CENTER" />
-            <Label fx:id="personalProgress" layoutX="369.0" layoutY="255.0" prefHeight="17.0" prefWidth="138.0" textAlignment="CENTER" />
-            <Label fx:id="othersProgress" layoutX="696.0" layoutY="255.0" prefHeight="18.0" prefWidth="139.0" textAlignment="CENTER" />
+            <Pane layoutX="1021.0" layoutY="1035.0" prefHeight="37.0" prefWidth="175.0" style="-fx-background-color: #81A19A;" />
          </children></AnchorPane>
   </content>
 </ScrollPane>
