@@ -212,7 +212,7 @@
                   <Font size="18.0" />
                </font></Label>
             <ChoiceBox fx:id="graphTimePeriod" layoutX="866.0" layoutY="556.0" minHeight="20.0" onAction="#updateGraphs" prefHeight="35.0" prefWidth="200.0" style="-fx-background-radius: 20;" value="All" />
-            <Button fx:id="testsBtn" layoutX="707.0" layoutY="1124.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Run Tests">
+            <Button fx:id="testsBtn" onAction="#runTests" layoutX="707.0" layoutY="1124.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-radius: 20;" text="Run Tests">
                <font>
                   <Font size="18.0" />
                </font>
