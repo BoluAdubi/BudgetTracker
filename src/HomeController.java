@@ -92,12 +92,12 @@ public class HomeController{
     */
     private ObservableList<PieChart.Data> pieGraphData =
         FXCollections.observableArrayList(
-            new PieChart.Data("Entertainment", account.getCategoryExpenseValues().get(0)),
-            new PieChart.Data("Food", account.getCategoryExpenseValues().get(1)),
-            new PieChart.Data("Transportation", account.getCategoryExpenseValues().get(2)),
-            new PieChart.Data("Home & Utilities", account.getCategoryExpenseValues().get(3)),
-            new PieChart.Data("Personal & Family Care", account.getCategoryExpenseValues().get(4)),
-            new PieChart.Data("Others", account.getCategoryExpenseValues().get(5)));
+            new PieChart.Data("Entertainment", account.getPieValues().get(0)),
+            new PieChart.Data("Food", account.getPieValues().get(1)),
+            new PieChart.Data("Transportation", account.getPieValues().get(2)),
+            new PieChart.Data("Home & Utilities", account.getPieValues().get(3)),
+            new PieChart.Data("Personal & Family Care", account.getPieValues().get(4)),
+            new PieChart.Data("Others", account.getPieValues().get(5)));
 
     
     /**
@@ -306,7 +306,7 @@ public class HomeController{
     private void updateDataPieGraph(){
         for(Data d : pieGraphData)
         {
-            Double currentVal = account.getCategoryExpenseValues().get(account.getCategoryExpenseIndex(d.getName()));
+            Double currentVal = account.getPieValues().get(account.getCategoryExpenseIndex(d.getName()));
             if(d.getPieValue() != currentVal);
             {
                 d.setPieValue(currentVal);

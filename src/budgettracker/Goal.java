@@ -1,6 +1,7 @@
 package budgettracker;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
 public class Goal {
 
@@ -47,6 +48,23 @@ public class Goal {
         goalEndDate = endDate;
     }
 
+    public boolean isBroken(UserAccount account){
+        HashMap<String, Double[]> goalData = account.getGoalData();
+        if(goalData.get(goalCategory)[0] > goalData.get(goalCategory)[1]){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isExpired(){
+        if(LocalDate.now().isAfter(this.goalEndDate)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /** 
      * Returns the category of this goal
      * @return String
@@ -54,8 +72,7 @@ public class Goal {
     public String getGoalCategory() {
         return goalCategory;
     }
-
-    
+ 
     /** 
      * Returns the price of the goal
      * @return double
@@ -135,8 +152,4 @@ public class Goal {
     public void setGoalEndDate(LocalDate goalEndDate) {
         this.goalEndDate = goalEndDate;
     }
-
-    
-
-    
 }

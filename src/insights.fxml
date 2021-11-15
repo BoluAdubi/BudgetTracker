@@ -70,7 +70,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Label layoutX="1068.0" layoutY="332.0" prefWidth="150.0" text="Others" textAlignment="CENTER">
+                  <Label fx:id="othersGoalLabel" layoutX="1068.0" layoutY="332.0" prefWidth="150.0" text="Others" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -107,7 +107,7 @@
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <Label layoutX="34.0" layoutY="208.0" prefWidth="150.0" text="Food" textAlignment="CENTER">
+            <Label fx:id="foodGoalLabel" layoutX="34.0" layoutY="208.0" prefWidth="150.0" text="Food" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -127,7 +127,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="575.0" layoutY="208.0" prefWidth="150.0" text="Entertainment" textAlignment="CENTER">
+            <Label fx:id="entertainmentGoalLabel" layoutX="575.0" layoutY="208.0" prefWidth="150.0" text="Entertainment" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -142,7 +142,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="1077.0" layoutY="208.0" prefWidth="150.0" text="Transportation" textAlignment="CENTER">
+            <Label fx:id="transportationGoalLabel" layoutX="1077.0" layoutY="208.0" prefWidth="150.0" text="Transportation" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -157,7 +157,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="40.0" layoutY="400.0" prefWidth="150.0" text="Home &amp; Utilities" textAlignment="CENTER">
+            <Label fx:id="homeGoalLabel" layoutX="40.0" layoutY="400.0" prefWidth="150.0" text="Home &amp; Utilities" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -176,7 +176,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="580.0" layoutY="400.0" prefHeight="27.0" prefWidth="209.0" text="Personal &amp; Family Care" textAlignment="CENTER">
+            <Label fx:id="personalGoalLabel" layoutX="580.0" layoutY="400.0" prefHeight="27.0" prefWidth="209.0" text="Personal &amp; Family Care" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
