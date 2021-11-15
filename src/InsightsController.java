@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import budgettracker.FileOperations;
 import budgettracker.Transaction;
 import budgettracker.Goal;
+import budgettracker.TestSuite;
 import budgettracker.UserAccount;
 
 import javafx.collections.FXCollections;
@@ -55,6 +56,8 @@ public class InsightsController{
     private Button returnHome;
     @FXML
     private Button createGoal;
+    @FXML
+    private Button testsBtn;
     @FXML
     private TextField goalPrice;
     @FXML
@@ -178,6 +181,11 @@ public class InsightsController{
             updateGoals();
             clearDataGoal();
         }
+    }
+
+    @FXML
+    private void runTests(){
+        TestSuite t = new TestSuite(lineGraph, barGraph, graphTimePeriod);
     }
 
     @FXML
@@ -350,7 +358,7 @@ public class InsightsController{
     private ObservableList<Transaction> getTransactionsAfter(LocalDate start){
         ObservableList<Transaction> filteredTransactions = FXCollections.observableArrayList();
         for(Transaction t : account.getTransactions()){
-            if(t.getDate().toLocalDate().isAfter(start)){
+            if(t.getDate().toLocalDate().isAfter(start) || t.getDate().toLocalDate().equals(start)){
                 filteredTransactions.add(t);
             }
         }
