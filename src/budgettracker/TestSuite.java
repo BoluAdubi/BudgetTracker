@@ -1,16 +1,13 @@
 package budgettracker;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 
-import javax.print.DocFlavor.STRING;
-
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
@@ -44,7 +41,7 @@ public class TestSuite {
     private void runTests(){
         checkPie();
         checkLine();
-        //checkBar();
+        checkBar();
         timeBox.setValue(originalTimeSelection);
     }
 
@@ -150,15 +147,9 @@ public class TestSuite {
         }
     }
 
-   /* private void checkBar(){
+    private void checkBar(){
         String[] timePeriods = {"All","365","180","90","30","14","7"};
-
-        for(XYChart.Series<String, BigDecimal> s : barGraph.getData()){
-            System.out.println(s.getName()+": ");
-            System.out.println(s.getData().toString()+"\n");
-        }
-        
-        
+            
         for(String time : timePeriods){
             timeBox.setValue(time);
 
@@ -169,13 +160,13 @@ public class TestSuite {
             ObservableList<BigDecimal> personalSum = FXCollections.observableArrayList();
             ObservableList<BigDecimal> othersSum = FXCollections.observableArrayList();
 
-            LocalDate today = LocalDate.now();
-            LocalDate start = today;
+            LocalDateTime today = LocalDateTime.now();
+            LocalDateTime start = today;
 
             if(time.equals("All")){
                 for(Transaction t : account.getTransactions()){
-                    if(t.getDate().toLocalDate().isBefore(start)){
-                        start = t.getDate().toLocalDate();
+                    if(t.getDate().isBefore(start)){
+                        start = t.getDate();
                     }
                 }
             }else{
@@ -198,85 +189,131 @@ public class TestSuite {
             }else if(Integer.parseInt(time) == 7){
                 step = diff.dividedBy(7);
             }
-
-            LocalDate end = start.plus(step);
-            ObservableList<Transaction> transactions = account.getTransactions();
-            transactions.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
+        
+            LocalDateTime end = start.plus(step);
+            ObservableList<Transaction> transactions = getTransactionsAfter(start.toLocalDate());
             Iterator<Transaction> iterator = transactions.iterator();
-            int counter = 0;
+
+            BigDecimal fSum = new BigDecimal(0);
+            BigDecimal eSum = new BigDecimal(0);
+            BigDecimal pSum = new BigDecimal(0);
+            BigDecimal hSum = new BigDecimal(0);
+            BigDecimal tSum = new BigDecimal(0);
+            BigDecimal oSum = new BigDecimal(0);
 
             while(iterator.hasNext()){
                 Transaction t = iterator.next();
-                if(!t.getDate().toLocalDate().isAfter(start.minusDays(1)) || !t.getDate().toLocalDate().isBefore(end.plusDays(1))){
+                if(t.getDate().isAfter(end)){ //|| t.getDate().isBefore(start)){
+
+                    foodSum.add(fSum);
+                    entertainmentSum.add(eSum);
+                    transportationSum.add(tSum);
+                    homeSum.add(hSum);
+                    personalSum.add(pSum);
+                    othersSum.add(oSum);
+
                     start = end;
-                    end = end.plus(diff);
-                    counter++;
+                    end = end.plus(step);
+
+                    fSum = new BigDecimal(0);
+                    eSum = new BigDecimal(0);
+                    pSum = new BigDecimal(0);
+                    hSum = new BigDecimal(0);
+                    tSum = new BigDecimal(0);
+                    oSum = new BigDecimal(0);
                 }
-                if(t.getDate().toLocalDate().isAfter(start.minusDays(1)) && t.getDate().toLocalDate().isBefore(end.plusDays(1))){
+                if((t.getDate().compareTo(start) >= 0 && t.getDate().compareTo(end) <= 0) && t.getSign() == '-'){
                     switch(t.getCategory()){
                         case "Food":
-                        foodSum.add(Double.valueOf(moneyFormat.format(t.getPrice())));
-                        break;
-                    case "Transportation":
-                        transportation += Double.valueOf(moneyFormat.format(t.getPrice()));
-                        break;
-                    case "Home & Utilities":
-                        home += Double.valueOf(moneyFormat.format(t.getPrice()));
-                        break;
-                    case "Personal & Family Care":
-                        personal += Double.valueOf(moneyFormat.format(t.getPrice()));
-                        break;
-                    case "Entertainment":
-                        entertainment += Double.valueOf(moneyFormat.format(t.getPrice()));
-                        break;
-                    case "Others":
-                        others += Double.valueOf(moneyFormat.format(t.getPrice()));
-                        break;
-                    default:
-                        System.out.println("Pie Chart Value Check: FAILED");
-                        break;
+                            fSum = fSum.add(BigDecimal.valueOf(t.getPrice()));
+                            break;
+                        case "Entertainment":
+                            eSum = eSum.add(BigDecimal.valueOf(t.getPrice()));
+                            break;
+                        case "Personal & Family Care":
+                            pSum = pSum.add(BigDecimal.valueOf(t.getPrice()));
+                            break;
+                        case "Home & Utilities":
+                            hSum = hSum.add(BigDecimal.valueOf(t.getPrice()));
+                            break;
+                        case "Transportation":
+                            tSum = tSum.add(BigDecimal.valueOf(t.getPrice()));
+                            break;
+                        case "Others":
+                            oSum = oSum.add(BigDecimal.valueOf(t.getPrice()));
+                            break;
+                        default:
+                            System.out.println("Data had bad category");
+                            System.out.println("Bar Graph Value Check("+time+"): FAILED");
+                            break;
                     }
-                }else{
-                    System.out.println("An error occured in the loop");
+                }
+                if(!iterator.hasNext()){
+                    foodSum.add(fSum);
+                    entertainmentSum.add(eSum);
+                    transportationSum.add(tSum);
+                    homeSum.add(hSum);
+                    personalSum.add(pSum);
+                    othersSum.add(oSum);
                 }
             }
-        }
-             
-            for(Transaction t : account.getTransactions()){
-                if(t.getDate().toLocalDate().isAfter(start.minusDays(1))){
-                    transactions.add(t);
-                }
-            }
-
-            transactions.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
-
             boolean failFlag = false;
-
-            for(XYChart.Series<String,BigDecimal> s : lineGraph.getData()){
-                BigDecimal sum = new BigDecimal(0);
-                sum = sum.setScale(2, RoundingMode.HALF_EVEN);
-
+            for(XYChart.Series<String, BigDecimal> s : barGraph.getData()){
                 for(int i = 0; i < s.getData().size(); i++){
-                    if(transactions.get(i).getSign() == '-'){
-                        sum = sum.subtract(new BigDecimal(transactions.get(i).getPrice()).setScale(2, RoundingMode.HALF_EVEN));
-                    }else{
-                        sum = sum.add(new BigDecimal(transactions.get(i).getPrice()).setScale(2, RoundingMode.HALF_EVEN));
-                    }
-
-                    if(s.getData().get(i).getXValue().equals(transactions.get(i).getDate().toLocalDate().toString()) && s.getData().get(i).getYValue().compareTo(sum) == 0){
-                    }else{
-                        failFlag = true;
-                        System.out.println("Series: "+s.getData().get(i).getXValue()+" Value: "+transactions.get(i).getDate().toLocalDate().toString());
-                        System.out.println("Series: "+s.getData().get(i).getYValue()+" Value: "+sum);
-                        System.out.println("Line Chart Value Check("+time+"): FAILED");
-                        break;
+                    switch(s.getName()){
+                        case "Food":
+                            if(foodSum.get(i).equals(s.getData().get(i).getYValue())){
+                                failFlag = true;
+                            }                            
+                            break;
+                        case "Entertainment":
+                            if(entertainmentSum.get(i).equals(s.getData().get(i).getYValue())){
+                                failFlag = true;
+                            }                               
+                            break;
+                        case "Personal & Family Care":
+                            if(personalSum.get(i).equals(s.getData().get(i).getYValue())){
+                                failFlag = true;
+                            }                                
+                            break;
+                        case "Home & Utilities":
+                            if(homeSum.get(i).equals(s.getData().get(i).getYValue())){
+                                failFlag = true;
+                            }    
+                            break;
+                        case "Transportation":
+                            if(transportationSum.get(i).equals(s.getData().get(i).getYValue())){
+                                failFlag = true;
+                            }    
+                            break;
+                        case "Others":
+                            if(othersSum.get(i).equals(s.getData().get(i).getYValue())){
+                                failFlag = true;
+                            }    
+                            break;
+                        default:
+                            System.out.println("Data had bad category");
+                            System.out.println("Bar Graph Value Check("+time+"): FAILED");
+                            break;
                     }
                 }
             }
-
             if(!failFlag){
-                System.out.println("Line Chart Value Check("+time+"): PASSED");
+                System.out.println("Bar Graph Value Check("+time+"): PASSED");
+            }else{
+                System.out.println("Bar Graph Value Check("+time+"): FAILED");
             }
         }
-    }*/
+    }
+
+    private ObservableList<Transaction> getTransactionsAfter(LocalDate start){
+        ObservableList<Transaction> filteredTransactions = FXCollections.observableArrayList();
+        for(Transaction t : account.getTransactions()){
+            if(t.getDate().toLocalDate().isAfter(start) || t.getDate().toLocalDate().equals(start)){
+                filteredTransactions.add(t);
+            }
+        }
+        filteredTransactions.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
+        return filteredTransactions;
+    }
 }

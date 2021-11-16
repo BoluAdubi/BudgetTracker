@@ -313,7 +313,7 @@ public class InsightsController{
                 tSum = new BigDecimal(0);
                 oSum = new BigDecimal(0);
             }
-            if(t.getSign() == '-'){                
+            if((t.getDate().compareTo(start) >= 0 && t.getDate().compareTo(currentEnd) <= 0) && t.getSign() == '-'){                
                 switch(t.getCategory()){
                     case "Food":
                         fSum = fSum.add(BigDecimal.valueOf(t.getPrice()));
