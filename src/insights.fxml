@@ -203,7 +203,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="personalProgress" layoutX="586.0" layoutY="350.0" prefHeight="17.0" prefWidth="138.0" textAlignment="CENTER">
+            <Label fx:id="personalProgress" layoutX="586.0" layoutY="350.0" prefHeight="27.0" prefWidth="386.0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font></Label>
