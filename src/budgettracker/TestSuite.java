@@ -1,3 +1,11 @@
+/** -------------------------------------------------------------
+* The TestSuite provides tests the main feautures of our program, specifically it checks that the graphs are displaying the data correctly,
+* that our regular expression for our prices only accepts prices, and that the save files are in the correct format.
+* @file TestSuite.java
+* @author Team 19 
+* @date 11/17/2021
+-------------------------------------------------------------*/
+
 package budgettracker;
 
 import java.math.BigDecimal;
@@ -38,6 +46,9 @@ public class TestSuite {
         runTests();
     }
     
+    /**
+     * This method runs each of our tests
+     */
     private void runTests(){
         checkPie();
         checkLine();
@@ -47,6 +58,11 @@ public class TestSuite {
         timeBox.setValue(originalTimeSelection);
     }
 
+    /**
+     * This method checks the flags goalLoadingPassed and transactionLoadingPassed from UserAccount
+     * to determine whether our application was able to load the save data when the application
+     * was launched.
+     */
     private void checkCSVLoading(){
         if(account.goalLoadingPassed){
             System.out.println("Goal CSV Formatting: PASSED");
@@ -61,6 +77,11 @@ public class TestSuite {
         }
     }
 
+    /**
+     * This method runs through the transaction data, then compares it to the pie chart.
+     * Prints to console whether the test PASSED (All data in expenses displayed on the graph), or FAILED (Some incorrect 
+     * data is present)
+     */
     private void checkPie(){
         Double food = 0.0;
         Double transportation = 0.0;
@@ -106,6 +127,11 @@ public class TestSuite {
         }
     }
 
+    /**
+     * This method runs through the transaction data, then compares it to each of the possible time frames for the line chart
+     * Prints to console whether the test PASSED (All correct data in transactions displayed on the graph), or FAILED (Some incorrect 
+     * data is present)
+     */
     private void checkLine(){
         String[] timePeriods = {"All","365","180","90","30","14","7"};
 
@@ -163,6 +189,11 @@ public class TestSuite {
         }
     }
 
+    /**
+     * This method checks the regular expression that we use to format prices in our price test boxes,
+     * it prints PASSED to console if the rightPrices all pass the regex and non of the wrongPrices passed the regex,
+     * otherwise if prints FAILED
+     */
     private void checkPriceFormat(){
         String[] rightPrices = {"100.34", "15.7", "432", "65.9", "3", "56", "12055", "13.40", "2484.1"};
         String[] wrongPrices = {"12rf4", "103v", "19,49856", "39*nnn", "306i45", " ", "thirty seven", ".9485", "%#*^%0"};
@@ -181,6 +212,11 @@ public class TestSuite {
         }
     }
 
+    /**
+     * This method runs through the transaction data, then compares it to each of the possible time frames for the bar chart
+     * Prints to console whether the test PASSED (All data in transactions displayed on the graph), or FAILED (Some incorrect 
+     * data is present)
+     */
     private void checkBar(){
         String[] timePeriods = {"All","365","180","90","30","14","7"};
             
@@ -340,6 +376,12 @@ public class TestSuite {
         }
     }
 
+    
+    /** 
+     * Returns a list of transactions, in order from oldest to newest, and only containing transactions after the date start.
+     * @param start the date to start counting transactions on.
+     * @return ObservableList<Transaction> the ordered list
+     */
     private ObservableList<Transaction> getTransactionsAfter(LocalDate start){
         ObservableList<Transaction> filteredTransactions = FXCollections.observableArrayList();
         for(Transaction t : account.getTransactions()){

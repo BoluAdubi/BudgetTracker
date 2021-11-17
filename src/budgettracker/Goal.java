@@ -1,10 +1,9 @@
-/* -------------------------------------------------------------
-*
+/** -------------------------------------------------------------
+* Deals with the functionality of the goals in the program - 
+* checks if a goal has expired, it it has been broken, getters for goalCatagory, goalprice, goaltime, getGoalrepeate
+* setters for start date, end date, price  
 *@file Goal.js
 *@author Team 19 
-*Description: Deals with the functionality of the goals in the program - 
-*               checks if a goal has expired, it it has been broken, getters for goalCatagory, goalprice, goaltime, getGoalrepeate
-*               setters for start date, end date, price  
 *@date:11/17/2021
 -------------------------------------------------------------*/
 
