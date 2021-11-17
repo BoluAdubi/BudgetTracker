@@ -164,21 +164,20 @@ public class TestSuite {
     }
 
     private void checkPriceFormat(){
-        String[] rightPrices = {"100", "15.7", "432", "65.9", "3", "56", "12055", "13.4", "2484.1"};
+        String[] rightPrices = {"100.34", "15.7", "432", "65.9", "3", "56", "12055", "13.40", "2484.1"};
         String[] wrongPrices = {"12rf4", "103v", "19,49856", "39*nnn", "306i45", " ", "thirty seven", ".9485", "%#*^%0"};
-        boolean isTrue = false;
+        boolean isTrue = true;
 
         for(int i = 0; i < 9; i++ ){
-            if(!rightPrices[i].matches("[\\d]*[\\.]?[\\d]{0,2}") && wrongPrices[i].matches("[\\d]*[\\.]?[\\d]{0,2}")){
+            if(!rightPrices[i].matches("[\\d]*[\\.]?[\\d]{0,2}") || wrongPrices[i].matches("[\\d]*[\\.]?[\\d]{0,2}")){
                 isTrue = false;
-            } else {
-                isTrue = true;
             }
-            if(isTrue == true){
-                System.out.println("Only correcly formatted price accepted: PASSED");
-            } else {
-                System.out.println("Only correcly formatted price accepted: FAILED");
-            }
+        }
+
+        if(isTrue == true){
+            System.out.println("Only correcly formatted price accepted: PASSED");
+        } else {
+            System.out.println("Only correcly formatted price accepted: FAILED");
         }
     }
 
