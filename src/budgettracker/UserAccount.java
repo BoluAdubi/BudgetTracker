@@ -23,6 +23,10 @@ public class UserAccount{
 
     private static UserAccount INSTANCE = new UserAccount();
 
+    public boolean goalLoadingPassed = false;
+
+    public boolean transactionLoadingPassed = false;
+
     /**
      * The constructor calls fillCategories and then instantiates each value in categoryExpenseValues to zero.
      * @param none
@@ -37,8 +41,16 @@ public class UserAccount{
             pieValues.add(0.00);
         }
         FileOperations f = new FileOperations();
-        f.addGoalCSV(new File("src/data/saves/goalHistory.csv"), this); 
-        f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), this); 
+        if(f.addGoalCSV(new File("src/data/saves/goalHistory.csv"), this)){
+            goalLoadingPassed = true;
+        }else{
+            System.out.println("Loading goalHistory.csv failed, it may not exist or be formatted incorrectly");
+        }
+        if(f.addTransactionCSV(new File("src/data/saves/transactionHistory.csv"), this)){
+            transactionLoadingPassed = true;
+        }else{
+            System.out.println("Loading transactionHistory.csv failed, it may not exist or be formatted incorrectly");
+        }
     }
 
     public static UserAccount getInstance(){

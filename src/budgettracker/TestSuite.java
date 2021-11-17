@@ -42,7 +42,22 @@ public class TestSuite {
         checkPie();
         checkLine();
         checkBar();
+        checkCSVLoading();
         timeBox.setValue(originalTimeSelection);
+    }
+
+    private void checkCSVLoading(){
+        if(account.goalLoadingPassed){
+            System.out.println("Goal CSV Formatting: PASSED");
+        }else{
+            System.out.println("Goal CSV Formatting: FAILED");
+        }
+
+        if(account.transactionLoadingPassed){
+            System.out.println("Transaction CSV Formatting: PASSED");
+        }else{
+            System.out.println("Transaction CSV Formatting: FAILED");
+        }
     }
 
     private void checkPie(){
@@ -316,4 +331,6 @@ public class TestSuite {
         filteredTransactions.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
         return filteredTransactions;
     }
+
+
 }
