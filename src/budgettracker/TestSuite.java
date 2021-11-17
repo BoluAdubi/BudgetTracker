@@ -41,6 +41,7 @@ public class TestSuite {
     private void runTests(){
         checkPie();
         checkLine();
+        checkPriceFormat();
         checkBar();
         timeBox.setValue(originalTimeSelection);
     }
@@ -143,6 +144,25 @@ public class TestSuite {
 
             if(!failFlag){
                 System.out.println("Line Chart Value Check("+time+"): PASSED");
+            }
+        }
+    }
+
+    private void checkPriceFormat(){
+        String[] rightPrices = {"100", "15.7", "432", "65.9", "3", "56", "12055", "13.4", "2484.1"};
+        String[] wrongPrices = {"12rf4", "103v", "19,49856", "39*nnn", "306i45", " ", "thirty seven", ".9485", "%#*^%0"};
+        boolean isTrue = false;
+
+        for(int i = 0; i < 9; i++ ){
+            if(!rightPrices[i].matches("[\\d]*[\\.]?[\\d]{0,2}") && wrongPrices[i].matches("[\\d]*[\\.]?[\\d]{0,2}")){
+                isTrue = false;
+            } else {
+                isTrue = true;
+            }
+            if(isTrue == true){
+                System.out.println("Only correcly formatted price accepted: PASSED");
+            } else {
+                System.out.println("Only correcly formatted price accepted: FAILED");
             }
         }
     }
