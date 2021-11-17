@@ -1,3 +1,14 @@
+/* -------------------------------------------------------------
+*
+*@file Goal.js
+*@author Team 19 
+*Description: Deals with the functionality of the goals in the program - 
+*               checks if a goal has expired, it it has been broken, getters for goalCatagory, goalprice, goaltime, getGoalrepeate
+*               setters for start date, end date, price  
+*@date:11/17/2021
+-------------------------------------------------------------*/
+
+
 package budgettracker;
 
 import java.time.LocalDate;
@@ -48,6 +59,11 @@ public class Goal {
         goalEndDate = endDate;
     }
 
+     /**
+     * isBroken - Checks if the goal has been broken - overspent
+     * @param account : UserAccount  
+     * @return boolean
+     */
     public boolean isBroken(UserAccount account){
         HashMap<String, Double[]> goalData = account.getGoalData();
         if(goalData.get(goalCategory)[0] > goalData.get(goalCategory)[1]){
@@ -57,6 +73,11 @@ public class Goal {
         }
     }
 
+     /**
+     * isExpired - Checks if the goal has expired 
+     * 
+     * @return boolean
+     */
     public boolean isExpired(){
         if(LocalDate.now().isAfter(this.goalEndDate)){
             return true;
