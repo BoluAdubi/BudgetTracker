@@ -38,6 +38,12 @@ public class TestSuite {
 
     private String originalTimeSelection;
     
+    /**
+     * Contructor, runs all tests when object is instantiated.
+     * @param line The lineChart from InsightsController
+     * @param bar The barChart from InsightsContoller
+     * @param choice The choicebox for the timeperiod of the charts from Insights controller
+     */
     public TestSuite(LineChart<String,BigDecimal> line, BarChart<String,BigDecimal> bar, ChoiceBox<String> choice){
         lineGraph = line;
         barGraph = bar;
