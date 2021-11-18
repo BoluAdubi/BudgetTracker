@@ -1,3 +1,13 @@
+/** -------------------------------------------------------------
+* The home controller class handles the user interface on the home page. The UI includes presenting the user
+* with a way to log transactions into a table as well as a pie chart that shows the user which category has the
+* highest spending. This class has features including loading in csvs, dynamically updating the transactions log and piechart,
+* switching to the insights UI and saving the transaction and goal data upon a close window request.
+* @file HomeController.java
+* @author Team 19
+* @date 11/17/2021
+-------------------------------------------------------------*/
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.File;
@@ -43,7 +53,7 @@ import java.util.Date;
 public class HomeController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
-    //Controls from FXML, the variables are automatically assigned based on fx:id 
+    //Controls from FXML, the variables are automatically assigned based on fx:id
     @FXML
     private Button addMoney;
     @FXML
@@ -58,7 +68,7 @@ public class HomeController{
     private ChoiceBox<String> category;
     @FXML
     private PieChart pieGraph;
-    @FXML 
+    @FXML
     private TableView<Transaction> transactionTable;
     @FXML
     private TableColumn<Transaction, Date> dateCol;
@@ -83,7 +93,7 @@ public class HomeController{
     private DecimalFormat moneyFormat;
 
     private Stage stage;
-    
+
     //Account Object for the user
     private UserAccount account = UserAccount.getInstance();
 
@@ -99,7 +109,7 @@ public class HomeController{
             new PieChart.Data("Personal & Family Care", account.getPieValues().get(4)),
             new PieChart.Data("Others", account.getPieValues().get(5)));
 
-    
+
     /**
      * Constructor, params must be empty, defines money format for the table
     */
@@ -108,7 +118,12 @@ public class HomeController{
         moneyFormat.setRoundingMode(java.math.RoundingMode.UNNECESSARY);
     }
 
-
+    /**
+     * This function saves goal and transaction data on a close request so when the application is reopened
+     * the user can continue where they left off. When the window is reopened, this function calls updatepiegraph()
+     * and updateTable() so that the home UI is exactly the same as when the close request occured.
+     * @param stage : Stage Window for UI
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -117,15 +132,21 @@ public class HomeController{
                 f.saveTransactions(account);
                 f.saveGoals(account);
             }
-        });  
+        });
         this.stage.setOnShowing(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 updateDataPieGraph();
                 updateTable();
             }
-        }); 
+        });
     }
 
+    /**
+     * When functuion is called a stage object, FXML loader and scene are instantiated and the
+     * UI switches to the insights page. This is done by insights.fxml being passed into setLoaction.
+     * (This function is called when the button 'Insigts Page' is clicked)
+     * @param e
+     */
     @FXML
     private void toInsights(ActionEvent e) throws IOException{
         Stage s = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -154,6 +175,14 @@ public class HomeController{
         updateTable();
     }
 
+
+    /**
+     * Sign is provided by user depending on which button they press, '+' or '-'
+     * This function grabs the transaction data from the input controls and
+     * adds the transaction to the account, then updates the table, pie graph
+     * progress bars.
+     * @param sign : char, '+' or '-', depending if it was an expense or income
+     */
     @FXML
     private void loadCsv(){
         FileChooser f = new FileChooser();
@@ -191,11 +220,11 @@ public class HomeController{
             clearDataTransaction();
         }
     }
-    
-    
-    /** 
+
+
+    /**
      * Sign is provided by user depending on which button they press, '+' or '-'
-     * This function grabs the transaction data from the input controls and 
+     * This function grabs the transaction data from the input controls and
      * adds the transaction to the account, then updates the table, pie graph
      * progress bars.
      * @param sign : char, '+' or '-', depending if it was an expense or income
@@ -216,6 +245,8 @@ public class HomeController{
 
     /**
      * Populates the drop down menus with categories
+     * @param none
+     * @return none
      */
     private void populateCategories(){
         //Add categories to Dropdown menus
@@ -223,8 +254,10 @@ public class HomeController{
     }
 
     /**
-     * Applies a rowFactory to each row of the table, coloring the rows whos sign 
+     * Applies a rowFactory to each row of the table, coloring the rows whos sign
      * is a '+' with green and rows whos sign is a '-' with red
+     * @param none
+     * @return none
      */
     private void initilizeTableColors(){
         transactionTable.setRowFactory(tv -> new TableRow<Transaction>() {
@@ -244,7 +277,9 @@ public class HomeController{
     }
 
     /**
-     * Initailises the tablecolumns that stores the inputted transaction data  
+     * Initailises the tablecolumns that stores the inputted transaction data
+     * @param none
+     * @return none
      */
     private void initilizeTableColumns(){
         //Enables writing to the tables
@@ -255,8 +290,10 @@ public class HomeController{
     }
 
     /**
-     * Creates and applies a regular expression filter that ensures you 
+     * Creates and applies a regular expression filter that ensures you
      * can only type correctly formatted prices in the price textfields
+     * @param none
+     * @return none
      */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
@@ -273,6 +310,8 @@ public class HomeController{
     /**
      * Creates and applies a format for the priceColumn of the table
      * $\d*.\d\d
+     * @param none
+     * @return none
      */
     private void formatTablePrice(){
         priceCol.setCellFactory(c -> new TableCell<>() {
@@ -287,15 +326,19 @@ public class HomeController{
             }
         });
     }
-
+    /**
+     * When called, this function updates the table with any new user transactions
+     * @param none
+     * @return none
+     */
     private void updateTable(){
         transactionTable.setItems(account.getTransactions());
     }
 
-    
-    /** 
+
+    /**
      * Add the new data to the pie graph and update the graph
-     * 
+     *
      * Note: If we add functionality of deleting transactions this will break,
      *       it needs to actually use the observable list instead of just
      *       being passed the values each time a new transaction is made.
@@ -316,13 +359,15 @@ public class HomeController{
 
     /**
      * Assigns the piegraph data to the pie graph
+     * @param none
+     * @return none
      */
     private void initilizePieGraph(){
         pieGraph.getData().addAll(pieGraphData);
     }
 
-    
-    /** 
+
+    /**
      * Function takes the sign of the button clicked, then returns true if all the necessary fields
      * for that sign have been entered.
      * @param sign : Char '+'/'-'
@@ -349,6 +394,8 @@ public class HomeController{
 
     /**
      * Clears transaction fields after adding a transaction
+     * @param none
+     * @return none
      */
     private void clearDataTransaction(){
         category.getSelectionModel().clearSelection();

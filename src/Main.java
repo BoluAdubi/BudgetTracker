@@ -1,3 +1,11 @@
+/** -------------------------------------------------------------
+* The main class launches the program by initializing the window, initializing the 'root' node, 
+* loading the fxml file into the application and then starting the application.
+* @file Main.java
+* @author Team 19
+* @date:11/17/2021
+-------------------------------------------------------------*/
+
 //package ch.makery.address;
 
 import java.io.IOException;
@@ -16,8 +24,8 @@ public class Main extends Application {
     private Parent rootLayout;
     private UserAccount account = UserAccount.getInstance();
 
-    
-    /** 
+
+    /**
      * Initilizes the window of the application.
      * @param primaryStage : Stage Window for UI
      */
@@ -28,7 +36,7 @@ public class Main extends Application {
 
         initRootLayout();
     }
-    
+
     /**
      * Inilizes the "root" node, or the scene which contains all of the other JAVAFX objects.
      * It also grabs the FXML file and loads it into the application.
@@ -51,7 +59,7 @@ public class Main extends Application {
         }
     }
 
-    /** 
+    /**
      * Starts the application.
      * @param args : String[]
      */

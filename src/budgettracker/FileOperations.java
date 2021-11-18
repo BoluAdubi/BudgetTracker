@@ -1,3 +1,12 @@
+/** -------------------------------------------------------------
+* File operations handes saving goal and transaction data into a csv file after
+* a window close request. This function also handles redisplaying the data on a
+* window open request.
+* @file FileOperations.java
+* @author Team 19
+* @date:11/17/2021
+-------------------------------------------------------------*/
+
 package budgettracker;
 
 import java.io.BufferedReader;
@@ -10,7 +19,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FileOperations {
-    
+
+    /**
+     * When called this function saves all user transaction data into a csv file
+     * @param account : User Account object
+     * @return bool
+    */
     public boolean saveTransactions(UserAccount account){
         try{
 
@@ -18,7 +32,7 @@ public class FileOperations {
 
             for(Transaction t : account.getTransactions()){
                 String[] transaction = new String[5];
-                
+
                 transaction[0] = t.getDate().toString();
                 transaction[1] = t.getItem();
                 transaction[2] = Double.toString(t.getPrice());
@@ -30,9 +44,9 @@ public class FileOperations {
 
             File csvFile = new File("src/data/saves/transactionHistory.csv");
             FileWriter fileWriter = new FileWriter(csvFile, false);
-    
+
             fileWriter.write("date,item,price,category,sign\n");
-            
+
             for (String[] data : transactionArray) {
                 StringBuilder line = new StringBuilder();
                 for (int i = 0; i < data.length; i++) {
@@ -53,10 +67,16 @@ public class FileOperations {
         }
     }
 
+    /**
+     * When called this function loads all user transaction data from a csv file
+     * @param csv : csv file
+     * @param account : User Account object
+     * @return bool
+    */
     public boolean addTransactionCSV(File csv, UserAccount account){
         try{
             BufferedReader readCsv = new BufferedReader(new FileReader(csv));
-            
+
             String[] topLine = readCsv.readLine().split(",");
 
             ArrayList<Transaction> transactions = new ArrayList<Transaction>();
@@ -118,6 +138,11 @@ public class FileOperations {
         }
     }
 
+    /**
+     * When called this function saves all user goal data into a csv file
+     * @param account : User Account object
+     * @return bool
+    */
     public boolean saveGoals(UserAccount account){
         try{
             ArrayList<String[]> goalArray = new ArrayList<String[]>();
@@ -125,7 +150,7 @@ public class FileOperations {
 
             for(Goal g : goals){
                 String[] goal = new String[6];
-                
+
                 goal[0] = g.getGoalCategory();
                 goal[1] = Double.toString(g.getGoalPrice());
                 goal[2] = Integer.toString(g.getGoalTime());
@@ -138,9 +163,9 @@ public class FileOperations {
 
             File csvFile = new File("src/data/saves/goalHistory.csv");
             FileWriter fileWriter = new FileWriter(csvFile, false);
-    
+
             fileWriter.write("category,price,time,repeat,startDate,endDate\n");
-            
+
             for (String[] data : goalArray) {
                 StringBuilder line = new StringBuilder();
                 for (int i = 0; i < data.length; i++) {
@@ -161,10 +186,16 @@ public class FileOperations {
         }
     }
 
+    /**
+     * When called this function loads all user goal data from a csv file
+     * @param csv : csv file
+     * @param account : User Account object
+     * @return bool
+    */
     public boolean addGoalCSV(File csv, UserAccount account){
         try{
             BufferedReader readCsv = new BufferedReader(new FileReader(csv));
-            
+
             String[] topLine = readCsv.readLine().split(",");
 
             ArrayList<Goal> goals = new ArrayList<Goal>();
@@ -213,5 +244,5 @@ public class FileOperations {
         }
     }
 
-    
+
 }

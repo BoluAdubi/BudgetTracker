@@ -1,3 +1,14 @@
+/** -------------------------------------------------------------
+* The insights controller class handles the insights interface which can be accessed on the home page. The UI includes presenting the user
+* with a way to log budgeting goals as well as presenting the user with graphs that give insights into spending habits. The user sets a goal
+* by specifying the category, price limit, time limit and weather or not they want the goal to repeat over an allotted timeframe. The graphs portion of the insights
+* features a dropdown menu where the user can specify a timeframe to view their spending over. A barchart informs the user about spending across
+* various categories while the linechart informs the user about their spending versus income.
+* @file InsightsController.java
+* @author Team 19
+* @date:11/17/2021
+-------------------------------------------------------------*/
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -47,8 +58,8 @@ import java.util.Iterator;
 public class InsightsController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
-    //Controls from FXML, the variables are automatically assigned based on fx:id 
-    @FXML 
+    //Controls from FXML, the variables are automatically assigned based on fx:id
+    @FXML
     private Button returnHome;
     @FXML
     private Button createGoal;
@@ -62,21 +73,21 @@ public class InsightsController{
     private ChoiceBox<Integer> goalTime;
     @FXML
     private CheckBox repeatGoal;
-    @FXML 
+    @FXML
     private ProgressBar pBarEntertainment;
-    @FXML 
+    @FXML
     private ProgressBar pBarFood;
-    @FXML 
+    @FXML
     private ProgressBar pBarTransportation;
-    @FXML 
+    @FXML
     private ProgressBar pBarHome;
-    @FXML 
+    @FXML
     private ProgressBar pBarPersonal;
-    @FXML 
+    @FXML
     private ProgressBar pBarOthers;
     @FXML
     private ChoiceBox<String> graphTimePeriod;
-    @FXML 
+    @FXML
     private BarChart<String, BigDecimal> barGraph;
     @FXML
     private LineChart<String, BigDecimal> lineGraph;
@@ -119,11 +130,11 @@ public class InsightsController{
     @FXML
     private Label foodGoalLabel;
     @FXML
-    private Label entertainmentGoalLabel;   
+    private Label entertainmentGoalLabel;
     @FXML
-    private Label transportationGoalLabel;    
+    private Label transportationGoalLabel;
     @FXML
-    private Label homeGoalLabel;    
+    private Label homeGoalLabel;
     @FXML
     private Label personalGoalLabel;
     @FXML
@@ -141,7 +152,7 @@ public class InsightsController{
     private ResourceBundle resources;
 
     private UserAccount account = UserAccount.getInstance();
-    
+
     private Stage stage;
 
     /**
@@ -166,30 +177,41 @@ public class InsightsController{
     }
 
     /**
-     * Calls createGoal() in the account object after the addGoal button is clicked,
-     * if all neccessary fields are filled out
-     * (Will overwrite old goals of the same category)
-     */
+     * When this function is called it creates a goal using category, price limit, time limit and goal repitition data.
+     * Update goals is called here to update any previous goal data.
+    */
     @FXML
     private void addGoal(){
         if(checkForDataGoal()){
-            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.isSelected()); // need to create chice box for time and repeat
+            account.createGoal(goalCategory.getValue(), Double.parseDouble(goalPrice.getText()), goalTime.getValue(), repeatGoal.isSelected());
             updateGoals();
             clearDataGoal();
         }
     }
 
+    /**
+     * When this function is called tests are performed on the line and bar graphs
+    */
     @FXML
     private void runTests(){
         TestSuite t = new TestSuite(lineGraph, barGraph, graphTimePeriod);
     }
 
+    /**
+     * Function that calls initialize line and bar graph so they can be updated with any new transaction data.
+    */
     @FXML
     private void updateGraphs(){
         initilizeLineGraph();
         initilizeBarGraph();
     }
 
+    /**
+     * When this function is called line graph is initialized to 'all' and any new transaction data is included.
+     * The user can change the timeframe via a dropdown menu
+     * @param none
+     * @return none
+    */
     private void initilizeLineGraph(){
         LocalDate today = LocalDate.now();
         String timePeriod = graphTimePeriod.getValue();
@@ -205,18 +227,18 @@ public class InsightsController{
         }else{
             start = today.minusDays(Integer.parseInt(graphTimePeriod.getValue()));
         }
-        
+
         ObservableList<Transaction> filteredTransactions = getTransactionsAfter(start);
         XYChart.Series<String,BigDecimal> series = new XYChart.Series<String,BigDecimal>();
-        
+
         BigDecimal sum = new BigDecimal(0);
         for(Transaction t : filteredTransactions){
             if(t.getSign() == '-'){
                 sum = sum.add(BigDecimal.valueOf(t.getPrice()*-1));
-                series.getData().add(new XYChart.Data<String, BigDecimal>(t.getDate().toLocalDate().toString(), sum));        
+                series.getData().add(new XYChart.Data<String, BigDecimal>(t.getDate().toLocalDate().toString(), sum));
             }else{
                 sum = sum.add(BigDecimal.valueOf(t.getPrice()));
-                series.getData().add(new XYChart.Data<String, BigDecimal>(t.getDate().toLocalDate().toString(), sum));        
+                series.getData().add(new XYChart.Data<String, BigDecimal>(t.getDate().toLocalDate().toString(), sum));
             }
         }
 
@@ -225,12 +247,17 @@ public class InsightsController{
         lineGraph.getData().clear();
         lineGraph.layout();
 
-		lineGraph.setAnimated(true);
+		    lineGraph.setAnimated(true);
         lineGraph.getData().add(series);
         lineGraph.setAnimated(false);
 
     }
-
+    /**
+     * When this function is called bar graph is initialized to 'all' and any new transaction data is included.
+     * The user can change the timeframe via a dropdown menu
+     * @param none
+     * @return none
+    */
     private void initilizeBarGraph(){
         LocalDateTime today = LocalDateTime.now();
         String timePeriod = graphTimePeriod.getValue();
@@ -246,7 +273,7 @@ public class InsightsController{
         }else{
             start = today.minusDays(Integer.parseInt(timePeriod));
         }
-        
+
         Duration diff = Duration.between(start, today);
         Duration step = Duration.ofSeconds(0);
 
@@ -301,7 +328,7 @@ public class InsightsController{
                 othersSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), oSum));
 
                 start = currentEnd;
-                currentEnd = currentEnd.plus(step); 
+                currentEnd = currentEnd.plus(step);
                 fSum = new BigDecimal(0);
                 eSum = new BigDecimal(0);
                 pSum = new BigDecimal(0);
@@ -309,7 +336,7 @@ public class InsightsController{
                 tSum = new BigDecimal(0);
                 oSum = new BigDecimal(0);
             }
-            if((t.getDate().compareTo(start) >= 0 && t.getDate().compareTo(currentEnd) <= 0) && t.getSign() == '-'){                
+            if((t.getDate().compareTo(start) >= 0 && t.getDate().compareTo(currentEnd) <= 0) && t.getSign() == '-'){
                 switch(t.getCategory()){
                     case "Food":
                         fSum = fSum.add(BigDecimal.valueOf(t.getPrice()));
@@ -340,7 +367,7 @@ public class InsightsController{
                 personalSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), pSum));
                 homeSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), hSum));
                 transportationSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), tSum));
-                othersSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), oSum)); 
+                othersSeries.getData().add(new XYChart.Data<String, BigDecimal>(start.toLocalDate().toString() + " - " + currentEnd.toLocalDate().toString(), oSum));
             }
         }
 
@@ -351,6 +378,11 @@ public class InsightsController{
         barGraph.setAnimated(false);
     }
 
+    /**
+     * This function returns all transactions after a given localdate in an observale list.
+     * @param start : Localdate to reference a start time
+     * @return ObservableList of transactions
+     */
     private ObservableList<Transaction> getTransactionsAfter(LocalDate start){
         ObservableList<Transaction> filteredTransactions = FXCollections.observableArrayList();
         for(Transaction t : account.getTransactions()){
@@ -363,11 +395,12 @@ public class InsightsController{
     }
 
     /**
-     * Calls checkGoals() in the account, and receives back a HashMap of 
+     * Calls checkGoals() in the account, and receives back a HashMap of
      * goals and prices to reflect on the FXML ProgressBars
      * The format of the HashMap: <{category, [currentExpenditure, goalPrice]} , ... >
+     * @param none
+     * @return none
      */
-
     private void updateGoals(){
         HashMap<String, Double[]> goalData = account.getGoalData();
         Goal[] goals = account.getGoals();
@@ -446,7 +479,15 @@ public class InsightsController{
             }
         }
     }
-
+    /**
+     * When this function is called the argument will be checked against the user input.
+     * The user input being the goal timeframe and the argument being the goals current age.
+     * The goal can be expired and met, expired and not met, unexpired and met(if repeat box is checked)
+     * and unexpired and not met(if repeat box is checked). The user will see a message displayed
+     * notifying them about the outcome of their goal.
+     * @param g : Goal Object
+     * @return none
+    */
     private void checkGoalExpiration(Goal g){
         if(g.isExpired() && g.getGoalEndDate().plusDays(1).isBefore(LocalDate.now())){
             System.out.println("running switch");
@@ -586,12 +627,19 @@ public class InsightsController{
 
     /**
      * Populates the drop down menus with categories
+     * @param none
+     * @return none
     */
     private void populateCategories(){
         //Add categories to Dropdown menus
         goalCategory.setItems(account.getCategories());
     }
-    
+
+    /**
+     * Populates the drop down menus with time options
+     * @param none
+     * @return none
+    */
     private void populateTime(){
         ObservableList<Integer> goalTimeFrames = FXCollections.observableArrayList();
         goalTimeFrames.add(7);
@@ -610,7 +658,13 @@ public class InsightsController{
         graphTimeFrames.add("365");
         graphTimePeriod.setItems(graphTimeFrames);
     }
-    
+
+    /**
+     * When this function is called the user is redirected to our home UI. This is the exact same process
+     * when the user is on home and accesses the ingihts page.(This function is called when the button 'Home Page' is clicked)
+     * @param none
+     * @return none
+    */
     @FXML
     private void toHome(ActionEvent e) throws IOException{
         Stage s = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -627,6 +681,12 @@ public class InsightsController{
         s.show();
     }
 
+    /**
+     * This function saves goal and transaction data on a close request so when the application is reopened
+     * the user can continue where they left off. When the window is reopened, this function calls populateCategories(),
+     * populateTime() and updateGoals() so that the UI is exactly the same as when the close request occured.
+     * @param stage : Stage Window for UI
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -635,18 +695,20 @@ public class InsightsController{
                 f.saveTransactions(account);
                 f.saveGoals(account);
             }
-        });  
+        });
         this.stage.setOnShowing(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
                 populateCategories();
                 populateTime();
                 updateGoals();
             }
-        }); 
+        });
     }
      /**
-     * Creates and applies a regular expression filter that ensures you 
+     * Creates and applies a regular expression filter that ensures you
      * can only type correctly formatted prices in the price textfields
+     * @param none
+     * @return none
      */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
@@ -660,7 +722,7 @@ public class InsightsController{
         goalPrice.setTextFormatter(format1);
     }
 
-    /** 
+    /**
      * Returns true if all the necessary fields to add a new goal have been filled.
      * @return boolean
      */
@@ -670,11 +732,13 @@ public class InsightsController{
         }else{
             return false;
         }
-    
+
     }
 
     /**
      * Clears goal fields after adding a goal
+     * @param none
+     * @return none
      */
     private void clearDataGoal(){
         goalCategory.getSelectionModel().clearSelection();
