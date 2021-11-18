@@ -1,4 +1,3 @@
 /.vscode/launch.json
-/src/data/testTransaction.csv
 /src/data/saves/*
 /src/tools/randomHistory.csv

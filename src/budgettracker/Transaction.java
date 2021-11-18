@@ -1,19 +1,17 @@
-/** -------------------------------------------------------------
-* The transaction class handles the functionality of creating a user transaction.
-* This class defines a transaction as an item, category, price, sign and a date stamp.
-* Transactions.java also has methods that get and set transaction data.
-* @file Transaction.java
-* @author Team 19
-* @date:11/17/2021
--------------------------------------------------------------*/
+
 
 package budgettracker;
 
 import java.time.LocalDateTime;
 
-
-
-
+/** -------------------------------------------------------------
+* The transaction class handles the functionality of creating a user transaction.
+* This class defines a transaction as an item, category, price, sign and a date stamp.
+* Transactions.java also has methods that get and set transaction data.
+* file: Transaction.java
+* date: 11/17/2021
+* @author Team 19
+-------------------------------------------------------------*/
 public class Transaction{
 
     private LocalDateTime date;

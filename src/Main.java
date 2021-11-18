@@ -1,13 +1,3 @@
-/** -------------------------------------------------------------
-* The main class launches the program by initializing the window, initializing the 'root' node, 
-* loading the fxml file into the application and then starting the application.
-* @file Main.java
-* @author Team 19
-* @date:11/17/2021
--------------------------------------------------------------*/
-
-//package ch.makery.address;
-
 import java.io.IOException;
 
 import budgettracker.UserAccount;
@@ -18,6 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/** -------------------------------------------------------------
+* The main class launches the program by initializing the window, initializing the 'root' node, 
+* loading the fxml file into the application and then starting the application.
+* file: Main.java
+* date: 11/17/2021
+* @author Team 19
+-------------------------------------------------------------*/
 public class Main extends Application {
 
     private Stage primaryStage;

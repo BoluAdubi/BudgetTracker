@@ -1,12 +1,3 @@
-/** -------------------------------------------------------------
-* File operations handes saving goal and transaction data into a csv file after
-* a window close request. This function also handles redisplaying the data on a
-* window open request.
-* @file FileOperations.java
-* @author Team 19
-* @date:11/17/2021
--------------------------------------------------------------*/
-
 package budgettracker;
 
 import java.io.BufferedReader;
@@ -17,7 +8,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+/** -------------------------------------------------------------
+* File operations handes saving goal and transaction data into a csv file after
+* a window close request. This function also handles redisplaying the data on a
+* window open request.
+* file: FileOperations.java
+* date: 11/17/2021
+* @author Team 19
+-------------------------------------------------------------*/
 public class FileOperations {
 
     /**

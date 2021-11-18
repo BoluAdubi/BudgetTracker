@@ -1,14 +1,3 @@
-/** -------------------------------------------------------------
-* The insights controller class handles the insights interface which can be accessed on the home page. The UI includes presenting the user
-* with a way to log budgeting goals as well as presenting the user with graphs that give insights into spending habits. The user sets a goal
-* by specifying the category, price limit, time limit and weather or not they want the goal to repeat over an allotted timeframe. The graphs portion of the insights
-* features a dropdown menu where the user can specify a timeframe to view their spending over. A barchart informs the user about spending across
-* various categories while the linechart informs the user about their spending versus income.
-* @file InsightsController.java
-* @author Team 19
-* @date:11/17/2021
--------------------------------------------------------------*/
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -54,7 +43,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 
-
+/** -------------------------------------------------------------
+* The insights controller class handles the insights interface which can be accessed on the home page. The UI includes presenting the user
+* with a way to log budgeting goals as well as presenting the user with graphs that give insights into spending habits. The user sets a goal
+* by specifying the category, price limit, time limit and weather or not they want the goal to repeat over an allotted timeframe. The graphs portion of the insights
+* features a dropdown menu where the user can specify a timeframe to view their spending over. A barchart informs the user about spending across
+* various categories while the linechart informs the user about their spending versus income.
+* file: InsightsController.java
+* date:11/17/2021
+* @author Team 19
+-------------------------------------------------------------*/
 public class InsightsController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
@@ -209,8 +207,6 @@ public class InsightsController{
     /**
      * When this function is called line graph is initialized to 'all' and any new transaction data is included.
      * The user can change the timeframe via a dropdown menu
-     * @param none
-     * @return none
     */
     private void initilizeLineGraph(){
         LocalDate today = LocalDate.now();
@@ -255,8 +251,8 @@ public class InsightsController{
     /**
      * When this function is called bar graph is initialized to 'all' and any new transaction data is included.
      * The user can change the timeframe via a dropdown menu
-     * @param none
-     * @return none
+     *  
+     *  
     */
     private void initilizeBarGraph(){
         LocalDateTime today = LocalDateTime.now();
@@ -398,8 +394,8 @@ public class InsightsController{
      * Calls checkGoals() in the account, and receives back a HashMap of
      * goals and prices to reflect on the FXML ProgressBars
      * The format of the HashMap: <{category, [currentExpenditure, goalPrice]} , ... >
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void updateGoals(){
         HashMap<String, Double[]> goalData = account.getGoalData();
@@ -486,7 +482,7 @@ public class InsightsController{
      * and unexpired and not met(if repeat box is checked). The user will see a message displayed
      * notifying them about the outcome of their goal.
      * @param g : Goal Object
-     * @return none
+     *  
     */
     private void checkGoalExpiration(Goal g){
         if(g.isExpired() && g.getGoalEndDate().plusDays(1).isBefore(LocalDate.now())){
@@ -627,8 +623,8 @@ public class InsightsController{
 
     /**
      * Populates the drop down menus with categories
-     * @param none
-     * @return none
+     *  
+     *  
     */
     private void populateCategories(){
         //Add categories to Dropdown menus
@@ -637,8 +633,8 @@ public class InsightsController{
 
     /**
      * Populates the drop down menus with time options
-     * @param none
-     * @return none
+     *  
+     *  
     */
     private void populateTime(){
         ObservableList<Integer> goalTimeFrames = FXCollections.observableArrayList();
@@ -662,8 +658,8 @@ public class InsightsController{
     /**
      * When this function is called the user is redirected to our home UI. This is the exact same process
      * when the user is on home and accesses the ingihts page.(This function is called when the button 'Home Page' is clicked)
-     * @param none
-     * @return none
+     *  
+     *  
     */
     @FXML
     private void toHome(ActionEvent e) throws IOException{
@@ -707,8 +703,8 @@ public class InsightsController{
      /**
      * Creates and applies a regular expression filter that ensures you
      * can only type correctly formatted prices in the price textfields
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
@@ -737,8 +733,8 @@ public class InsightsController{
 
     /**
      * Clears goal fields after adding a goal
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void clearDataGoal(){
         goalCategory.getSelectionModel().clearSelection();

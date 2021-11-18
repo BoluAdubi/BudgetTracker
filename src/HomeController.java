@@ -1,13 +1,3 @@
-/** -------------------------------------------------------------
-* The home controller class handles the user interface on the home page. The UI includes presenting the user
-* with a way to log transactions into a table as well as a pie chart that shows the user which category has the
-* highest spending. This class has features including loading in csvs, dynamically updating the transactions log and piechart,
-* switching to the insights UI and saving the transaction and goal data upon a close window request.
-* @file HomeController.java
-* @author Team 19
-* @date 11/17/2021
--------------------------------------------------------------*/
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.File;
@@ -49,7 +39,15 @@ import javafx.stage.WindowEvent;
 
 import java.util.Date;
 
-
+/** -------------------------------------------------------------
+* The home controller class handles the user interface on the home page. The UI includes presenting the user
+* with a way to log transactions into a table as well as a pie chart that shows the user which category has the
+* highest spending. This class has features including loading in csvs, dynamically updating the transactions log and piechart,
+* switching to the insights UI and saving the transaction and goal data upon a close window request.
+* file: HomeController.java
+* date: 11/17/2021
+* @author Team 19
+-------------------------------------------------------------*/
 public class HomeController{
     //The order of initilization: Constructor, @FXML variables and methods loaded, then initilize() (Constructor can't access @FXML fields)
 
@@ -245,8 +243,8 @@ public class HomeController{
 
     /**
      * Populates the drop down menus with categories
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void populateCategories(){
         //Add categories to Dropdown menus
@@ -256,8 +254,8 @@ public class HomeController{
     /**
      * Applies a rowFactory to each row of the table, coloring the rows whos sign
      * is a '+' with green and rows whos sign is a '-' with red
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void initilizeTableColors(){
         transactionTable.setRowFactory(tv -> new TableRow<Transaction>() {
@@ -278,8 +276,8 @@ public class HomeController{
 
     /**
      * Initailises the tablecolumns that stores the inputted transaction data
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void initilizeTableColumns(){
         //Enables writing to the tables
@@ -292,8 +290,8 @@ public class HomeController{
     /**
      * Creates and applies a regular expression filter that ensures you
      * can only type correctly formatted prices in the price textfields
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void generatePriceFilter(){
         UnaryOperator<TextFormatter.Change> filter = c -> {
@@ -310,8 +308,8 @@ public class HomeController{
     /**
      * Creates and applies a format for the priceColumn of the table
      * $\d*.\d\d
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void formatTablePrice(){
         priceCol.setCellFactory(c -> new TableCell<>() {
@@ -328,8 +326,8 @@ public class HomeController{
     }
     /**
      * When called, this function updates the table with any new user transactions
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void updateTable(){
         transactionTable.setItems(account.getTransactions());
@@ -359,8 +357,8 @@ public class HomeController{
 
     /**
      * Assigns the piegraph data to the pie graph
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void initilizePieGraph(){
         pieGraph.getData().addAll(pieGraphData);
@@ -394,8 +392,8 @@ public class HomeController{
 
     /**
      * Clears transaction fields after adding a transaction
-     * @param none
-     * @return none
+     *  
+     *  
      */
     private void clearDataTransaction(){
         category.getSelectionModel().clearSelection();

@@ -1,11 +1,3 @@
-/** -------------------------------------------------------------
-* The TestSuite provides tests the main feautures of our program, specifically it checks that the graphs are displaying the data correctly,
-* that our regular expression for our prices only accepts prices, and that the save files are in the correct format.
-* @file TestSuite.java
-* @author Team 19 
-* @date 11/17/2021
--------------------------------------------------------------*/
-
 package budgettracker;
 
 import java.math.BigDecimal;
@@ -23,7 +15,13 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.ChoiceBox;
-
+/** -------------------------------------------------------------
+* The TestSuite provides tests the main feautures of our program, specifically it checks that the graphs are displaying the data correctly,
+* that our regular expression for our prices only accepts prices, and that the save files are in the correct format.
+* file: TestSuite.java
+* date 11/17/2021
+* @author Team 19 
+-------------------------------------------------------------*/
 public class TestSuite {
 
     private UserAccount account = UserAccount.getInstance();

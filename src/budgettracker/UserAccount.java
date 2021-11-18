@@ -1,13 +1,3 @@
-/** -------------------------------------------------------------
-* The user account class handles the creation of new transactions as well as storing transactions into the log.
-* The user account tracks these values and stores the expenses by category so they can be accessed and used as
-* data for the pie chart and user goals. Furthermore, this class handles the creation of budgeting goals, so
-* user accout handles storing user data.
-* @file UserAccount.java
-* @author Team 19
-* @date:11/17/2021
--------------------------------------------------------------*/
-
 package budgettracker;
 
 import javafx.collections.FXCollections;
@@ -18,7 +8,15 @@ import java.util.HashMap;
 import java.io.File;
 import java.time.LocalDate;
 
-
+/** -------------------------------------------------------------
+* The user account class handles the creation of new transactions as well as storing transactions into the log.
+* The user account tracks these values and stores the expenses by category so they can be accessed and used as
+* data for the pie chart and user goals. Furthermore, this class handles the creation of budgeting goals, so
+* user accout handles storing user data.
+* file: UserAccount.java
+* date:11/17/2021
+* @author Team 19
+-------------------------------------------------------------*/
 public class UserAccount{
 
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
@@ -39,8 +37,6 @@ public class UserAccount{
 
     /**
      * The constructor calls fillCategories and then instantiates each value in categoryExpenseValues to zero.
-     * @param none
-     * @return none
      */
     private UserAccount(){
         fillCategories();
@@ -65,7 +61,6 @@ public class UserAccount{
 
     /**
      * gets the user account in the form of an instance
-     * @param none
      * @return INSTANCE
      */
     public static UserAccount getInstance(){
@@ -81,7 +76,6 @@ public class UserAccount{
      * @param itemR
      * @param priceR
      * @param categoryR
-     * @return none
      */
     public void newTransaction(LocalDateTime dateR, char signR, String itemR, double priceR, String categoryR){
         Transaction t = new Transaction(dateR, signR, itemR, priceR, categoryR);
@@ -101,7 +95,6 @@ public class UserAccount{
      * This function adds a users transaction to the log and updates the pie
      * chart and category values.
      * @param newTransaction
-     * @return none
      */
     public void addTransaction(Transaction newTransaction){
         transactions.add(newTransaction);
@@ -118,7 +111,6 @@ public class UserAccount{
 
     /**
      * When called, this function obtains and returns categoryExpenseValues
-     * @param none
      * @return categoryExpenseValues
      */
     public ObservableList<Double> getCategoryExpenseValues(){
@@ -127,7 +119,6 @@ public class UserAccount{
 
     /**
      * When called, this function obtains and returns pieValues
-     * @param none
      * @return pieValues
      */
     public ObservableList<Double> getPieValues(){
@@ -136,7 +127,6 @@ public class UserAccount{
 
     /**
      *  When called, this function obtains and returns categories
-     * @param none
      * @return categories
      */
     public ObservableList<String> getCategories(){
@@ -145,7 +135,6 @@ public class UserAccount{
 
     /**
      *  When called, this function obtains and returns transactions
-     * @param none
      * @return transactions
      */
     public ObservableList<Transaction> getTransactions(){
@@ -154,7 +143,7 @@ public class UserAccount{
 
     /**
      * Returns a hashmap for the UIController to use to update the goal progressbars.
-     * @return HashMap<String, Double[]> : <{category, [currentExpenditure, goalPrice]} , ... >
+     * @return HashMap (String, Double[]) :  {category, [currentExpenditure, goalPrice]} , ... 
      */
     public HashMap<String, Double[]> getGoalData() {
         HashMap<String, Double[]> goalsAndPrices = new HashMap<String, Double[]>();
@@ -177,7 +166,6 @@ public class UserAccount{
     /**
      * When called, this function empties a category of its expense values
      * @param  category
-     * @return none
      */
     public void emptyExpenseValue(String category){
         categoryExpenseValues.set(getCategoryExpenseIndex(category), 0.0);
@@ -190,9 +178,8 @@ public class UserAccount{
      * time frame.
      * @param goalCategory
      * @param goalPrice
-     * @param goalime
+     * @param goalTime
      * @param repeatGoal
-     * @return none
      */
     public void createGoal(String goalCategory, double goalPrice, int goalTime, boolean repeatGoal){
         for(Goal g : goals){
@@ -215,7 +202,6 @@ public class UserAccount{
      * This function uses a loop to go through all the goals that have been created and reset them if said category
      * already has a set goal. If a category does not have a goal, this function creates a goal and goalPrice for it.
      * @param goalArr
-     * @return none
      */
     public void addGoals(Goal[] goalArr){
         goals.addAll(goalArr);
@@ -225,7 +211,7 @@ public class UserAccount{
      * Returns a hashmap of the goals that have been broken. This method is not
      * used and needs to be updated to have the same return format of getGoals()
      * This will be helpful when we add functionality of custom categories.
-     * @return HashMap<String, Double>
+     * @return HashMap (String, Double)
      */
     public HashMap<String, Double> checkGoals(){
         HashMap<String, Double> brokenGoals = new HashMap<String, Double>();
@@ -247,7 +233,6 @@ public class UserAccount{
      * Once it finds the category, this function sends the index of the category back to the caller.
      * This is used to find the correct index in categoryExpenseValues to update.
      * @param category
-     * @return none
      */
     public int getCategoryExpenseIndex(String category){
         for(int i = 0; i < categories.size(); i++){
@@ -263,7 +248,6 @@ public class UserAccount{
      * one of these categories, this function sends the index of the category and the value of its expense values
      * plus the price of t, to categoryExpenseValues.set() to increase the amount spent of said category.
      * @param t
-     * @return none
      */
     private void updateCategoryValues(Transaction t){
         for(int i = 0; i < categories.size(); i++){
@@ -278,7 +262,6 @@ public class UserAccount{
      * one of these categories, this function sends the index of the category and the value of its expense values
      * plus the price of t, to pieValues.set() to increase the amount spent of said category.
      * @param t
-     * @return none
      */
     private void updatePieValues(Transaction t){
         for(int i = 0; i < categories.size(); i++){
@@ -291,8 +274,6 @@ public class UserAccount{
     /**
      * This function declares all the categories that will be used by the user,
      * then adds them to the observablelist categories
-     * @param none
-     * @return none
      */
     private void fillCategories(){
         categories.add("Entertainment");

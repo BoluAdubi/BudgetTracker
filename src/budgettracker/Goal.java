@@ -1,18 +1,15 @@
-/** -------------------------------------------------------------
-* Deals with the functionality of the goals in the program - 
-* checks if a goal has expired, it it has been broken, getters for goalCatagory, goalprice, goaltime, getGoalrepeate
-* setters for start date, end date, price  
-*@file Goal.js
-*@author Team 19 
-*@date:11/17/2021
--------------------------------------------------------------*/
-
-
 package budgettracker;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-
+/** -------------------------------------------------------------
+* Deals with the functionality of the goals in the program - 
+* checks if a goal has expired, it it has been broken, getters for goalCatagory, goalprice, goaltime, getGoalrepeate
+* setters for start date, end date, price  
+* file Goal.js
+* date:11/17/2021
+*@author Team 19 
+-------------------------------------------------------------*/
 public class Goal {
 
     private String goalCategory;
@@ -159,7 +156,7 @@ public class Goal {
 
     /** 
      * Sets a new start date for the goal
-     * @param goalTime : int, the new start date
+     * @param goalStartDate : int, the new start date
      */
     public void setGoalStartDate(LocalDate goalStartDate) {
         this.goalStartDate = goalStartDate;
@@ -167,7 +164,7 @@ public class Goal {
 
     /** 
      * Sets a new end date for the goal
-     * @param goalTime : int, the new end date
+     * @param goalEndDate : int, the new end date
      */
     public void setGoalEndDate(LocalDate goalEndDate) {
         this.goalEndDate = goalEndDate;
